@@ -1586,8 +1586,8 @@
     width: 100%; max-width: 430px;
     background: rgba(7,7,18,0.92);
     border-top: 1px solid var(--border-md);
-    padding: 6px 18px;
-    padding-bottom: max(6px, env(safe-area-inset-bottom));
+    padding: 8px 18px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
     display: flex; align-items: center; justify-content: space-between;
     z-index: 100; backdrop-filter: blur(22px) saturate(180%);
     gap: 12px;
@@ -1595,17 +1595,25 @@
   [data-theme="light"] .sticky-bar { background: rgba(240,240,248,0.92); }
   .sticky-left {
     display: flex; flex-direction: row; align-items: baseline;
-    flex-wrap: wrap; gap: 8px; min-width: 0;
+    gap: 8px; min-width: 0;
   }
   .sticky-label {
     font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
-    color: var(--t-low);
+    color: var(--t-low); white-space: nowrap;
   }
   .sticky-amount {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 15px; line-height: 1.15; color: var(--t-hi); letter-spacing: -0.3px;
+    font-size: 16px; line-height: 1.1; color: var(--t-hi); letter-spacing: -0.3px;
+    white-space: nowrap;
   }
-  .sticky-paid { font-size: 10px; line-height: 1.15; color: var(--c-paid); margin-top: 0; }
+  .sticky-paid {
+    font-size: 10px; line-height: 1; color: var(--c-paid); white-space: nowrap;
+    padding: 4px 9px; border-radius: 999px;
+    background: color-mix(in oklab, var(--c-paid) 14%, transparent);
+    border: 1px solid color-mix(in oklab, var(--c-paid) 26%, transparent);
+  }
+  .sticky-paid:empty { display: none; }
+
 
 
   /* ══════════════════════════════════════
