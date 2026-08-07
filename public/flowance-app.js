@@ -3239,21 +3239,26 @@ function setMode(mode) {
   const sticky  = document.getElementById('stickyBar');
   const qaInput = document.getElementById('quickAddInput');
 
+  const todayC = document.getElementById('todayCard');
+
   if (_mode === 'daily') {
     if (gtBar)  gtBar.style.display  = 'none';
     if (panels) panels.style.display = 'none';
     if (listA)  listA.style.display  = 'none';
     if (dailyA) dailyA.style.display = 'block';
+    if (todayC) todayC.style.display = 'flex';
     if (sticky) sticky.style.display = 'none';
     if (qaInput) qaInput.placeholder = 'مصروف اليوم: 3.5 قهوة';
     renderDaily();
   } else {
     if (gtBar)  gtBar.style.display  = '';
     if (dailyA) dailyA.style.display = 'none';
+    if (todayC) todayC.style.display = 'none';
     if (sticky) sticky.style.display = 'flex';
     if (qaInput) qaInput.placeholder = 'اكتب بسرعة: 25 بنزين';
     switchView(_viewMode);
   }
+
   try { localStorage.setItem('flowance_mode', _mode); } catch (e) {}
 }
 
