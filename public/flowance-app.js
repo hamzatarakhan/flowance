@@ -1084,8 +1084,20 @@ function renderGroupTabs() {
     tabs,
     _manageMode,
     _activeGroup === 'all',
-    _manageMode && (S.cats_order || []).length > 0
+    _manageMode && (S.cats_order || []).length > 0,
+    'chips'
   );
+  const actions = document.getElementById('groupTabsActions');
+  if (actions) {
+    window.FlowanceUI.groupTabs(
+      actions,
+      tabs,
+      _manageMode,
+      _activeGroup === 'all',
+      _manageMode && (S.cats_order || []).length > 0,
+      'actions'
+    );
+  }
 }
 
 function updateFilteredTotal() {

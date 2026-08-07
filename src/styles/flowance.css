@@ -2004,6 +2004,7 @@
 }
 .mode-row .mode-tabs { flex: 1; margin: 0; min-width: 0; }
 .mode-row .view-toggle { flex-shrink: 0; }
+.group-tabs-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .mode-tabs {
   display: flex;
   gap: 8px;

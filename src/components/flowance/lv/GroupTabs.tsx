@@ -14,15 +14,18 @@ export function GroupTabs({
   manageMode,
   allActive,
   showDeleteAll,
+  variant = 'chips',
 }: {
   tabs: GroupTabData[];
   manageMode: boolean;
   allActive: boolean;
   showDeleteAll: boolean;
+  variant?: 'chips' | 'actions';
 }) {
   const w = g();
-  return (
-    <>
+  if (variant === 'actions') {
+    return (
+      <>
       <button
         className={'gtab-manage-btn' + (manageMode ? ' active' : '')}
         title={manageMode ? 'تم' : 'إدارة المجموعات'}
@@ -49,7 +52,12 @@ export function GroupTabs({
           حذف الكل
         </button>
       )}
+      </>
+    );
+  }
 
+  return (
+    <>
       <button
         className={'gtab' + (allActive ? ' on on-all' : '')}
         onClick={() => { if (!manageMode) w.filterGroup('all'); }}
