@@ -53,6 +53,7 @@ export const Route = createFileRoute("/")({
 
 function FlowancePage() {
   useEffect(() => {
+    registerFlowanceUI();
     void bootFlowance();
   }, []);
 
