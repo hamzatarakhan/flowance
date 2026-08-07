@@ -84,7 +84,9 @@ function FlowancePage() {
           <GroupTabsBar />
           <ListViewArea />
           <Panels />
+          <TodayCard />
           <DailyArea />
+
           <PageCredit />
         </div>
       </div>
