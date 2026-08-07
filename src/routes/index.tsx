@@ -16,6 +16,7 @@ import { GroupTabsBar } from "@/components/flowance/GroupTabsBar";
 import { ListViewArea } from "@/components/flowance/ListViewArea";
 import { Panels } from "@/components/flowance/Panels";
 import { PageCredit } from "@/components/flowance/PageCredit";
+import { QuickAdd } from "@/components/flowance/QuickAdd";
 import { StickyBar } from "@/components/flowance/StickyBar";
 import { Toasts } from "@/components/flowance/Toasts";
 import { ScanOverlay } from "@/components/flowance/ScanOverlay";
@@ -78,6 +79,7 @@ function FlowancePage() {
         </div>
       </div>
 
+      <QuickAdd />
       <StickyBar />
       <Toasts />
       <ScanOverlay />
