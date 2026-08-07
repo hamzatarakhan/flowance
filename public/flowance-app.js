@@ -881,6 +881,32 @@ function recalc() {
     rl.className = 'budget-remain' + (remain < 0 ? ' over' : '');
   }
 
+  // Hero: big remaining number + daily allowance
+  const bhL = document.getElementById('budgetHeroLbl');
+  const bhN = document.getElementById('budgetHeroNum');
+  const bhD = document.getElementById('budgetDaily');
+  if (bhN) {
+    if (bgt2 <= 0) {
+      if (bhL) bhL.textContent = 'المصروف هذا الشهر';
+      bhN.textContent = f(grand, 3);
+      bhN.className = 'budget-hero-num';
+      if (bhD) bhD.textContent = 'اضغط على القلم لتحديد ميزانية شهرية';
+    } else {
+      if (bhL) bhL.textContent = remain >= 0 ? 'المتبقي من الميزانية' : 'تجاوزت الميزانية';
+      bhN.textContent = f(Math.abs(remain), 3);
+      bhN.className = 'budget-hero-num' + (remain < 0 ? ' over' : '');
+      if (bhD) {
+        const now = new Date();
+        const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        const daysLeft = Math.max(1, lastDay - now.getDate() + 1);
+        bhD.textContent = remain >= 0
+          ? `تقدر تصرف ${f(remain / daysLeft, 3)} JOD باليوم لآخر الشهر (${daysLeft} يوم)`
+          : `تجاوزت بمقدار ${fJOD(Math.abs(remain))}`;
+      }
+    }
+  }
+
+
   const salary = S.salary || 0;
   const remaining = salary - grand;
   const salNum = document.getElementById('salaryNum');
