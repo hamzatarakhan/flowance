@@ -1710,11 +1710,12 @@
     position: fixed; inset: 0; z-index: 960;
     background: var(--bg); display: flex; flex-direction: column;
     animation: fadeIn 0.2s var(--ease); overflow-y: auto;
+    gap: 14px;
   }
   .history-view-header {
     position: sticky; top: 0; z-index: 10;
     background: var(--bg); border-bottom: 1px solid var(--border);
-    padding: 12px 14px; display: flex; flex-direction: row-reverse; align-items: center; gap: 10px;
+    padding: 14px 14px; display: flex; flex-direction: row-reverse; align-items: center; gap: 10px;
   }
   .history-view-back {
     width: 36px; height: 36px; flex-shrink: 0; display: grid; place-items: center;
@@ -1724,7 +1725,7 @@
   .history-view-back:active { background: var(--bg-row); }
   .history-view-back svg { width: 17px; height: 17px; }
   .history-view-title { font-size: 15px; font-weight: 700; color: var(--t-hi); flex: 1; }
-  .history-view-body { padding: 12px 14px 32px; display: flex; flex-direction: column; gap: 10px; }
+  .history-view-body { padding: 0 14px 32px; display: flex; flex-direction: column; gap: 14px; }
   /* snapshot summary card */
   .snap-summary-card {
     background: var(--bg-card); border: 1px solid var(--border);
