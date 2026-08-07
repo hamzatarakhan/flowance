@@ -1740,7 +1740,7 @@
   .snap-bgt-lbl { display: flex; justify-content: space-between; font-size: 11px; color: var(--t-low); }
 
   /* Year analysis */
-  .ya-toolbar { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 14px 16px 6px; }
+  .ya-toolbar { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 0 16px; }
   .ya-yr-btn {
     width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--border);
     background: var(--bg-card); color: var(--t-mid); font-size: 12px; flex: 0 0 auto;
