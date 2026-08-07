@@ -32,7 +32,6 @@ function renderSync(el: Element, node: React.ReactNode) {
  * stays editable from the source files.
  */
 export function registerFlowanceUI() {
-  console.log("[flowance] UI bridge registered");
   (window as any).FlowanceUI = {
     listView(el: Element, cats: LvCatData[], showAddCat: boolean) {
       renderSync(el, <ListView cats={cats} showAddCat={showAddCat} />);
