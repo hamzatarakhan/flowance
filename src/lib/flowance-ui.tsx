@@ -43,10 +43,11 @@ export function registerFlowanceUI() {
       manageMode: boolean,
       allActive: boolean,
       showDeleteAll: boolean,
+      variant: 'chips' | 'actions' = 'chips',
     ) {
       renderSync(
         el,
-        <GroupTabs tabs={tabs} manageMode={manageMode} allActive={allActive} showDeleteAll={showDeleteAll} />,
+        <GroupTabs tabs={tabs} manageMode={manageMode} allActive={allActive} showDeleteAll={showDeleteAll} variant={variant} />,
       );
     },
     dailyView(el: Element, days: DailyDay[], total: number, count: number) {
