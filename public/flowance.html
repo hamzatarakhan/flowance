@@ -1106,6 +1106,35 @@
   .scan-key-label {
     font-size: 11px; color: var(--t-low); font-weight: 600; white-space: nowrap;
   }
+  /* voice recording panel */
+  .scan-voice-area {
+    border: 1.5px dashed var(--border-hi); border-radius: var(--r-xl);
+    padding: 26px 16px; text-align: center; background: var(--bg-hover);
+  }
+  .scan-voice-btn {
+    width: 62px; height: 62px; border-radius: 50%; border: none;
+    background: var(--c-ess); color: #fff; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; margin: 0 auto; transition: all var(--dur) var(--ease);
+  }
+  .scan-voice-btn svg { width: 24px; height: 24px; }
+  .scan-voice-btn:active { transform: scale(0.94); }
+  .scan-voice-btn.recording { background: var(--c-danger); animation: scan-voice-pulse 1.4s ease-in-out infinite; }
+  @keyframes scan-voice-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,82,82,.45); }
+    50%      { box-shadow: 0 0 0 12px rgba(255,82,82,0); }
+  }
+  .scan-voice-timer { margin-top: 12px; font-size: 12.5px; color: var(--t-mid); font-family: 'IBM Plex Mono', monospace; }
+  .scan-voice-preview { display: flex; flex-direction: column; gap: 12px; }
+  .scan-voice-preview audio { width: 100%; height: 36px; }
+  .scan-voice-actions { display: flex; gap: 8px; justify-content: center; }
+  .scan-voice-action-btn {
+    display: flex; align-items: center; gap: 6px; padding: 8px 14px;
+    border-radius: var(--r-lg); border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--t-mid); font-family: 'Cairo', sans-serif;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .scan-voice-action-btn svg { width: 14px; height: 14px; }
+  .scan-voice-action-btn--danger { color: var(--c-danger); border-color: rgba(255,82,82,.35); }
   .scan-tabs {
     display: flex; gap: 4px;
     background: var(--bg-row); border-radius: var(--r-md); padding: 3px;
@@ -1721,6 +1750,41 @@
   .snap-bgt-fill { height: 100%; border-radius: 99px; transition: width 0.4s var(--ease); }
   .snap-bgt-lbl { display: flex; justify-content: space-between; font-size: 11px; color: var(--t-low); }
 
+  /* Year analysis */
+  .ya-toolbar { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 12px 0 4px; }
+  .ya-yr-btn {
+    width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--t-mid); font-size: 12px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .ya-yr-btn:disabled { opacity: .35; cursor: default; }
+  .ya-yr-select {
+    font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 700; color: var(--t-hi);
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 5px 10px; text-align: center; cursor: pointer;
+  }
+  .ya-chart { display: flex; align-items: flex-end; gap: 6px; height: 140px; padding: 14px 12px 4px; }
+  .ya-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+  .ya-bar { width: 100%; max-width: 22px; border-radius: 4px 4px 0 0; background: var(--c-ess); min-height: 2px; transition: height .25s var(--ease); }
+  .ya-bar.empty { background: var(--border); opacity: .5; }
+  .ya-bar.cur { background: var(--c-day-bd); }
+  .ya-bar-lbl { font-size: 10px; color: var(--t-low); font-family: 'IBM Plex Mono', monospace; }
+  .ya-cat-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; }
+  .ya-cat-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .ya-cat-name { flex: 1; font-size: 12.5px; color: var(--t-hi); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ya-cat-track { flex: 1.4; height: 6px; border-radius: 3px; background: var(--bg-hover); overflow: hidden; }
+  .ya-cat-fill { height: 100%; border-radius: 3px; }
+  .ya-cat-amt { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--t-mid); min-width: 92px; text-align: left; }
+  .ya-empty { text-align: center; padding: 40px 0; color: var(--t-low); font-size: 13px; }
+  .ya-top-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .ya-top-row:last-child { border-bottom: none; }
+  .ya-top-rank { width: 18px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--t-low); flex-shrink: 0; }
+  .ya-top-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .ya-top-info { flex: 1; min-width: 0; }
+  .ya-top-name { font-size: 12.5px; color: var(--t-hi); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ya-top-meta { font-size: 10.5px; color: var(--t-low); margin-top: 1px; }
+  .ya-top-amt { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; font-weight: 700; color: var(--t-hi); flex-shrink: 0; }
+
   /* month bar */
   .month-bar {
     display: flex; align-items: center; justify-content: space-between;
@@ -1993,6 +2057,11 @@
       </div>
     </div>
     <div class="header-right">
+      <button class="icon-btn" onclick="openYearAnalysis()" title="تحليل السنة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+      </button>
       <button class="icon-btn" onclick="openHistorySheet()" title="سجل الشهور">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -2027,6 +2096,13 @@
           <path d="M5 6v4"/><path d="M19 14v4"/>
           <path d="M10 2v2"/><path d="M7 8H3"/>
           <path d="M21 16h-4"/><path d="M11 3H9"/>
+        </svg>
+      </button>
+      <button class="icon-btn" onclick="openScanSheet('voice')" title="إضافة بالصوت">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+          <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
         </svg>
       </button>
       <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">
@@ -2530,6 +2606,7 @@ function initSortables() {
         const moved = S.cats_order.splice(evt.oldIndex, 1)[0];
         S.cats_order.splice(evt.newIndex, 0, moved);
         DB.save(S);
+        renderListView(); initLvSortables();
       }
     }));
   }
@@ -2549,6 +2626,17 @@ function initSortables() {
         const moved = arr.splice(evt.oldIndex, 1)[0];
         arr.splice(evt.newIndex, 0, moved);
         DB.save(S); recalc();
+        const lvWrap = document.querySelector(`#listViewArea .lv-cat[data-catid="${cat.id}"] .lv-items-wrap`);
+        if (lvWrap) {
+          const allItems = [...lvWrap.querySelectorAll('.lv-item')];
+          const movedEl = allItems[evt.oldIndex];
+          if (movedEl) {
+            movedEl.remove();
+            allItems.splice(evt.oldIndex, 1);
+            const ref = allItems[evt.newIndex] || null;
+            if (ref) lvWrap.insertBefore(movedEl, ref); else lvWrap.appendChild(movedEl);
+          }
+        }
       }
     }));
   });
@@ -2576,13 +2664,17 @@ function render() {
   renderMain();
   renderMisc();
   recalc();
+  renderListView();
   if (_viewMode === 'list') {
     document.getElementById('panelsArea').style.display = 'none';
     document.getElementById('listViewArea').style.display = 'block';
-    renderListView(); // initLvSortables called inside renderListView
+    initLvSortables();
   } else {
+    document.getElementById('panelsArea').style.display = 'block';
+    document.getElementById('listViewArea').style.display = 'none';
     filterGroup(_activeGroup);
     initSortables();
+    initLvSortables();
   }
 }
 
@@ -2741,6 +2833,8 @@ function togglePaid(itemId, catId) {
       row.classList.remove('paid');
     }
   }
+  const lvRow = document.getElementById('lv-item-' + itemId);
+  if (lvRow) lvRow.classList.toggle('paid', item.paid);
   recalc();
 }
 
@@ -2778,7 +2872,14 @@ function startEdit(el, itemId, catId, field) {
   inp.focus(); if (!isNum) inp.select();
   inp.addEventListener('blur',    commitEdit);
   inp.addEventListener('keydown', e => {
-    if (e.key === 'Enter')  { e.preventDefault(); commitEdit(); }
+    if (e.key === 'Enter') {
+      e.preventDefault(); commitEdit();
+      if (field === 'name') {
+        const row = document.querySelector(`#rows-${catId} .e-row[data-id="${itemId}"]`);
+        const amtEl = row && row.querySelector('.row-amt');
+        if (amtEl) amtEl.click();
+      }
+    }
     if (e.key === 'Escape') { e.preventDefault(); cancelEdit(); }
     if (e.key === 'Tab') {
       e.preventDefault(); commitEdit();
@@ -2807,7 +2908,14 @@ function lvStartEdit(el, itemId, catId, field) {
   inp.focus(); if (!isNum) inp.select();
   inp.addEventListener('blur',    commitEdit);
   inp.addEventListener('keydown', e => {
-    if (e.key === 'Enter')  { e.preventDefault(); commitEdit(); }
+    if (e.key === 'Enter') {
+      e.preventDefault(); commitEdit();
+      if (field === 'name') {
+        const row = document.getElementById('lv-item-' + itemId);
+        const amtEl = row && row.querySelector('.lv-item-amt');
+        if (amtEl) amtEl.click();
+      }
+    }
     if (e.key === 'Escape') { e.preventDefault(); cancelEdit(); }
     if (e.key === 'Tab') {
       e.preventDefault(); commitEdit();
@@ -2853,6 +2961,14 @@ function commitEdit() {
     neo.className = field === 'name' ? 'row-name' : 'row-amt';
     neo.textContent = field === 'amount' ? makeAmtText(item.amount, dec, catId) : item.name;
     neo.onclick = field === 'amount' ? (e) => { e.stopPropagation(); startEdit(neo, itemId, catId, field); } : null;
+    // sync hidden list view span
+    const lvRow = document.getElementById('lv-item-' + itemId);
+    if (lvRow) {
+      const lvEl = field === 'name' ? lvRow.querySelector('.lv-item-name') : lvRow.querySelector('.lv-item-amt');
+      if (lvEl) {
+        lvEl.textContent = field === 'amount' ? f(item.amount, dec) : item.name;
+      }
+    }
   }
   inp.replaceWith(neo);
   recalc();
@@ -2883,32 +2999,41 @@ function addRow(catId) {
   const item = {id:_id(), name:'بند جديد', amount:0, paid:false};
   S.cats[catId].push(item); DB.save(S);
 
+  const dec = catId === 'misc' ? 2 : ((S.cats_order||[]).find(c=>c.id===catId)?.dec || 3);
+
   if (_viewMode === 'list') {
-    const dec     = catId === 'misc' ? 2 : ((S.cats_order||[]).find(c=>c.id===catId)?.dec || 3);
-    const lvSec   = document.querySelector(`#listViewArea .lv-cat[data-catid="${catId}"]`);
+    const lvSec = document.querySelector(`#listViewArea .lv-cat[data-catid="${catId}"]`);
     if (lvSec) {
-      const em      = lvSec.querySelector('.lv-empty');
+      const em = lvSec.querySelector('.lv-empty');
       if (em) em.remove();
-      const wrap    = lvSec.querySelector('.lv-items-wrap');
-      const newRow  = _lvBuildItem(item, catId, dec);
+      const wrap = lvSec.querySelector('.lv-items-wrap');
+      const newRow = _lvBuildItem(item, catId, dec);
       if (wrap) wrap.appendChild(newRow);
       else lvSec.appendChild(newRow);
-      // Extend sortable to cover new row
       const sortInst = _lvSortables.find(s => s.el === wrap);
       if (!sortInst && wrap) _lvInitItemSortable(wrap, catId);
       const nameSpan = newRow.querySelector('.lv-item-name');
       if (nameSpan) lvStartEdit(nameSpan, item.id, catId, 'name');
     }
+    // Also add to hidden card view
+    const cardContainer = document.getElementById('rows-' + catId);
+    if (cardContainer) cardContainer.appendChild(makeRow(item, catId, dec));
     recalc();
     return;
   }
 
-  const dec = catId === 'misc' ? 2 : 3;
-  const c   = document.getElementById('rows-'+catId);
+  const c = document.getElementById('rows-'+catId);
   const row = makeRow(item, catId, dec);
   c.appendChild(row); recalc();
   const n = row.querySelector('.row-name');
   if (n) startEdit(n, item.id, catId, 'name');
+  // Also add to hidden list view
+  const lvSec = document.querySelector(`#listViewArea .lv-cat[data-catid="${catId}"]`);
+  if (lvSec) {
+    lvSec.querySelector('.lv-empty')?.remove();
+    const wrap = lvSec.querySelector('.lv-items-wrap');
+    if (wrap) wrap.appendChild(_lvBuildItem(item, catId, dec));
+  }
 }
 
 function showMoveSheet(itemId, fromCatId) {
@@ -2941,8 +3066,7 @@ function showMoveSheet(itemId, fromCatId) {
       if (!S.cats[cat.id]) S.cats[cat.id] = [];
       S.cats[cat.id].push(item);
       DB.save(S);
-      renderMain(); recalc(); renderGroupTabs();
-      if (_viewMode === 'list') renderListView();
+      render(); renderGroupTabs();
       toast(`تم نقل "${item.name}" إلى ${cat.name}`, 'var(--c-ok)');
     };
     list.appendChild(btn);
@@ -2959,6 +3083,8 @@ function delRow(itemId, catId) {
   const item = arr[idx];
   const rowEl = document.querySelector(`[data-id="${itemId}"]`);
   if (rowEl) { rowEl.classList.add('dying'); setTimeout(()=>rowEl.remove(), 260); }
+  const lvRowEl = document.getElementById('lv-item-' + itemId);
+  if (lvRowEl) lvRowEl.remove();
   arr.splice(idx,1); DB.save(S); recalc();
   showUndo(item.name, () => {
     arr.splice(idx, 0, item); DB.save(S);
@@ -2966,6 +3092,14 @@ function delRow(itemId, catId) {
     const dec = catId==='misc'?2:3;
     const neo = makeRow(item, catId, dec);
     if (idx < c.children.length) c.insertBefore(neo, c.children[idx]); else c.appendChild(neo);
+    const lvSec = document.querySelector(`#listViewArea .lv-cat[data-catid="${catId}"]`);
+    if (lvSec) {
+      const wrap = lvSec.querySelector('.lv-items-wrap');
+      if (wrap) {
+        const lvNeo = _lvBuildItem(item, catId, dec);
+        if (idx < wrap.children.length) wrap.insertBefore(lvNeo, wrap.children[idx]); else wrap.appendChild(lvNeo);
+      }
+    }
     recalc();
   });
 }
@@ -3193,29 +3327,9 @@ function addCategory() {
   S.labels[id] = cat.name;
   DB.save(S);
   _activeGroup = 'all';
-  renderMain();
-  recalc();
+  render();
   renderGroupTabs();
-
-  if (_viewMode === 'list') {
-    // Append new cat section directly — rebuild list view with new cat then edit its name
-    const pal   = (CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0]).color;
-    const wrap  = document.getElementById('listViewArea');
-    // Remove the add-cat button, insert new section before misc, re-append button
-    const addCatBtn = wrap?.querySelector('.lv-add-cat-btn');
-    const miscSec   = wrap?.querySelector('.lv-cat[data-catid="misc"]');
-    const newSec    = _lvBuildCat(id, pal, cat.name, [], 0, 3, false);
-    if (wrap) {
-      if (miscSec) wrap.insertBefore(newSec, miscSec);
-      else if (addCatBtn) wrap.insertBefore(newSec, addCatBtn);
-      else wrap.appendChild(newSec);
-    }
-    // Edit name inline in list view
-    setTimeout(() => editCatTitle(id), 40);
-    return;
-  }
-
-  editCatTitle(id);
+  setTimeout(() => editCatTitle(id), 40);
 }
 
 function deleteCategory(catId) {
@@ -3229,10 +3343,8 @@ function deleteCategory(catId) {
     delete S.labels?.[catId];
     if (_activeGroup === catId) _activeGroup = 'all';
     DB.save(S);
-    renderMain();
+    render();
     renderGroupTabs();
-    recalc();
-    if (_viewMode === 'list') renderListView();
     toast('تم حذف "'+name+'"', 'var(--c-danger)');
   });
 }
@@ -3391,7 +3503,8 @@ function switchView(mode) {
   if (mode === 'list') {
     panels.style.display = 'none';
     listArea.style.display = 'block';
-    renderListView();
+    // List view already built by render(); just ensure sortables are active
+    initLvSortables();
   } else {
     panels.style.display = 'block';
     listArea.style.display = 'none';
@@ -3586,7 +3699,6 @@ function renderListView() {
     wrap.appendChild(addCatBtn);
   }
 
-  initLvSortables();
 }
 
 /* ════════════════════════════════════════
@@ -3632,7 +3744,24 @@ function _lvInitItemSortable(wrapEl, catId) {
         toast(`تم نقل "${item.name}"`, 'var(--c-ok)');
       }
       DB.save(S);
-      renderMain(); recalc();
+      recalc();
+      if (fromCatId === toCatId) {
+        // Sync card view item order within category
+        const cardWrap = document.getElementById('rows-' + fromCatId);
+        if (cardWrap) {
+          const allCards = [...cardWrap.querySelectorAll('.e-row')];
+          const movedCard = allCards[evt.oldIndex];
+          if (movedCard) {
+            movedCard.remove();
+            allCards.splice(evt.oldIndex, 1);
+            const ref = allCards[evt.newIndex] || null;
+            if (ref) cardWrap.insertBefore(movedCard, ref); else cardWrap.appendChild(movedCard);
+          }
+        }
+      } else {
+        // Cross-category: rebuild card view for affected categories
+        renderMain(); renderMisc();
+      }
     }
   });
   _lvSortables.push(inst);
@@ -3658,7 +3787,7 @@ function initLvSortables() {
           .filter(id => id && id !== 'misc');
         S.cats_order = newOrder.map(id => S.cats_order.find(c => c.id === id)).filter(Boolean);
         DB.save(S);
-        renderMain(); renderGroupTabs();
+        renderMain(); renderGroupTabs(); recalc();
       }
     }));
   }
@@ -3676,16 +3805,23 @@ function lvTogglePaid(itemId, catId) {
   if (!item) return;
   item.paid = !item.paid;
   DB.save(S);
-  const row = document.getElementById('lv-item-' + itemId);
-  if (row) row.classList.toggle('paid', item.paid);
+  const lvRow = document.getElementById('lv-item-' + itemId);
+  if (lvRow) lvRow.classList.toggle('paid', item.paid);
+  const cardRow = document.querySelector(`[data-id="${itemId}"]`);
+  if (cardRow) {
+    const chk = cardRow.querySelector('.check-wrap');
+    if (item.paid) { chk?.classList.add('chk'); cardRow.classList.add('paid'); }
+    else { chk?.classList.remove('chk'); cardRow.classList.remove('paid'); }
+  }
   recalc();
 }
 
 function lvDeleteItem(itemId, catId) {
-  showConfirm('حذف البند؟', () => {
+  showConfirm('حذف البند؟', 'حذف', () => {
     S.cats[catId] = (S.cats[catId] || []).filter(r => r.id !== itemId);
     DB.save(S);
-    renderListView();
+    document.getElementById('lv-item-' + itemId)?.remove();
+    document.querySelector(`[data-id="${itemId}"]`)?.remove();
     recalc();
   });
 }
@@ -3879,6 +4015,9 @@ function editCatTitle(catId) {
     neo.onclick = () => editCatTitle(catId);
     inp.replaceWith(neo);
     renderGroupTabs();
+    // also sync list view category name
+    const lvNameEl = document.querySelector(`#listViewArea .lv-cat[data-catid="${catId}"] .lv-cat-name`);
+    if (lvNameEl && !lvNameEl.querySelector('input')) lvNameEl.textContent = label;
     toast('تم تعديل الاسم: "'+label+'"', catColor);
   };
 
@@ -3904,8 +4043,37 @@ function editCatTitle(catId) {
 
 let _scanData = null;
 
-function openScanSheet() {
+async function transcribeVoice(blob) {
+  const ext = blob.type.includes('mp4') ? 'm4a' : blob.type.includes('ogg') ? 'ogg' : 'webm';
+  const form = new FormData();
+  form.append('file', blob, `voice.${ext}`);
+  form.append('model', 'whisper-1');
+  form.append('language', 'ar');
+  const r = await fetch('/api/transcribe', { method: 'POST', body: form });
+  const d = await r.json();
+  if (!r.ok) throw new Error(d?.error || `خطأ ${r.status}`);
+  return d.text || '';
+}
+
+async function runVoiceExtraction(aiCall) {
+  if (!_voiceBlob) throw new Error('الرجاء تسجيل صوت أولاً');
+  const transcript = await transcribeVoice(_voiceBlob);
+  if (!transcript.trim()) throw new Error('لم يتم التعرف على أي كلام، حاول التسجيل مرة أخرى');
+  const prompt = 'You are an expert Arabic expense extractor. Extract EVERY single expense item mentioned in the spoken transcript below.\n\n'
+    + 'RULES:\n'
+    + '- Extract ALL items mentioned with a name and/or amount — miss nothing\n'
+    + '- The "name" field: clean Arabic/English name only, no numbers, no symbols\n'
+    + '- The "amount" field: numeric value only (convert Arabic-Indic ٠١٢٣٤٥٦٧٨٩ and spoken numbers to Western digits)\n'
+    + '- If amount is missing or unclear, use 0\n'
+    + '- Return ONLY valid JSON, no markdown, no explanation\n\n'
+    + 'Format: {"items":[{"name":"...","amount":0.00}]}\n\n'
+    + 'Transcript:\n' + transcript;
+  return await aiCall(prompt);
+}
+
+function openScanSheet(mode) {
   document.getElementById('scanOverlay').style.display = 'flex';
+  if (mode) setScanMode(mode);
   updateScanBtn();
 }
 
@@ -3916,6 +4084,8 @@ function closeScanSheet() {
   document.getElementById('scanLoader').classList.remove('active');
   const ti = document.getElementById('scanTextInput');
   if (ti) ti.value = '';
+  if (_voiceRecorder && _voiceRecorder.state === 'recording') _voiceRecorder.stop();
+  clearVoiceRecording(false);
   _scanData = null;
   setScanMode('img');
 }
@@ -3927,16 +4097,73 @@ function setScanMode(mode) {
   _scanMode = mode;
   document.getElementById('scanImgPanel').style.display = mode === 'img' ? '' : 'none';
   document.getElementById('scanTxtPanel').style.display = mode === 'txt' ? '' : 'none';
+  document.getElementById('scanVoicePanel').style.display = mode === 'voice' ? '' : 'none';
   document.getElementById('scanTabImg').classList.toggle('active', mode === 'img');
   document.getElementById('scanTabTxt').classList.toggle('active', mode === 'txt');
+  document.getElementById('scanTabVoice').classList.toggle('active', mode === 'voice');
   updateScanBtn();
 }
 
 function updateScanBtn() {
   const hasImg = document.getElementById('scanPreviewWrap').style.display === 'block';
   const hasTxt = (document.getElementById('scanTextInput')?.value || '').trim().length > 5;
-  const hasContent = _scanMode === 'img' ? hasImg : hasTxt;
+  const hasVoice = !!_voiceBlob;
+  const hasContent = _scanMode === 'img' ? hasImg : _scanMode === 'txt' ? hasTxt : hasVoice;
   document.getElementById('scanBtn').disabled = !hasContent;
+}
+
+/* ── Voice recording ── */
+let _voiceBlob = null, _voiceRecorder = null, _voiceChunks = [], _voiceStream = null, _voiceTimerInt = null, _voiceStartTs = 0;
+
+function _voiceFmtTime(ms) {
+  const s = Math.floor(ms / 1000);
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+
+async function toggleVoiceRecording() {
+  if (_voiceRecorder && _voiceRecorder.state === 'recording') { _voiceRecorder.stop(); return; }
+  let stream;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (e) {
+    toast('لم يتم السماح بالوصول للمايكروفون', 'var(--c-danger)');
+    return;
+  }
+  _voiceStream = stream;
+  _voiceChunks = [];
+  const mime = ['audio/webm', 'audio/mp4', 'audio/ogg'].find(t => window.MediaRecorder?.isTypeSupported?.(t));
+  _voiceRecorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+  _voiceRecorder.ondataavailable = e => { if (e.data.size > 0) _voiceChunks.push(e.data); };
+  _voiceRecorder.onstop = () => {
+    _voiceStream.getTracks().forEach(t => t.stop());
+    clearInterval(_voiceTimerInt);
+    _voiceBlob = new Blob(_voiceChunks, { type: _voiceRecorder.mimeType || 'audio/webm' });
+    const audio = document.getElementById('scanVoiceAudio');
+    audio.src = URL.createObjectURL(_voiceBlob);
+    document.getElementById('scanVoiceIdle').style.display = 'none';
+    document.getElementById('scanVoicePreview').style.display = 'flex';
+    updateScanBtn();
+  };
+  _voiceRecorder.start();
+  _voiceStartTs = Date.now();
+  document.getElementById('scanVoiceBtn').classList.add('recording');
+  document.getElementById('scanVoiceTimer').textContent = '00:00 — اضغط للإيقاف';
+  _voiceTimerInt = setInterval(() => {
+    document.getElementById('scanVoiceTimer').textContent = _voiceFmtTime(Date.now() - _voiceStartTs) + ' — اضغط للإيقاف';
+  }, 300);
+}
+
+function clearVoiceRecording(reRecord) {
+  const audio = document.getElementById('scanVoiceAudio');
+  if (audio && audio.src) { URL.revokeObjectURL(audio.src); audio.src = ''; }
+  _voiceBlob = null;
+  document.getElementById('scanVoicePreview').style.display = 'none';
+  document.getElementById('scanVoiceIdle').style.display = '';
+  document.getElementById('scanVoiceBtn')?.classList.remove('recording');
+  const timerEl = document.getElementById('scanVoiceTimer');
+  if (timerEl) timerEl.textContent = 'اضغط لبدء التسجيل';
+  updateScanBtn();
+  if (reRecord) toggleVoiceRecording();
 }
 
 function onScanFileSelected(input) {
@@ -4000,25 +4227,27 @@ async function runScan() {
   if (_scanMode === 'txt') {
     step1Label.textContent = 'قراءة النص';
     step1Sub.textContent   = 'استخراج جميع البنود والمبالغ';
+  } else if (_scanMode === 'voice') {
+    step1Label.textContent = 'تحويل الصوت إلى نص';
+    step1Sub.textContent   = 'الاستماع للتسجيل واستخراج البنود';
   } else {
     step1Label.textContent = 'قراءة الصورة';
     step1Sub.textContent   = 'استخراج جميع البنود والمبالغ';
   }
   setStep(1);
 
-  const _k = atob('c2stcHJvai05V3RkZU5la21DSVdYOUhXbWRoeFUwTDdFZGhFRlpHdHZtdnR0RTlfMWlWMG4zRXo5TjVUaC1sU0ZRcXl4QUo4WkxiVURSd2RETlQzQmxia0ZKZFpsWHNreVlpMDVGWlUyTjl4MFpiTUYwaGZ6RGFMR1VheVNMdFFhNGlPUk1vVE9FdUhpeFVGVVIxMmlfV0J0SzBjeVRabGZqUUE=');
   const aiCall = async (prompt, imgData) => {
     const content = imgData
       ? [{ type: 'image_url', image_url: { url: `data:${imgData.mime};base64,${imgData.base64}`, detail: 'high' } }, { type: 'text', text: prompt }]
       : prompt;
-    const r = await fetch('https://api.openai.com/v1/chat/completions', {
+    const r = await fetch('/api/chat', {
       method: 'POST',
-      headers: { 'Authorization': `Bearer ${_k}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'gpt-4o', max_tokens: 4096, temperature: 0, messages: [{ role: 'user', content }] })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: [{ role: 'user', content }] })
     });
     const d = await r.json();
-    if (!r.ok) throw new Error(d?.error?.message || `خطأ ${r.status}`);
-    return d.choices?.[0]?.message?.content || '';
+    if (!r.ok) throw new Error(d?.error || `خطأ ${r.status}`);
+    return d.text || '';
   };
 
   try {
@@ -4041,6 +4270,8 @@ Format: {"items":[{"name":"...","amount":0.00}]}
 
 Text:
 ${inputTxt}`);
+    } else if (_scanMode === 'voice') {
+      rawText = await runVoiceExtraction(aiCall);
     } else {
       rawText = await aiCall(
         `You are an expert Arabic expense extractor with perfect OCR ability. Read this expense image carefully.
@@ -4426,6 +4657,7 @@ function updateMonthLabel() {
    Monthly History
    ════════════════════════════════════════ */
 let _viewSnap = null;
+let _snapOrigin = 'history';
 
 async function openHistorySheet() {
   const overlay = document.getElementById('historyOverlay');
@@ -4460,7 +4692,7 @@ async function openHistorySheet() {
       <button class="history-month-del" title="حذف" onclick="deleteHistorySnap('${snap.key}',event)">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2 4 14 4"/><path d="M12 4l-.8 9H4.8L4 4"/><path d="M6 4V3h4v1"/></svg>
       </button>`;
-    item.addEventListener('click', () => openSnapshotView(snap));
+    item.addEventListener('click', () => { _snapOrigin = 'history'; openSnapshotView(snap); });
     listEl.appendChild(item);
   });
 }
@@ -4481,6 +4713,7 @@ async function deleteHistorySnap(key, e) {
 function openSnapshotView(snap) {
   _viewSnap = snap;
   closeHistorySheet();
+  document.getElementById('yearView').style.display = 'none';
   const view = document.getElementById('historyView');
   view.style.display = 'flex';
   document.getElementById('historyViewTitle').textContent = monthKeyToLabel(snap.key);
@@ -4633,7 +4866,411 @@ function openSnapshotView(snap) {
 function closeSnapshotView() {
   document.getElementById('historyView').style.display = 'none';
   _viewSnap = null;
-  openHistorySheet();
+  if (_snapOrigin === 'year') {
+    document.getElementById('yearView').style.display = 'flex';
+  } else {
+    openHistorySheet();
+  }
+}
+
+/* ════════════════════════════════════════
+   Yearly Analysis
+   ════════════════════════════════════════ */
+let _yaYear = null;
+let _yaYears = [];
+
+async function openYearAnalysis() {
+  const snapshots = await HISTORY_DB.listSnapshots();
+  const years = new Set(snapshots.map(s => s.key.slice(0,4)));
+  if (S.month_key) years.add(S.month_key.slice(0,4));
+  _yaYears = [...years].sort();
+  if (!_yaYears.length) { toast('لا توجد بيانات كافية بعد', 'var(--c-danger)'); return; }
+  _yaYear = S.month_key ? S.month_key.slice(0,4) : _yaYears[_yaYears.length-1];
+  document.getElementById('yearView').style.display = 'flex';
+  await renderYearAnalysis();
+}
+
+function closeYearAnalysis() {
+  document.getElementById('yearView').style.display = 'none';
+}
+
+function yaChangeYear(dir) {
+  const idx = _yaYears.indexOf(_yaYear) + dir;
+  if (idx < 0 || idx >= _yaYears.length) return;
+  _yaYear = _yaYears[idx];
+  renderYearAnalysis();
+}
+
+function yaSelectYear(y) {
+  _yaYear = y;
+  renderYearAnalysis();
+}
+
+function _yaOpenMonth(key, data) {
+  _snapOrigin = 'year';
+  openSnapshotView({ ...data, key });
+}
+
+async function _yaGetMonthData(key) {
+  if (key === S.month_key) return S;
+  return await HISTORY_DB.loadSnapshot(key);
+}
+
+function _yaTotals(data) {
+  if (!data) return null;
+  let total = 0, paid = 0;
+  (data.cats_order||[]).forEach(cat => (data.cats[cat.id]||[]).forEach(r => {
+    total += (+r.amount||0); if (r.paid) paid += (+r.amount||0);
+  }));
+  (data.cats?.misc||[]).forEach(r => { total += (+r.amount||0); if (r.paid) paid += (+r.amount||0); });
+  const salary = +data.salary || 0;
+  const budget = +data.budget || 0;
+  const saved  = salary > 0 ? salary - total : null;
+  return { total, paid, salary, budget, saved };
+}
+
+async function renderYearAnalysis() {
+  const idx = _yaYears.indexOf(_yaYear);
+  document.getElementById('yaPrevBtn').disabled = idx <= 0;
+  document.getElementById('yaNextBtn').disabled = idx >= _yaYears.length-1;
+  const sel = document.getElementById('yaYearSelect');
+  sel.innerHTML = _yaYears.slice().reverse().map(y => `<option value="${y}"${y===_yaYear?' selected':''}>${y}</option>`).join('');
+
+  const months = [];
+  for (let m = 1; m <= 12; m++) {
+    const key = `${_yaYear}-${String(m).padStart(2,'0')}`;
+    const data = await _yaGetMonthData(key);
+    months.push({ key, m, data, tot: _yaTotals(data) });
+  }
+  const withData = months.filter(x => x.tot);
+  const body = document.getElementById('yaBody');
+  body.innerHTML = '';
+
+  if (!withData.length) {
+    body.innerHTML = '<div class="ya-empty">لا توجد بيانات لهذه السنة</div>';
+    return;
+  }
+
+  const yearTotal = withData.reduce((a,x)=>a+x.tot.total,0);
+  const yearPaid  = withData.reduce((a,x)=>a+x.tot.paid,0);
+  const yearUnpaid = yearTotal - yearPaid;
+  const avg = yearTotal / withData.length;
+  const top = withData.reduce((a,x)=> x.tot.total > a.tot.total ? x : a, withData[0]);
+  const low = withData.reduce((a,x)=> x.tot.total < a.tot.total ? x : a, withData[0]);
+
+  const secTitle = (t) => { const h = document.createElement('div'); h.style.cssText='margin:14px 16px 2px;font-size:13px;font-weight:700;color:var(--t-mid)'; h.textContent = t; return h; };
+
+  body.appendChild(secTitle('نظرة عامة'));
+  const stats = document.createElement('div');
+  stats.className = 'stats-grid';
+  stats.innerHTML = `
+    <div class="stat-card combined">
+      <div class="stat-lbl">إجمالي السنة</div>
+      <div class="stat-amt"><span>${f(yearTotal,3)}</span><span class="stat-cur">JOD</span></div>
+    </div>
+    <div class="stat-card paid-c">
+      <div class="stat-lbl">المدفوع ✓</div>
+      <div class="stat-amt"><span>${f(yearPaid,3)}</span><span class="stat-cur">JOD</span></div>
+    </div>
+    <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+      <div class="stat-lbl">غير مدفوع</div>
+      <div class="stat-amt" style="color:${yearUnpaid>0?'var(--c-danger)':'var(--c-day)'}"><span>${f(yearUnpaid,3)}</span><span class="stat-cur">JOD</span></div>
+    </div>
+    <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+      <div class="stat-lbl">متوسط الشهر</div>
+      <div class="stat-amt"><span>${f(avg,3)}</span><span class="stat-cur">JOD</span></div>
+    </div>
+    <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+      <div class="stat-lbl">أعلى شهر</div>
+      <div class="stat-amt" style="font-size:13px">${MONTHS_AR[top.m-1]}</div>
+      <div class="stat-sub">${f(top.tot.total,3)} JOD</div>
+    </div>
+    <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+      <div class="stat-lbl">أقل شهر</div>
+      <div class="stat-amt" style="font-size:13px">${MONTHS_AR[low.m-1]}</div>
+      <div class="stat-sub">${f(low.tot.total,3)} JOD</div>
+    </div>`;
+  body.appendChild(stats);
+
+  // ── Savings ───────────────────────────────────────────────────────
+  const withIncome = withData.filter(x => x.tot.saved !== null);
+  if (withIncome.length) {
+    const yearIncome = withIncome.reduce((a,x)=>a+x.tot.salary,0);
+    const yearSaved  = withIncome.reduce((a,x)=>a+x.tot.saved,0);
+    const savingsRate = yearIncome > 0 ? (yearSaved/yearIncome*100) : 0;
+    const bestSave = withIncome.reduce((a,x)=> x.tot.saved > a.tot.saved ? x : a, withIncome[0]);
+
+    body.appendChild(secTitle('التوفير'));
+    const savStats = document.createElement('div');
+    savStats.className = 'stats-grid';
+    savStats.innerHTML = `
+      <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+        <div class="stat-lbl">إجمالي الدخل</div>
+        <div class="stat-amt"><span>${f(yearIncome,3)}</span><span class="stat-cur">JOD</span></div>
+      </div>
+      <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+        <div class="stat-lbl">إجمالي التوفير</div>
+        <div class="stat-amt" style="color:${yearSaved>=0?'var(--c-day)':'var(--c-danger)'}"><span>${f(Math.abs(yearSaved),3)}</span><span class="stat-cur">JOD</span></div>
+      </div>
+      <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+        <div class="stat-lbl">نسبة التوفير</div>
+        <div class="stat-amt" style="color:${savingsRate>=0?'var(--c-day)':'var(--c-danger)'}">${savingsRate.toFixed(1)}%</div>
+      </div>
+      <div class="stat-card" style="background:var(--bg-card);border:1px solid var(--border)">
+        <div class="stat-lbl">أفضل شهر توفير</div>
+        <div class="stat-amt" style="font-size:13px">${MONTHS_AR[bestSave.m-1]}</div>
+        <div class="stat-sub">${f(bestSave.tot.saved,3)} JOD</div>
+      </div>`;
+    body.appendChild(savStats);
+
+    const maxAbsSaved = Math.max(...withIncome.map(x=>Math.abs(x.tot.saved)), 1);
+    const savPanel = document.createElement('div');
+    savPanel.className = 'panel panel-main';
+    savPanel.style.cssText = 'margin:12px 12px 0;';
+    savPanel.innerHTML = '<div class="panel-head"><div class="panel-title">التوفير الشهري</div></div>';
+    const savWrap = document.createElement('div');
+    savWrap.style.cssText = 'padding:4px 14px 14px;';
+    withIncome.forEach(x => {
+      const pos = x.tot.saved >= 0;
+      const color = pos ? 'var(--c-day)' : 'var(--c-danger)';
+      const row = document.createElement('div');
+      row.className = 'ya-cat-row';
+      row.style.cursor = 'pointer';
+      row.innerHTML = `
+        <span class="ya-cat-dot" style="background:${color}"></span>
+        <span class="ya-cat-name">${MONTHS_AR[x.m-1]}</span>
+        <div class="ya-cat-track"><div class="ya-cat-fill" style="width:${(Math.abs(x.tot.saved)/maxAbsSaved*100).toFixed(1)}%;background:${color}"></div></div>
+        <span class="ya-cat-amt" style="color:${color}">${pos?'+':'-'}${f(Math.abs(x.tot.saved),3)} JOD</span>`;
+      row.addEventListener('click', () => _yaOpenMonth(x.key, x.data));
+      savWrap.appendChild(row);
+    });
+    savPanel.appendChild(savWrap);
+    body.appendChild(savPanel);
+  }
+
+
+  const maxTot = Math.max(...withData.map(x=>x.tot.total), 1);
+  const chart = document.createElement('div');
+  chart.className = 'ya-chart';
+  months.forEach(x => {
+    const h = x.tot ? Math.max((x.tot.total / maxTot) * 100, x.tot.total>0?4:0) : 100;
+    const isCur = x.key === S.month_key;
+    const col = document.createElement('div');
+    col.className = 'ya-bar-col';
+    col.innerHTML = `
+      <div class="ya-bar${x.tot?(isCur?' cur':''):' empty'}" style="height:${h}%" title="${MONTHS_AR[x.m-1]}: ${x.tot?f(x.tot.total,3)+' JOD':'لا يوجد بيانات'}"></div>
+      <span class="ya-bar-lbl">${x.m}</span>`;
+    if (x.tot) { col.style.cursor = 'pointer'; col.addEventListener('click', () => _yaOpenMonth(x.key, x.data)); }
+    chart.appendChild(col);
+  });
+  const chartPanel = document.createElement('div');
+  chartPanel.className = 'panel panel-main';
+  chartPanel.style.cssText = 'margin:14px 12px 0;';
+  chartPanel.innerHTML = '<div class="panel-head"><div class="panel-title">المصروف الشهري</div></div>';
+  chartPanel.appendChild(chart);
+  body.appendChild(chartPanel);
+
+  const listPanel = document.createElement('div');
+  listPanel.className = 'panel panel-main';
+  listPanel.style.cssText = 'margin:12px 12px 0;';
+  listPanel.innerHTML = '<div class="panel-head"><div class="panel-title">تفاصيل الشهور</div></div>';
+  const listWrap = document.createElement('div');
+  listWrap.style.cssText = 'padding:4px 10px 10px;';
+  withData.forEach(x => {
+    const isCur = x.key === S.month_key;
+    const itemCnt = (x.data.cats_order||[]).reduce((a,c)=>a+(x.data.cats[c.id]||[]).length,0) + (x.data.cats?.misc||[]).length;
+    const row = document.createElement('div');
+    row.className = 'history-month-item';
+    row.innerHTML = `
+      <div class="history-month-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="history-month-info">
+        <div class="history-month-name">${MONTHS_AR[x.m-1]}${isCur?' · الحالي':''}</div>
+        <div class="history-month-meta">${itemCnt} بند · ${f(x.tot.paid,3)} JOD مدفوع${x.tot.saved!==null?` · ${x.tot.saved>=0?'وفرت':'تجاوزت'} ${f(Math.abs(x.tot.saved),3)} JOD`:''}</div>
+      </div>
+      <div class="history-month-total">${f(x.tot.total,3)}</div>`;
+    row.addEventListener('click', () => _yaOpenMonth(x.key, x.data));
+    listWrap.appendChild(row);
+  });
+  listPanel.appendChild(listWrap);
+  body.appendChild(listPanel);
+
+  const catTotals = {}, catColor = {}, topItems = [];
+  withData.forEach(x => {
+    const d = x.data;
+    (d.cats_order||[]).forEach(cat => {
+      const label = d.labels?.[cat.id] || cat.name;
+      const color = (CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0]).color;
+      const items = d.cats[cat.id]||[];
+      const amt = items.reduce((s,r)=>s+(+r.amount||0),0);
+      if (amt > 0) {
+        catTotals[label] = (catTotals[label]||0) + amt;
+        if (!catColor[label]) catColor[label] = color;
+      }
+      items.forEach(r => { if ((+r.amount||0) > 0) topItems.push({ name:r.name, amount:+r.amount, cat:label, color, key:x.key, m:x.m, data:x.data }); });
+    });
+    const miscItems = d.cats?.misc||[];
+    const miscAmt = miscItems.reduce((s,r)=>s+(+r.amount||0),0);
+    if (miscAmt > 0) {
+      const label = d.labels?.misc || 'متفرقات';
+      catTotals[label] = (catTotals[label]||0) + miscAmt;
+      if (!catColor[label]) catColor[label] = '#F2B040';
+    }
+    miscItems.forEach(r => { if ((+r.amount||0) > 0) topItems.push({ name:r.name, amount:+r.amount, cat:d.labels?.misc||'متفرقات', color:'#F2B040', key:x.key, m:x.m, data:x.data }); });
+  });
+  const catEntries = Object.entries(catTotals).sort((a,b)=>b[1]-a[1]);
+  if (catEntries.length) {
+    body.appendChild(secTitle('توزيع الفئات خلال السنة'));
+    const catPanel = document.createElement('div');
+    catPanel.className = 'panel panel-main';
+    catPanel.style.cssText = 'margin:0 12px;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'padding:4px 14px 14px;';
+    const catMax = catEntries[0][1] || 1;
+    catEntries.forEach(([label, amt]) => {
+      const row = document.createElement('div');
+      row.className = 'ya-cat-row';
+      row.innerHTML = `
+        <span class="ya-cat-dot" style="background:${catColor[label]||'#888'}"></span>
+        <span class="ya-cat-name">${esc(label)}</span>
+        <div class="ya-cat-track"><div class="ya-cat-fill" style="width:${(amt/catMax*100).toFixed(1)}%;background:${catColor[label]||'#888'}"></div></div>
+        <span class="ya-cat-amt">${f(amt,3)} JOD <span style="opacity:.55">${(amt/yearTotal*100).toFixed(0)}%</span></span>`;
+      wrap.appendChild(row);
+    });
+    catPanel.appendChild(wrap);
+    body.appendChild(catPanel);
+  }
+
+  topItems.sort((a,b)=>b.amount-a.amount);
+  if (topItems.length) {
+    body.appendChild(secTitle('أكبر المصاريف'));
+    const topPanel = document.createElement('div');
+    topPanel.className = 'panel panel-main';
+    topPanel.style.cssText = 'margin:0 12px 32px;';
+    const topWrap = document.createElement('div');
+    topWrap.style.cssText = 'padding:2px 14px 8px;';
+    topItems.slice(0,10).forEach((it,i) => {
+      const row = document.createElement('div');
+      row.className = 'ya-top-row';
+      row.innerHTML = `
+        <span class="ya-top-rank">${i+1}</span>
+        <span class="ya-top-dot" style="background:${it.color}"></span>
+        <div class="ya-top-info">
+          <div class="ya-top-name">${esc(it.name)}</div>
+          <div class="ya-top-meta">${esc(it.cat)} · ${MONTHS_AR[it.m-1]}</div>
+        </div>
+        <span class="ya-top-amt">${f(it.amount,3)} JOD</span>`;
+      row.addEventListener('click', () => _yaOpenMonth(it.key, it.data));
+      topWrap.appendChild(row);
+    });
+    topPanel.appendChild(topWrap);
+    body.appendChild(topPanel);
+  }
+}
+
+async function rolloverMonth(curKey, newKey) {
+  // Save current month snapshot
+  const snap = {};
+  Object.keys(S).forEach(k => { if (k!=='id') snap[k]=S[k]; });
+  await HISTORY_DB.saveSnapshot(curKey, snap);
+
+  // Build new state: keep categories, only recurring items
+  const newCats = { misc: [] };
+  const newCatsOrder = (S.cats_order||[]).map(cat=>({...cat}));
+  newCatsOrder.forEach(cat => {
+    newCats[cat.id] = (S.cats[cat.id]||[])
+      .filter(it=>it.recurring)
+      .map(it=>({...it, id:_id(), paid:false}));
+  });
+  newCats.misc = (S.cats.misc||[])
+    .filter(it=>it.recurring)
+    .map(it=>({...it, id:_id(), paid:false}));
+
+  S = {
+    budget: S.budget,
+    salary: S.salary,
+    onboarded: true,
+    month_key: newKey,
+    cats_order: newCatsOrder,
+    cats: newCats,
+    labels: {...(S.labels||{})},
+  };
+  await DB.save(S);
+}
+
+function nextMonthKey(curKey) {
+  const [y, m] = curKey.split('-').map(Number);
+  const nm = m===12?1:m+1, ny = m===12?y+1:y;
+  return `${ny}-${String(nm).padStart(2,'0')}`;
+}
+
+async function checkMonthRollover() {
+  if (activeEdit) return; // don't yank the state out from under an in-progress edit
+  const nowKey = currentMonthKey();
+  if (S.month_key && S.month_key !== nowKey) {
+    const endedLabel = monthKeyToLabel(S.month_key);
+    await rolloverMonth(S.month_key, nowKey);
+    updateMonthLabel();
+    render();
+    toast(`✓ تم حفظ ${endedLabel} وبدء ${monthKeyToLabel(nowKey)}`, 'var(--c-day-bd)');
+  }
+}
+
+// ponytail: one-time dev fixture, not a real feature — delete this + its boot() call once test data isn't needed
+async function _devSeedYearsIfEmpty() {
+  if (localStorage.getItem('flowance_dev_seeded')) return; // ran once already, skip
+
+  const item = (name, min, max, paidChance, recurring) => ({
+    id: _id(), name,
+    amount: +(min + Math.random() * (max - min)).toFixed(3),
+    paid: Math.random() < paidChance,
+    ...(recurring ? { recurring: true } : {})
+  });
+  const catsOrder = () => [
+    { id: 'housing',   name: 'سكن',                dec: 3, colorIdx: 0, budget: 400 },
+    { id: 'transport', name: 'مواصلات',            dec: 3, colorIdx: 1, budget: 150 },
+    { id: 'food',      name: 'أكل',                dec: 3, colorIdx: 2, budget: 250 },
+    { id: 'shopping',  name: 'تسوق',               dec: 3, colorIdx: 3, budget: 120 },
+    { id: 'bills',     name: 'فواتير واشتراكات',   dec: 3, colorIdx: 4, budget: 80  },
+  ];
+  const monthData = (paidBias) => ({
+    cats_order: catsOrder(),
+    cats: {
+      housing:   [ item('إيجار الشقة', 280, 320, paidBias, true), item('كهرباء', 25, 45, paidBias), item('ماء', 8, 15, paidBias), item('انترنت', 20, 25, paidBias, true) ],
+      transport: [ item('بنزين', 40, 70, paidBias), item('صيانة سيارة', 0, 60, paidBias*0.5), item('تأمين', 25, 25, paidBias) ],
+      food:      [ item('سوبرماركت', 90, 140, paidBias), item('مطاعم', 30, 90, paidBias), item('توصيل طلبات', 10, 40, paidBias) ],
+      shopping:  [ item('ملابس', 0, 80, paidBias*0.5), item('إلكترونيات', 0, 100, paidBias*0.3) ],
+      bills:     [ item('جوال', 15, 15, paidBias, true), item('نتفلكس', 6, 6, paidBias, true), item('جيم', 25, 25, paidBias) ],
+      misc:      [ item('صيدلية', 0, 30, paidBias*0.7), item('هدايا', 0, 50, paidBias*0.5) ],
+    },
+    labels: {},
+    budget: 900,
+    salary: Math.round(1100 + (Math.random()*100 - 50)),
+    onboarded: true,
+  });
+
+  const curKey = S.month_key || currentMonthKey();
+  const now = new Date();
+  for (let i = 26; i >= 1; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if (key === curKey) continue;
+    await HISTORY_DB.saveSnapshot(key, monthData(0.9));
+  }
+
+  const cur = monthData(0.4);
+  S.cats_order = cur.cats_order;
+  S.cats = cur.cats;
+  S.labels = {};
+  S.budget = cur.budget;
+  S.salary = cur.salary;
+  S.onboarded = true;
+  await DB.save(S);
+  localStorage.setItem('flowance_dev_seeded', '1');
+  toast('✓ تمت إضافة بيانات تجريبية لأكثر من سنتين', 'var(--c-day-bd)');
 }
 
 async function startNewMonth() {
@@ -4643,38 +5280,8 @@ async function startNewMonth() {
     `حفظ ${monthKeyToLabel(curKey)} وبدء شهر جديد؟\n${recurCount>0?recurCount+' بند متكرر سيُنقل تلقائياً.':''}`,
     'شهر جديد',
     async () => {
-      // Save current month snapshot
-      const snap = {};
-      Object.keys(S).forEach(k => { if (k!=='id') snap[k]=S[k]; });
-      await HISTORY_DB.saveSnapshot(curKey, snap);
-
-      // Compute next month key
-      const [y, m] = curKey.split('-').map(Number);
-      const nm = m===12?1:m+1, ny = m===12?y+1:y;
-      const newKey = `${ny}-${String(nm).padStart(2,'0')}`;
-
-      // Build new state: keep categories, only recurring items
-      const newCats = { misc: [] };
-      const newCatsOrder = (S.cats_order||[]).map(cat=>({...cat}));
-      newCatsOrder.forEach(cat => {
-        newCats[cat.id] = (S.cats[cat.id]||[])
-          .filter(it=>it.recurring)
-          .map(it=>({...it, id:_id(), paid:false}));
-      });
-      newCats.misc = (S.cats.misc||[])
-        .filter(it=>it.recurring)
-        .map(it=>({...it, id:_id(), paid:false}));
-
-      S = {
-        budget: S.budget,
-        salary: S.salary,
-        onboarded: true,
-        month_key: newKey,
-        cats_order: newCatsOrder,
-        cats: newCats,
-        labels: {...(S.labels||{})},
-      };
-      await DB.save(S);
+      const newKey = nextMonthKey(curKey);
+      await rolloverMonth(curKey, newKey);
       closeHistorySheet();
       updateMonthLabel();
       render();
@@ -4737,13 +5344,11 @@ function toggleRecurring(itemId, catId) {
     if (btn) { btn.classList.toggle('on', item.recurring); btn.title = item.recurring?'إيقاف التكرار الشهري':'تكرار شهري'; }
     row.classList.toggle('recurring', item.recurring);
   }
-  if (_viewMode === 'list') {
-    const lvRow = document.getElementById('lv-item-' + itemId);
-    if (lvRow) {
-      lvRow.classList.toggle('recurring', item.recurring);
-      const btn = lvRow.querySelector('.lv-item-rec');
-      if (btn) { btn.classList.toggle('on', item.recurring); btn.title = item.recurring ? 'إيقاف التكرار الشهري' : 'تكرار شهري'; }
-    }
+  const lvRow = document.getElementById('lv-item-' + itemId);
+  if (lvRow) {
+    lvRow.classList.toggle('recurring', item.recurring);
+    const lvBtn = lvRow.querySelector('.lv-item-rec');
+    if (lvBtn) { lvBtn.classList.toggle('on', item.recurring); lvBtn.title = item.recurring ? 'إيقاف التكرار الشهري' : 'تكرار شهري'; }
   }
   toast(item.recurring?'↺ سيتكرر الشهر القادم تلقائياً':'تم إيقاف التكرار', item.recurring?'var(--c-ess-bd)':'');
 }
@@ -4910,9 +5515,14 @@ async function boot() {
     await DB.save(S);
   }
 
+  await checkMonthRollover();
+  await _devSeedYearsIfEmpty();
+
   document.getElementById('budgetLbl').textContent = fJOD(S.budget ?? 0);
   updateMonthLabel();
   render();
+
+  setInterval(checkMonthRollover, 5 * 60 * 1000); // catches rollover if tab stays open across midnight
 
   const ls = document.getElementById('loadScreen');
   ls.classList.add('hide');
@@ -4974,6 +5584,10 @@ boot();
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:4px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         نص
       </button>
+      <button class="scan-tab" id="scanTabVoice" onclick="setScanMode('voice')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-left:4px"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        صوت
+      </button>
     </div>
 
     <!-- Image panel -->
@@ -5003,6 +5617,34 @@ boot();
     <!-- Text panel -->
     <div id="scanTxtPanel" style="display:none">
       <textarea class="scan-textarea" id="scanTextInput" placeholder="الصق هنا نص كشف الحساب أو الفاتورة...&#10;&#10;مثال:&#10;جمعية 150&#10;بنزين 45&#10;نت 12&#10;مطعم 18.5" oninput="updateScanBtn()"></textarea>
+    </div>
+
+    <!-- Voice panel -->
+    <div id="scanVoicePanel" style="display:none">
+      <div class="scan-voice-area" id="scanVoiceIdle">
+        <button class="scan-voice-btn" id="scanVoiceBtn" onclick="toggleVoiceRecording()" title="تسجيل صوتي">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+            <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <div class="scan-voice-timer" id="scanVoiceTimer">اضغط لبدء التسجيل</div>
+        <div style="font-size:11px;color:var(--t-low);margin-top:4px">قول البنود والمبالغ بصوتك، مثلاً: "بنزين ٤٥، أكل ٣٠"</div>
+      </div>
+      <div class="scan-voice-preview" id="scanVoicePreview" style="display:none">
+        <audio id="scanVoiceAudio" controls></audio>
+        <div class="scan-voice-actions">
+          <button class="scan-voice-action-btn" onclick="clearVoiceRecording(true)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            إعادة التسجيل
+          </button>
+          <button class="scan-voice-action-btn scan-voice-action-btn--danger" onclick="clearVoiceRecording(false)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+            حذف
+          </button>
+        </div>
+      </div>
     </div>
 
     <button class="scan-analyze-btn" id="scanBtn" onclick="runScan()" disabled>تحليل</button>
@@ -5063,6 +5705,22 @@ boot();
     <span class="history-view-title" id="historyViewTitle"></span>
   </div>
   <div class="history-view-body" id="historyViewBody"></div>
+</div>
+
+<!-- Year Analysis View -->
+<div id="yearView" class="history-view" style="display:none">
+  <div class="history-view-header">
+    <button class="history-view-back" onclick="closeYearAnalysis()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="history-view-title">تحليل السنة</span>
+  </div>
+  <div class="ya-toolbar">
+    <button class="ya-yr-btn" id="yaPrevBtn" onclick="yaChangeYear(-1)" title="السنة السابقة">◀</button>
+    <select class="ya-yr-select" id="yaYearSelect" onchange="yaSelectYear(this.value)"></select>
+    <button class="ya-yr-btn" id="yaNextBtn" onclick="yaChangeYear(1)" title="السنة التالية">▶</button>
+  </div>
+  <div class="history-view-body" id="yaBody"></div>
 </div>
 
 <!-- Search Overlay -->
