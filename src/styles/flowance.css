@@ -1955,10 +1955,9 @@
    QUICK ADD BAR
 ══════════════════════════════════════ */
 .quickadd {
-  position: fixed; bottom: 62px; left: 50%; transform: translateX(-50%);
+  position: fixed; bottom: calc(74px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 430px;
-  padding: 10px 16px;
-  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  padding: 0 16px 10px;
   display: flex; align-items: center; gap: 10px;
   z-index: 101;
 }
