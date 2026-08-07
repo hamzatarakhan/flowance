@@ -1697,6 +1697,8 @@ async function stopVoiceRecording() {
   if (_voiceBlob.size < 16000) {
     _voiceBlob = null;
     toast('التسجيل فارغ أو قصير جداً، حاول مرة أخرى', 'var(--c-danger)');
+    _voiceAutoRun = false;
+    document.getElementById('quickAddMic')?.classList.remove('recording');
     updateScanBtn();
     return;
   }
@@ -1705,6 +1707,7 @@ async function stopVoiceRecording() {
   document.getElementById('scanVoiceIdle').style.display = 'none';
   document.getElementById('scanVoicePreview').style.display = 'flex';
   updateScanBtn();
+  _voiceAfterStop();
 }
 
 function clearVoiceRecording(reRecord) {
@@ -3164,5 +3167,95 @@ function finishOnboarding() {
   ob.classList.add('ob-exit');
   setTimeout(() => ob.remove(), 420);
 }
+
+
+
+/* ════════════════════════════════════════
+   QUICK ADD (one-line natural input)
+   ════════════════════════════════════════ */
+function _qaParse(raw) {
+  let txt = toWestern(String(raw || '')).replace(/[,،]/g, ' ').trim();
+  if (!txt) return null;
+  const m = txt.match(/(\d+(?:\.\d+)?)/);
+  const amount = m ? parseFloat(m[1]) : 0;
+  let name = (m ? (txt.slice(0, m.index) + ' ' + txt.slice(m.index + m[1].length)) : txt)
+    .replace(/\b(دينار|jod|شيكل|ريال|دولار|usd|\$)\b/gi, ' ')
+    .replace(/\s+/g, ' ').trim();
+  if (!name) name = 'بند جديد';
+  return { name, amount };
+}
+
+function _qaGuessCat(name) {
+  const n = name.toLowerCase();
+  const cats = (S.cats_order || []);
+  // 1) match against existing item names
+  for (const c of cats) {
+    for (const it of (S.cats[c.id] || [])) {
+      const inm = String(it.name || '').toLowerCase();
+      if (inm.length > 1 && (n.includes(inm) || inm.includes(n))) return c.id;
+    }
+  }
+  // 2) match against category labels
+  for (const c of cats) {
+    const label = String((S.labels && S.labels[c.id]) || c.name || '').toLowerCase();
+    if (!label) continue;
+    for (const w of n.split(' ')) {
+      if (w.length > 2 && label.includes(w)) return c.id;
+    }
+  }
+  return 'misc';
+}
+
+function quickAddSubmit() {
+  const inp = document.getElementById('quickAddInput');
+  if (!inp) return;
+  const parsed = _qaParse(inp.value);
+  if (!parsed) { toast('اكتب مثلاً: 25 بنزين', 'var(--c-danger)'); return; }
+
+  const catId = _qaGuessCat(parsed.name);
+  if (!S.cats[catId]) S.cats[catId] = [];
+  S.cats[catId].push({ id: _id(), name: parsed.name, amount: parsed.amount, paid: false });
+  DB.save(S);
+
+  inp.value = '';
+  render();
+  recalc();
+  const label = (S.labels && S.labels[catId]) || (S.cats_order || []).find(c => c.id === catId)?.name || 'متفرقات';
+  toast(`تمت إضافة "${parsed.name}" إلى ${label}`, '#2DC9A2');
+  if (navigator.vibrate) navigator.vibrate(12);
+}
+
+/* One-tap voice: start recording immediately, analyze automatically on stop */
+let _voiceAutoRun = false;
+
+async function quickAddVoice() {
+  const mic = document.getElementById('quickAddMic');
+  if (_voiceRecorder && _voiceRecorder.state === 'recording') {
+    mic?.classList.remove('recording');
+    await stopVoiceRecording();
+    return;
+  }
+  openScanSheet('voice');
+  document.getElementById('scanOverlay').style.display = 'none'; // stay on main screen while recording
+  _voiceAutoRun = true;
+  await toggleVoiceRecording();
+  if (_voiceRecorder && _voiceRecorder.state === 'recording') {
+    mic?.classList.add('recording');
+    toast('جاري التسجيل… اضغط المايك للإيقاف', '#4F8EF7');
+  } else {
+    _voiceAutoRun = false;
+  }
+}
+
+async function _voiceAfterStop() {
+  document.getElementById('quickAddMic')?.classList.remove('recording');
+  if (!_voiceAutoRun) return;
+  _voiceAutoRun = false;
+  if (!_voiceBlob) return;
+  document.getElementById('scanOverlay').style.display = 'flex';
+  setScanMode('voice');
+  try { await runScan(); } catch (e) { /* runScan handles its own errors */ }
+}
+
 
 boot();
