@@ -1935,6 +1935,31 @@ function renderScanPreview(data) {
     head.querySelector('.scan-group-del').addEventListener('click', () => deleteScanGroup(gIdx));
     card.appendChild(head);
 
+    // — destination (new group / existing group) —
+    const dest = document.createElement('div');
+    dest.className = 'scan-group-dest';
+    const opts = (S.cats_order || [])
+      .map(c => `<option value="${esc(c.id)}"${g.targetId === c.id ? ' selected' : ''}>${esc((S.labels && S.labels[c.id]) || c.name || 'مجموعة')}</option>`)
+      .join('');
+    dest.innerHTML = `
+      <span class="scan-group-dest-label">الوجهة</span>
+      <select class="scan-group-dest-select">
+        <option value=""${g.targetId ? '' : ' selected'}>➕ مجموعة جديدة</option>
+        ${opts}
+      </select>`;
+    const sel = dest.querySelector('.scan-group-dest-select');
+    const syncDest = () => {
+      const titleInput = head.querySelector('.scan-group-title-input');
+      titleInput.disabled = !!_scanData.groups[gIdx].targetId;
+      titleInput.style.opacity = titleInput.disabled ? '.5' : '';
+    };
+    sel.addEventListener('change', e => {
+      _scanData.groups[gIdx].targetId = e.target.value || null;
+      syncDest();
+    });
+    syncDest();
+    card.appendChild(dest);
+
     // — items —
     const itemsWrap = document.createElement('div');
     itemsWrap.id = `scan-items-${gIdx}`;
