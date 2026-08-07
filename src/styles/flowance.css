@@ -634,7 +634,7 @@
   ══════════════════════════════════════ */
   .group-tabs-bar {
     display: flex; flex-direction: column; align-items: stretch; gap: 6px;
-    padding: 4px 0 2px;
+    padding: 0 0 2px;
   }
   .group-tabs {
     display: flex; align-items: center; gap: 6px;
