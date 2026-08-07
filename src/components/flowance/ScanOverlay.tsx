@@ -79,7 +79,16 @@ export function ScanOverlay() {
           </div>
         </div>
 
-        <button className="scan-analyze-btn" id="scanBtn" onClick={h(`runScan()`)} disabled>تحليل</button>
+        <button
+          className="scan-analyze-btn"
+          id="scanBtn"
+          onClick={h(`runScan()`)}
+          ref={(el) => {
+            if (el) el.disabled = true;
+          }}
+        >
+          تحليل
+        </button>
 
         <div className="scan-loader" id="scanLoader">
           <div className="scan-loader-steps">
