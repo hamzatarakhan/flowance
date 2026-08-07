@@ -1,4 +1,5 @@
-const g = () => window as unknown as Record<string, any>;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const g = (): any => window as any;
 
 export interface LvItemData {
   id: string;
