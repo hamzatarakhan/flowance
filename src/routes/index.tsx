@@ -12,6 +12,8 @@ import { MonthBar } from "@/components/flowance/MonthBar";
 import { StatsGrid } from "@/components/flowance/StatsGrid";
 import { BudgetCard } from "@/components/flowance/BudgetCard";
 import { InsightsCard } from "@/components/flowance/InsightsCard";
+import { ModeTabs } from "@/components/flowance/ModeTabs";
+import { DailyArea } from "@/components/flowance/DailyArea";
 import { GroupTabsBar } from "@/components/flowance/GroupTabsBar";
 import { ListViewArea } from "@/components/flowance/ListViewArea";
 import { Panels } from "@/components/flowance/Panels";
@@ -72,9 +74,11 @@ function FlowancePage() {
           <StatsGrid />
           <BudgetCard />
           <InsightsCard />
+          <ModeTabs />
           <GroupTabsBar />
           <ListViewArea />
           <Panels />
+          <DailyArea />
           <PageCredit />
         </div>
       </div>
