@@ -29,7 +29,7 @@ function loadScript(src: string) {
     const el = document.createElement("script");
     el.src = src;
     el.async = false;
-    el.dataset.flowance = src;
+    el.dataset["flowance"] = src;
     el.onload = () => resolve();
     el.onerror = () => reject(new Error(`Failed to load ${src}`));
     document.body.appendChild(el);

@@ -1,3 +1,4 @@
+import type React from "react";
 import { h } from "@/lib/flowance-runtime";
 
 export function Panels() {
@@ -29,8 +30,8 @@ export function Panels() {
           </div>
 
           <div className="panel panel-misc" id="panelMisc">
-            <div className="cat-section collapsed" id="sec-misc" style={{ '--cat-color': '#F2B040', '--cat-dim': 'rgba(242,176,64,0.08)' }}>
-              <div className="cat-head" onClick={h(`toggleCat('misc')`)} style={{ '--cat-color': '#F2B040', '--cat-dim': 'rgba(242,176,64,0.08)' }}>
+            <div className="cat-section collapsed" id="sec-misc" style={{ '--cat-color': '#F2B040', '--cat-dim': 'rgba(242,176,64,0.08)' } as React.CSSProperties}>
+              <div className="cat-head" onClick={h(`toggleCat('misc')`)} style={{ '--cat-color': '#F2B040', '--cat-dim': 'rgba(242,176,64,0.08)' } as React.CSSProperties}>
                 <div className="cat-head-left">
                   <div className="cat-title-row">
                     <button className="cat-chkall-btn" id="chkall-misc" onClick={h(`toggleAllPaid('misc');event.stopPropagation()`)} title="تحديد الكل" style={{ display: 'none' }}>
