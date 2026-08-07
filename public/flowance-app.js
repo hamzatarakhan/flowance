@@ -1518,7 +1518,7 @@ function editCatTitle(catId) {
 let _scanData = null;
 
 async function transcribeVoice(blob) {
-  const ext = blob.type.includes('mp4') ? 'm4a' : blob.type.includes('ogg') ? 'ogg' : 'webm';
+  const ext = blob.type.includes('mp4') ? 'm4a' : blob.type.includes('ogg') ? 'ogg' : blob.type.includes('wav') ? 'wav' : 'webm';
   const form = new FormData();
   form.append('file', blob, `voice.${ext}`);
   form.append('model', 'whisper-1');
@@ -1529,9 +1529,41 @@ async function transcribeVoice(blob) {
   return d.text || '';
 }
 
+let _voiceTranscriptDirty = false;
+
+function onVoiceTranscriptInput() {
+  _voiceTranscriptDirty = true;
+  updateScanBtn();
+}
+
+function showVoiceTranscript(text) {
+  const wrap = document.getElementById('scanVoiceTranscriptWrap');
+  const box  = document.getElementById('scanVoiceTranscript');
+  if (!wrap || !box) return;
+  box.value = text;
+  wrap.style.display = 'block';
+}
+
+function hideVoiceTranscript() {
+  const wrap = document.getElementById('scanVoiceTranscriptWrap');
+  const box  = document.getElementById('scanVoiceTranscript');
+  _voiceTranscriptDirty = false;
+  if (box) box.value = '';
+  if (wrap) wrap.style.display = 'none';
+}
+
 async function runVoiceExtraction(aiCall) {
-  if (!_voiceBlob) throw new Error('الرجاء تسجيل صوت أولاً');
-  const transcript = await transcribeVoice(_voiceBlob);
+  const box = document.getElementById('scanVoiceTranscript');
+  const edited = (box?.value || '').trim();
+  let transcript;
+  if (_voiceTranscriptDirty && edited) {
+    transcript = edited;
+  } else {
+    if (!_voiceBlob) throw new Error('الرجاء تسجيل صوت أولاً');
+    transcript = await transcribeVoice(_voiceBlob);
+    showVoiceTranscript(transcript);
+    _voiceTranscriptDirty = false;
+  }
   if (!transcript.trim()) throw new Error('لم يتم التعرف على أي كلام، حاول التسجيل مرة أخرى');
   const prompt = 'You are an expert Arabic expense extractor. Extract EVERY single expense item mentioned in the spoken transcript below.\n\n'
     + 'RULES:\n'
