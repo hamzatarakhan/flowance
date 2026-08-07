@@ -526,6 +526,80 @@
   .budget-remain { font-size: 10.5px; color: var(--c-day); font-family: 'IBM Plex Mono', monospace; }
   .budget-remain.over { color: var(--c-danger); }
 
+  /* ── Budget hero number ── */
+  .budget-hero { display: flex; flex-direction: column; gap: 2px; margin: 2px 0 12px; }
+  .budget-hero-lbl {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--t-low);
+  }
+  .budget-hero-row { display: flex; align-items: baseline; gap: 6px; }
+  .budget-hero-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 34px; font-weight: 500; line-height: 1.05;
+    letter-spacing: -1.2px; color: var(--t-hi);
+  }
+  .budget-hero-num.over { color: var(--c-danger); }
+  .budget-hero-cur { font-size: 11px; font-weight: 600; color: var(--t-low); }
+  .budget-hero-daily { font-size: 11px; color: var(--t-mid); margin-top: 3px; }
+
+  /* ── Insights collapse ── */
+  .ins-details { display: flex; flex-direction: column; gap: 14px; }
+  .ins-details.collapsed .ins-legend-item:nth-child(n+4) { display: none; }
+  .ins-toggle {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; min-height: 36px; border-radius: 10px;
+    background: var(--bg-hover); border: 1px solid var(--border);
+    color: var(--t-mid); font-size: 11.5px; font-weight: 600;
+    transition: all var(--dur) var(--ease);
+  }
+  .ins-toggle:active { transform: scale(0.98); color: var(--t-hi); }
+  .ins-toggle svg { width: 14px; height: 14px; transition: transform var(--dur) var(--ease); }
+
+  /* ── Today card (daily mode) ── */
+  .today-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-xl); padding: 14px 16px 13px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .today-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .today-lbl {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--t-low);
+  }
+  .today-date { font-size: 11px; color: var(--t-mid); }
+  .today-amt { display: flex; align-items: baseline; gap: 6px; }
+  .today-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px; font-weight: 500; line-height: 1.05;
+    letter-spacing: -1px; color: var(--t-hi);
+  }
+  .today-cur { font-size: 10.5px; font-weight: 600; color: var(--t-low); }
+  .today-meta {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    font-size: 10.5px; color: var(--t-low); margin-top: 2px;
+  }
+
+  /* ── Header overflow menu ── */
+  .more-wrap { position: relative; }
+  .icon-btn.on { background: var(--bg-hover); color: var(--t-hi); }
+  .more-menu {
+    position: absolute; top: calc(100% + 8px); left: 0;
+    min-width: 168px; padding: 6px;
+    background: var(--bg-card); border: 1px solid var(--border-md);
+    border-radius: 12px; box-shadow: 0 18px 44px rgba(0,0,0,0.45);
+    display: flex; flex-direction: column; gap: 2px; z-index: 300;
+    animation: fadeUp 0.16s var(--ease) both;
+  }
+  .more-item {
+    display: flex; align-items: center; gap: 9px;
+    width: 100%; min-height: 38px; padding: 0 10px;
+    border-radius: 9px; background: transparent; border: none;
+    color: var(--t-mid); font-size: 12.5px; font-weight: 600; text-align: right;
+  }
+  .more-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .more-item:active { background: var(--bg-hover); color: var(--t-hi); }
+
+
   /* ══════════════════════════════════════
      TABS
   ══════════════════════════════════════ */
