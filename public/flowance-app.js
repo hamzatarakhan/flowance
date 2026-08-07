@@ -3305,6 +3305,21 @@ function renderDaily() {
     total: byDate[date].reduce((a, r) => a + (+r.amount || 0), 0)
   }));
   window.FlowanceUI.dailyView(el, days, dailyMonthTotal(), items.length);
+
+  // Today summary card
+  const todayItems = byDate[tk] || [];
+  const todayTotal = todayItems.reduce((a, r) => a + (+r.amount || 0), 0);
+  const tdDate  = document.getElementById('todayDate');
+  const tdNum   = document.getElementById('todayNum');
+  const tdCount = document.getElementById('todayCount');
+  const tdMonth = document.getElementById('todayMonth');
+  if (tdDate)  tdDate.textContent  = dayLabel(tk);
+  if (tdNum)   tdNum.textContent   = f(todayTotal, 3);
+  if (tdCount) tdCount.textContent = todayItems.length
+    ? `${todayItems.length} عملية اليوم`
+    : 'ما في مصاريف اليوم';
+  if (tdMonth) tdMonth.textContent = `الشهر: ${f(dailyMonthTotal(), 3)} JOD`;
+
 }
 
 function dailyAdd(name, amount, date) {
