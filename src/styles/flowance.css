@@ -1799,7 +1799,7 @@
     animation: fadeIn 0.15s var(--ease);
   }
   .search-header {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; flex-direction: row-reverse; align-items: center; gap: 8px;
     padding: 10px 14px; border-bottom: 1px solid var(--border);
     background: var(--bg);
   }
