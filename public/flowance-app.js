@@ -118,6 +118,7 @@ const SEED = {
   month_key: '',
   cats_order: [],
   cats: { misc: [] },
+  daily: [],
 };
 
 let S = null;
@@ -1071,6 +1072,13 @@ function renderGroupTabs() {
     color: (CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0]).color,
     active: _activeGroup === cat.id
   }));
+  tabs.push({
+    id: 'misc',
+    label: S.labels?.misc || 'متفرقات',
+    color: '#F2B040',
+    active: _activeGroup === 'misc',
+    noDelete: true
+  });
   window.FlowanceUI.groupTabs(
     container,
     tabs,
@@ -3107,6 +3115,7 @@ async function boot() {
     if (!S.cats_order) S.cats_order = [];
     if (!S.cats) S.cats = { misc: [] };
     if (!S.cats.misc) S.cats.misc = [];
+    if (!Array.isArray(S.daily)) S.daily = [];
     if (!S.month_key) S.month_key = currentMonthKey();
     Object.keys(S.cats).forEach(catId => {
       S.cats[catId].forEach(item => { if (item.paid === undefined) item.paid = false; });
@@ -3123,6 +3132,7 @@ async function boot() {
   document.getElementById('budgetLbl').textContent = fJOD(S.budget ?? 0);
   updateMonthLabel();
   render();
+  try { if (localStorage.getItem('flowance_mode') === 'daily') setMode('daily'); } catch (e) {}
 
   setInterval(checkMonthRollover, 5 * 60 * 1000); // catches rollover if tab stays open across midnight
 
@@ -3173,6 +3183,127 @@ function finishOnboarding() {
 /* ════════════════════════════════════════
    QUICK ADD (one-line natural input)
    ════════════════════════════════════════ */
+
+/* ════════════════════════════════════════
+   Mode: Monthly commitments  /  Daily expenses
+   ════════════════════════════════════════ */
+let _mode = 'monthly';
+
+function setMode(mode) {
+  _mode = mode === 'daily' ? 'daily' : 'monthly';
+  document.getElementById('modeTabMonthly')?.classList.toggle('on', _mode === 'monthly');
+  document.getElementById('modeTabDaily')?.classList.toggle('on', _mode === 'daily');
+
+  const gtBar   = document.querySelector('.group-tabs-bar');
+  const panels  = document.getElementById('panelsArea');
+  const listA   = document.getElementById('listViewArea');
+  const dailyA  = document.getElementById('dailyArea');
+  const sticky  = document.getElementById('stickyBar');
+  const qaInput = document.getElementById('quickAddInput');
+
+  if (_mode === 'daily') {
+    if (gtBar)  gtBar.style.display  = 'none';
+    if (panels) panels.style.display = 'none';
+    if (listA)  listA.style.display  = 'none';
+    if (dailyA) dailyA.style.display = 'block';
+    if (sticky) sticky.style.display = 'none';
+    if (qaInput) qaInput.placeholder = 'مصروف اليوم: 3.5 قهوة';
+    renderDaily();
+  } else {
+    if (gtBar)  gtBar.style.display  = '';
+    if (dailyA) dailyA.style.display = 'none';
+    if (sticky) sticky.style.display = 'flex';
+    if (qaInput) qaInput.placeholder = 'اكتب بسرعة: 25 بنزين';
+    switchView(_viewMode);
+  }
+  try { localStorage.setItem('flowance_mode', _mode); } catch (e) {}
+}
+
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+const _AR_DAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const _AR_MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+
+function dayLabel(key) {
+  const [y,m,d] = key.split('-').map(Number);
+  const dt = new Date(y, m-1, d);
+  return `${_AR_DAYS[dt.getDay()]} ${d} ${_AR_MONTHS[m-1]}`;
+}
+
+function dailyItems() {
+  if (!Array.isArray(S.daily)) S.daily = [];
+  return S.daily;
+}
+
+function dailyMonthItems() {
+  const mk = currentMonthKey();
+  return dailyItems().filter(it => String(it.date || '').startsWith(mk));
+}
+
+function dailyMonthTotal() {
+  return dailyMonthItems().reduce((a, r) => a + (+r.amount || 0), 0);
+}
+
+function renderDaily() {
+  const el = document.getElementById('dailyArea');
+  if (!el || !window.FlowanceUI) return;
+  const items = dailyMonthItems();
+  const byDate = {};
+  items.forEach(it => { (byDate[it.date] = byDate[it.date] || []).push(it); });
+  const tk = todayKey();
+  const days = Object.keys(byDate).sort().reverse().map(date => ({
+    date,
+    label: dayLabel(date),
+    isToday: date === tk,
+    items: byDate[date],
+    total: byDate[date].reduce((a, r) => a + (+r.amount || 0), 0)
+  }));
+  window.FlowanceUI.dailyView(el, days, dailyMonthTotal(), items.length);
+}
+
+function dailyAdd(name, amount, date) {
+  const item = {
+    id: _id(),
+    name: name || '',
+    amount: +amount || 0,
+    date: date || todayKey()
+  };
+  dailyItems().push(item);
+  DB.save(S);
+  renderDaily();
+  setTimeout(() => {
+    const wrap = document.getElementById('dailyArea');
+    const inp = wrap?.querySelector('.daily-item input.daily-item-name');
+    if (inp && !item.name) { inp.focus(); inp.select?.(); }
+  }, 30);
+  return item;
+}
+
+function dailyUpdate(id, field, value) {
+  const it = dailyItems().find(r => r.id === id);
+  if (!it) return;
+  if (field === 'name') it.name = String(value || '').trim();
+  else if (field === 'amount') { const v = parseFloat(toWestern(String(value))); it.amount = isNaN(v) ? 0 : v; }
+  else if (field === 'date') { if (value) it.date = value; }
+  DB.save(S);
+  renderDaily();
+}
+
+function dailyDelete(id) {
+  const arr = dailyItems();
+  const idx = arr.findIndex(r => r.id === id);
+  if (idx === -1) return;
+  const [item] = arr.splice(idx, 1);
+  DB.save(S);
+  renderDaily();
+  showUndo(item.name || 'مصروف', () => {
+    arr.splice(idx, 0, item); DB.save(S); renderDaily();
+  });
+}
+
 function _qaParse(raw) {
   let txt = toWestern(String(raw || '')).replace(/[,،]/g, ' ').trim();
   if (!txt) return null;
@@ -3211,6 +3342,14 @@ function quickAddSubmit() {
   if (!inp) return;
   const parsed = _qaParse(inp.value);
   if (!parsed) { toast('اكتب مثلاً: 25 بنزين', 'var(--c-danger)'); return; }
+
+  if (_mode === 'daily') {
+    dailyAdd(parsed.name, parsed.amount);
+    inp.value = '';
+    toast(`تمت إضافة "${parsed.name}" لمصاريف اليوم`, '#2DC9A2');
+    if (navigator.vibrate) navigator.vibrate(12);
+    return;
+  }
 
   const catId = _qaGuessCat(parsed.name);
   if (!S.cats[catId]) S.cats[catId] = [];
