@@ -558,22 +558,24 @@
      GROUP FILTER CHIPS + VIEW TOGGLE
   ══════════════════════════════════════ */
   .group-tabs-bar {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; flex-direction: column; align-items: stretch; gap: 6px;
     padding: 4px 0 2px;
   }
   .group-tabs {
     display: flex; align-items: center; gap: 6px;
     overflow-x: auto; overflow-y: visible;
     padding: 2px 2px 4px;
-    scrollbar-width: none; flex: 1;
+    scrollbar-width: none; width: 100%;
   }
   .group-tabs::-webkit-scrollbar { display: none; }
   .group-tabs.hidden { display: none; }
   .view-toggle {
     display: flex; gap: 2px; flex-shrink: 0;
+    align-self: flex-start;
     background: var(--bg-hover);
     border-radius: 8px; padding: 3px;
   }
+
   .view-btn {
     width: 28px; height: 28px;
     border: none; background: transparent;
