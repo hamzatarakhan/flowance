@@ -37,12 +37,23 @@ export const Route = createFileRoute("/api/transcribe")({
             } as Record<string, string>)[mime] ?? "webm";
 
           const lang = incoming.get("language");
+          const rawPrompt = incoming.get("prompt");
+          const prompt =
+            typeof rawPrompt === "string" && rawPrompt.trim()
+              ? rawPrompt.trim()
+              : "تسجيل صوتي باللهجة العربية عن المصاريف والفواتير والمبالغ بالدينار أو الريال أو الدولار. اكتب النص بالعربية الفصحى فقط.";
           const providers = [
             ...(openaiKey ? [{
               url: "https://api.openai.com/v1/audio/transcriptions",
               key: openaiKey,
-              model: "gpt-4o-mini-transcribe",
+              model: "gpt-4o-transcribe",
               headers: { Authorization: `Bearer ${openaiKey}` },
+            }] : []),
+            ...(lovableKey ? [{
+              url: "https://ai.gateway.lovable.dev/v1/audio/transcriptions",
+              key: lovableKey,
+              model: "openai/gpt-4o-transcribe",
+              headers: { "Lovable-API-Key": lovableKey },
             }] : []),
             ...(lovableKey ? [{
               url: "https://ai.gateway.lovable.dev/v1/audio/transcriptions",
