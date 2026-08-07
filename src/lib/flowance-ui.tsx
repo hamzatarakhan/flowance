@@ -4,6 +4,7 @@ import { flushSync } from 'react-dom';
 import { ListView } from '@/components/flowance/lv/ListView';
 import type { LvCatData } from '@/components/flowance/lv/LvCategory';
 import { GroupTabs, type GroupTabData } from '@/components/flowance/lv/GroupTabs';
+import { DailyView, type DailyDay } from '@/components/flowance/lv/DailyView';
 
 const roots = new WeakMap<Element, Root>();
 
@@ -47,6 +48,9 @@ export function registerFlowanceUI() {
         el,
         <GroupTabs tabs={tabs} manageMode={manageMode} allActive={allActive} showDeleteAll={showDeleteAll} />,
       );
+    },
+    dailyView(el: Element, days: DailyDay[], total: number, count: number) {
+      renderSync(el, <DailyView days={days} total={total} count={count} />);
     },
   };
 }
