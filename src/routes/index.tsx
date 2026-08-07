@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 import "@/styles/flowance.css";
 import { bootFlowance } from "@/lib/flowance-runtime";
+import { registerFlowanceUI } from "@/lib/flowance-ui";
 import { LoadScreen } from "@/components/flowance/LoadScreen";
 import { Onboarding } from "@/components/flowance/Onboarding";
 import { Header } from "@/components/flowance/Header";
@@ -53,6 +54,7 @@ export const Route = createFileRoute("/")({
 
 function FlowancePage() {
   useEffect(() => {
+    registerFlowanceUI();
     void bootFlowance();
   }, []);
 

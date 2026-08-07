@@ -1063,54 +1063,21 @@ function deleteAllCategories() {
 
 function renderGroupTabs() {
   const container = document.getElementById('groupTabs');
-  if (!container) return;
-  container.innerHTML = '';
+  if (!container || !window.FlowanceUI) return;
   container.classList.toggle('manage-mode', _manageMode);
-
-  // manage toggle button (pencil / done)
-  const manageBtn = document.createElement('button');
-  manageBtn.className = 'gtab-manage-btn' + (_manageMode ? ' active' : '');
-  manageBtn.title = _manageMode ? 'تم' : 'إدارة المجموعات';
-  manageBtn.onclick = toggleManageMode;
-  manageBtn.innerHTML = _manageMode
-    ? `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>`
-    : `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="1.2"/><circle cx="8" cy="3" r="1.2"/><circle cx="8" cy="13" r="1.2"/></svg>`;
-  container.appendChild(manageBtn);
-
-  if (_manageMode && (S.cats_order||[]).length > 0) {
-    const delAllBtn = document.createElement('button');
-    delAllBtn.className = 'gtab-del-all-btn';
-    delAllBtn.title = 'حذف كل المجموعات';
-    delAllBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2 4 14 4"/><path d="M12 4l-.8 9H4.8L4 4"/><path d="M6.5 4V3h3v1"/></svg> حذف الكل`;
-    delAllBtn.onclick = deleteAllCategories;
-    container.appendChild(delAllBtn);
-  }
-
-  const allBtn = document.createElement('button');
-  allBtn.className = 'gtab' + (_activeGroup === 'all' ? ' on on-all' : '');
-  allBtn.textContent = 'الكل';
-  allBtn.onclick = () => { if (!_manageMode) filterGroup('all'); };
-  container.appendChild(allBtn);
-
-  (S.cats_order||[]).forEach(cat => {
-    const pal   = CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0];
-    const label = S.labels?.[cat.id] || cat.name;
-    const wrap  = document.createElement('div');
-    wrap.className = 'gtab-wrap';
-    const btn   = document.createElement('button');
-    btn.className = 'gtab' + (_activeGroup === cat.id ? ' on' : '');
-    btn.style.setProperty('--gtab-color', pal.color);
-    btn.textContent = label;
-    btn.onclick = () => { if (!_manageMode) filterGroup(cat.id); };
-    const xBtn  = document.createElement('span');
-    xBtn.className = 'gtab-x';
-    xBtn.textContent = '×';
-    xBtn.onclick = (e) => { e.stopPropagation(); deleteCategory(cat.id); };
-    wrap.appendChild(btn); wrap.appendChild(xBtn);
-    container.appendChild(wrap);
-  });
-
-  // متفرقات tab hidden from tabs — items still visible under الكل
+  const tabs = (S.cats_order || []).map(cat => ({
+    id: cat.id,
+    label: S.labels?.[cat.id] || cat.name,
+    color: (CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0]).color,
+    active: _activeGroup === cat.id
+  }));
+  window.FlowanceUI.groupTabs(
+    container,
+    tabs,
+    _manageMode,
+    _activeGroup === 'all',
+    _manageMode && (S.cats_order || []).length > 0
+  );
 }
 
 function updateFilteredTotal() {
@@ -1175,193 +1142,37 @@ function switchView(mode) {
   }
 }
 
-function _lvBuildCat(catId, pal, label, items, total, dec, isMisc) {
-  const paidCnt = items.filter(r => r.paid).length;
-  const paidPct = items.length > 0 ? Math.round(paidCnt / items.length * 100) : 0;
-  const allPaid = items.length > 0 && paidCnt === items.length;
-  const currency = isMisc ? 'USD' : 'JOD';
-
-  const sec = document.createElement('div');
-  sec.className = 'lv-cat';
-  sec.dataset.catid = catId;
-  sec.style.setProperty('--cat-color', pal);
-
-  // ── Category header ──
-  const head = document.createElement('div');
-  head.className = 'lv-cat-head';
-
-  // Check-all button
-  const chkAll = document.createElement('button');
-  chkAll.className = 'lv-cat-chkall' + (allPaid ? ' all-done' : '');
-  chkAll.title = 'تحديد الكل';
-  chkAll.style.display = items.length > 0 ? '' : 'none';
-  chkAll.innerHTML = `<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>`;
-  chkAll.onclick = () => { toggleAllPaid(catId); };
-
-  // Dot
-  const dot = document.createElement('div');
-  dot.className = 'lv-cat-dot';
-
-  // Name (tappable = rename)
-  const nameEl = document.createElement('span');
-  nameEl.className = 'lv-cat-name';
-  nameEl.textContent = label;
-  if (!isMisc) nameEl.onclick = () => editCatTitle(catId);
-  else nameEl.onclick = () => editCatTitle('misc');
-
-  // Paid badge
-  const badge = document.createElement('span');
-  badge.className = 'lv-cat-paid';
-  badge.style.display = paidCnt > 0 ? '' : 'none';
-  badge.textContent = paidCnt + '/' + items.length + ' ✓';
-
-  // Total
-  const totalEl = document.createElement('span');
-  totalEl.className = 'lv-cat-total';
-  totalEl.textContent = items.length > 0 ? f(total, dec) + ' ' + currency : '—';
-
-  // Delete category (not for misc)
-  if (!isMisc) {
-    const delCat = document.createElement('button');
-    delCat.className = 'lv-cat-del';
-    delCat.title = 'حذف المجموعة';
-    delCat.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2 4 14 4"/><path d="M12 4l-.8 9H4.8L4 4"/><path d="M6.5 4V3h3v1"/></svg>`;
-    delCat.onclick = () => deleteCategory(catId);
-    head.appendChild(chkAll);
-    head.appendChild(dot);
-    head.appendChild(nameEl);
-    head.appendChild(badge);
-    head.appendChild(totalEl);
-    head.appendChild(delCat);
-  } else {
-    head.appendChild(chkAll);
-    head.appendChild(dot);
-    head.appendChild(nameEl);
-    head.appendChild(badge);
-    head.appendChild(totalEl);
-  }
-
-  // Add row button
-  const addBtn = document.createElement('button');
-  addBtn.className = 'lv-cat-add';
-  addBtn.title = 'إضافة بند';
-  addBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>`;
-  addBtn.onclick = () => addRow(catId);
-  head.appendChild(addBtn);
-
-  // Category drag handle (not for misc)
-  if (!isMisc) {
-    const catDrag = document.createElement('span');
-    catDrag.className = 'lv-cat-drag';
-    catDrag.innerHTML = `<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="5" cy="3.5" r="1.2"/><circle cx="11" cy="3.5" r="1.2"/><circle cx="5" cy="8" r="1.2"/><circle cx="11" cy="8" r="1.2"/><circle cx="5" cy="12.5" r="1.2"/><circle cx="11" cy="12.5" r="1.2"/></svg>`;
-    head.appendChild(catDrag);
-  }
-
-  sec.appendChild(head);
-
-  // Paid progress bar
-  const bar = document.createElement('div');
-  bar.className = 'lv-paid-bar';
-  bar.innerHTML = `<div class="lv-paid-fill" style="width:${paidPct}%"></div>`;
-  sec.appendChild(bar);
-
-  // ── Items wrap (sortable target) ──
-  const itemsWrap = document.createElement('div');
-  itemsWrap.className = 'lv-items-wrap';
-  if (items.length === 0) {
-    const em = document.createElement('div');
-    em.className = 'lv-empty'; em.textContent = 'لا يوجد بنود';
-    sec.appendChild(em);
-  } else {
-    items.forEach(item => itemsWrap.appendChild(_lvBuildItem(item, catId, dec)));
-  }
-  sec.appendChild(itemsWrap);
-
-  return sec;
-}
-
-function _lvBuildItem(item, catId, dec) {
-  const row = document.createElement('div');
-  row.className = 'lv-item' + (item.paid ? ' paid' : '') + (item.recurring ? ' recurring' : '');
-  row.id = 'lv-item-' + item.id;
-
-  const chk = document.createElement('div');
-  chk.className = 'lv-chk';
-  chk.innerHTML = `<svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 8 6 12 14 4"/></svg>`;
-  chk.onclick = (e) => { e.stopPropagation(); lvTogglePaid(item.id, catId); };
-
-  const nameSpan = document.createElement('span');
-  nameSpan.className = 'lv-item-name';
-  nameSpan.textContent = item.name || '—';
-  nameSpan.onclick = (e) => { e.stopPropagation(); lvStartEdit(nameSpan, item.id, catId, 'name'); };
-
-  const amtSpan = document.createElement('span');
-  amtSpan.className = 'lv-item-amt';
-  amtSpan.textContent = f(item.amount || 0, dec);
-  amtSpan.onclick = (e) => { e.stopPropagation(); lvStartEdit(amtSpan, item.id, catId, 'amount'); };
-
-  const recBtn = document.createElement('button');
-  recBtn.className = 'lv-item-rec' + (item.recurring ? ' on' : '');
-  recBtn.title = item.recurring ? 'إيقاف التكرار الشهري' : 'تكرار شهري';
-  recBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>`;
-  recBtn.onclick = (e) => { e.stopPropagation(); toggleRecurring(item.id, catId); };
-
-  const moveBtn = document.createElement('button');
-  moveBtn.className = 'lv-item-move';
-  moveBtn.title = 'نقل إلى مجموعة';
-  moveBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h10"/><polyline points="8 4 12 8 8 12"/></svg>`;
-  moveBtn.onclick = (e) => { e.stopPropagation(); showMoveSheet(item.id, catId); };
-
-  const delBtn = document.createElement('button');
-  delBtn.className = 'lv-item-del';
-  delBtn.title = 'حذف';
-  delBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2 4 14 4"/><path d="M12 4l-.8 9H4.8L4 4"/></svg>`;
-  delBtn.onclick = (e) => { e.stopPropagation(); lvDeleteItem(item.id, catId); };
-
-  const dragH = document.createElement('span');
-  dragH.className = 'lv-drag';
-  dragH.innerHTML = `<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="5" cy="3.5" r="1.2"/><circle cx="11" cy="3.5" r="1.2"/><circle cx="5" cy="8" r="1.2"/><circle cx="11" cy="8" r="1.2"/><circle cx="5" cy="12.5" r="1.2"/><circle cx="11" cy="12.5" r="1.2"/></svg>`;
-
-  row.appendChild(chk);
-  row.appendChild(nameSpan);
-  row.appendChild(amtSpan);
-  row.appendChild(recBtn);
-  row.appendChild(moveBtn);
-  row.appendChild(delBtn);
-  row.appendChild(dragH);
-  return row;
-}
-
 function renderListView() {
   const wrap = document.getElementById('listViewArea');
-  if (!wrap) return;
-  wrap.innerHTML = '';
+  if (!wrap || !window.FlowanceUI) return;
 
   const catsToShow = _activeGroup === 'misc' ? []
     : _activeGroup === 'all' ? (S.cats_order || [])
     : (S.cats_order || []).filter(c => c.id === _activeGroup);
 
-  catsToShow.forEach(cat => {
-    const pal   = (CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0]).color;
-    const label = S.labels?.[cat.id] || cat.name;
-    const items = S.cats[cat.id] || [];
-    wrap.appendChild(_lvBuildCat(cat.id, pal, label, items, sub(cat.id), cat.dec || 3, false));
-  });
+  const cats = catsToShow.map(cat => ({
+    id: cat.id,
+    color: (CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0]).color,
+    label: S.labels?.[cat.id] || cat.name,
+    items: S.cats[cat.id] || [],
+    total: sub(cat.id),
+    dec: cat.dec || 3,
+    isMisc: false
+  }));
 
   if (_activeGroup === 'all' || _activeGroup === 'misc') {
-    const miscItems = S.cats.misc || [];
-    wrap.appendChild(_lvBuildCat('misc', '#F2B040', 'متفرقات الشهر', miscItems, miscTotal(), 2, true));
+    cats.push({
+      id: 'misc',
+      color: '#F2B040',
+      label: 'متفرقات الشهر',
+      items: S.cats.misc || [],
+      total: miscTotal(),
+      dec: 2,
+      isMisc: true
+    });
   }
 
-  // Add category button at the bottom (only when showing all)
-  if (_activeGroup === 'all') {
-    const addCatBtn = document.createElement('button');
-    addCatBtn.className = 'lv-add-cat-btn';
-    addCatBtn.innerHTML = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg> إضافة مجموعة`;
-    addCatBtn.onclick = () => addCategory();
-    wrap.appendChild(addCatBtn);
-  }
-
+  window.FlowanceUI.listView(wrap, cats, _activeGroup === 'all');
 }
 
 /* ════════════════════════════════════════
