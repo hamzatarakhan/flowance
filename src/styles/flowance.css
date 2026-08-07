@@ -2142,16 +2142,23 @@
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 
+/* ── Control stack (mode tabs + tools + group chips) ───────────────────────── */
+.control-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 /* ── Mode tabs (monthly / daily) ───────────────────────── */
 .tools-row {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  margin: 0 0 8px;
+  margin: 0;
 }
 .group-tabs-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .mode-tabs {
   display: flex;
   gap: 8px;
-  margin: 4px 0 10px;
+  margin: 0;
   padding: 4px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.07);
