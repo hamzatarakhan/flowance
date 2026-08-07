@@ -74,8 +74,8 @@ function FlowancePage() {
           <StatsGrid />
           <BudgetCard />
           <InsightsCard />
-          <div className="mode-row">
-            <ModeTabs />
+          <ModeTabs />
+          <div className="tools-row">
             <div className="group-tabs-actions" id="groupTabsActions"></div>
             <ViewToggle />
           </div>
