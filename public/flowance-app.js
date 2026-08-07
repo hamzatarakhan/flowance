@@ -1521,8 +1521,8 @@ async function transcribeVoice(blob) {
   const ext = blob.type.includes('mp4') ? 'm4a' : blob.type.includes('ogg') ? 'ogg' : blob.type.includes('wav') ? 'wav' : 'webm';
   const form = new FormData();
   form.append('file', blob, `voice.${ext}`);
-  form.append('model', 'whisper-1');
   form.append('language', 'ar');
+  form.append('prompt', 'تسجيل صوتي بالعربية عن المصاريف والفواتير والمبالغ. اكتب النص بالعربية فقط.');
   const r = await fetch('/api/transcribe', { method: 'POST', body: form });
   const d = await r.json();
   if (!r.ok) throw new Error(d?.error || `خطأ ${r.status}`);
@@ -1631,7 +1631,7 @@ async function toggleVoiceRecording() {
   if (_voiceRecorder && _voiceRecorder.state === 'recording') { await stopVoiceRecording(); return; }
   let stream;
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
   } catch (e) {
     toast('لم يتم السماح بالوصول للمايكروفون', 'var(--c-danger)');
     return;
@@ -1694,7 +1694,7 @@ async function stopVoiceRecording() {
   _voiceAudioCtx = _voiceSource = _voiceProcessor = null;
   _voicePcm = [];
   document.getElementById('scanVoiceBtn')?.classList.remove('recording');
-  if (_voiceBlob.size < 2048) {
+  if (_voiceBlob.size < 16000) {
     _voiceBlob = null;
     toast('التسجيل فارغ أو قصير جداً، حاول مرة أخرى', 'var(--c-danger)');
     updateScanBtn();
