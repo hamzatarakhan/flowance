@@ -2068,25 +2068,38 @@ function applyScanResults() {
   if (!_scanData?.groups) return;
   const COLORS = CAT_COLORS;
   let colorIdx = S.cats_order.length % COLORS.length;
+  let added = 0, merged = 0;
 
   _scanData.groups.forEach(g => {
-    const id = 'g' + Date.now() + Math.random().toString(36).slice(2,5);
-    S.cats[id] = (g.items||[]).map(it => ({
+    const rows = (g.items||[]).map(it => ({
       id: 'r' + Date.now() + Math.random().toString(36).slice(2,5),
       name: it.name || 'بند',
       amount: parseFloat(toWestern(String(it.amount))) || 0,
       paid: false
     }));
+
+    if (g.targetId && S.cats[g.targetId]) {
+      S.cats[g.targetId] = (S.cats[g.targetId] || []).concat(rows);
+      merged++;
+      return;
+    }
+
+    const id = 'g' + Date.now() + Math.random().toString(36).slice(2,5);
+    S.cats[id] = rows;
     S.cats_order.push({ id, name: g.name, colorIdx: colorIdx % COLORS.length });
     S.labels = S.labels || {};
     S.labels[id] = g.name;
     colorIdx++;
+    added++;
   });
 
   DB.save(S);
   render();
   closeScanSheet();
-  toast(`✓ تمت إضافة ${_scanData.groups.length} مجموعة`, 'var(--c-paid)');
+  const parts = [];
+  if (added) parts.push(`${added} مجموعة جديدة`);
+  if (merged) parts.push(`${merged} مجموعة موجودة`);
+  toast(`✓ تمت الإضافة إلى ${parts.join(' و ')}`, 'var(--c-paid)');
 }
 
 function exportCSV() {
