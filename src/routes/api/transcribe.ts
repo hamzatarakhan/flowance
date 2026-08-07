@@ -37,7 +37,10 @@ export const Route = createFileRoute("/api/transcribe")({
             } as Record<string, string>)[mime] ?? "webm";
 
           const upstream = new FormData();
-          upstream.append("model", "openai/gpt-4o-mini-transcribe");
+          upstream.append(
+            "model",
+            openaiKey ? "gpt-4o-mini-transcribe" : "openai/gpt-4o-mini-transcribe"
+          );
           upstream.append("file", file, `recording.${ext}`);
           const lang = incoming.get("language");
           if (typeof lang === "string" && /^[a-z]{2}$/.test(lang)) {
@@ -45,13 +48,16 @@ export const Route = createFileRoute("/api/transcribe")({
           }
 
           const res = await fetch(
-            "https://ai.gateway.lovable.dev/v1/audio/transcriptions",
+            openaiKey
+              ? "https://api.openai.com/v1/audio/transcriptions"
+              : "https://ai.gateway.lovable.dev/v1/audio/transcriptions",
             {
               method: "POST",
               headers: { Authorization: `Bearer ${apiKey}` },
               body: upstream,
             }
           );
+
 
           if (!res.ok) {
             const detail = await res.text().catch(() => "");
