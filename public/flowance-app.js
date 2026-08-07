@@ -1518,7 +1518,7 @@ function editCatTitle(catId) {
 let _scanData = null;
 
 async function transcribeVoice(blob) {
-  const ext = blob.type.includes('mp4') ? 'm4a' : blob.type.includes('ogg') ? 'ogg' : 'webm';
+  const ext = blob.type.includes('mp4') ? 'm4a' : blob.type.includes('ogg') ? 'ogg' : blob.type.includes('wav') ? 'wav' : 'webm';
   const form = new FormData();
   form.append('file', blob, `voice.${ext}`);
   form.append('model', 'whisper-1');
@@ -1529,9 +1529,41 @@ async function transcribeVoice(blob) {
   return d.text || '';
 }
 
+let _voiceTranscriptDirty = false;
+
+function onVoiceTranscriptInput() {
+  _voiceTranscriptDirty = true;
+  updateScanBtn();
+}
+
+function showVoiceTranscript(text) {
+  const wrap = document.getElementById('scanVoiceTranscriptWrap');
+  const box  = document.getElementById('scanVoiceTranscript');
+  if (!wrap || !box) return;
+  box.value = text;
+  wrap.style.display = 'block';
+}
+
+function hideVoiceTranscript() {
+  const wrap = document.getElementById('scanVoiceTranscriptWrap');
+  const box  = document.getElementById('scanVoiceTranscript');
+  _voiceTranscriptDirty = false;
+  if (box) box.value = '';
+  if (wrap) wrap.style.display = 'none';
+}
+
 async function runVoiceExtraction(aiCall) {
-  if (!_voiceBlob) throw new Error('الرجاء تسجيل صوت أولاً');
-  const transcript = await transcribeVoice(_voiceBlob);
+  const box = document.getElementById('scanVoiceTranscript');
+  const edited = (box?.value || '').trim();
+  let transcript;
+  if (_voiceTranscriptDirty && edited) {
+    transcript = edited;
+  } else {
+    if (!_voiceBlob) throw new Error('الرجاء تسجيل صوت أولاً');
+    transcript = await transcribeVoice(_voiceBlob);
+    showVoiceTranscript(transcript);
+    _voiceTranscriptDirty = false;
+  }
   if (!transcript.trim()) throw new Error('لم يتم التعرف على أي كلام، حاول التسجيل مرة أخرى');
   const prompt = 'You are an expert Arabic expense extractor. Extract EVERY single expense item mentioned in the spoken transcript below.\n\n'
     + 'RULES:\n'
@@ -1581,7 +1613,7 @@ function setScanMode(mode) {
 function updateScanBtn() {
   const hasImg = document.getElementById('scanPreviewWrap').style.display === 'block';
   const hasTxt = (document.getElementById('scanTextInput')?.value || '').trim().length > 5;
-  const hasVoice = !!_voiceBlob;
+  const hasVoice = !!_voiceBlob || (_voiceTranscriptDirty && (document.getElementById('scanVoiceTranscript')?.value || '').trim().length > 2);
   const hasContent = _scanMode === 'img' ? hasImg : _scanMode === 'txt' ? hasTxt : hasVoice;
   document.getElementById('scanBtn').disabled = !hasContent;
 }
@@ -1678,6 +1710,7 @@ async function stopVoiceRecording() {
 function clearVoiceRecording(reRecord) {
   const audio = document.getElementById('scanVoiceAudio');
   if (audio && audio.src) { URL.revokeObjectURL(audio.src); audio.src = ''; }
+  hideVoiceTranscript();
   _voiceBlob = null;
   _voiceStream?.getTracks().forEach(t => t.stop());
   _voiceProcessor?.disconnect();
@@ -1902,6 +1935,31 @@ function renderScanPreview(data) {
     head.querySelector('.scan-group-del').addEventListener('click', () => deleteScanGroup(gIdx));
     card.appendChild(head);
 
+    // — destination (new group / existing group) —
+    const dest = document.createElement('div');
+    dest.className = 'scan-group-dest';
+    const opts = (S.cats_order || [])
+      .map(c => `<option value="${esc(c.id)}"${g.targetId === c.id ? ' selected' : ''}>${esc((S.labels && S.labels[c.id]) || c.name || 'مجموعة')}</option>`)
+      .join('');
+    dest.innerHTML = `
+      <span class="scan-group-dest-label">الوجهة</span>
+      <select class="scan-group-dest-select">
+        <option value=""${g.targetId ? '' : ' selected'}>➕ مجموعة جديدة</option>
+        ${opts}
+      </select>`;
+    const sel = dest.querySelector('.scan-group-dest-select');
+    const syncDest = () => {
+      const titleInput = head.querySelector('.scan-group-title-input');
+      titleInput.disabled = !!_scanData.groups[gIdx].targetId;
+      titleInput.style.opacity = titleInput.disabled ? '.5' : '';
+    };
+    sel.addEventListener('change', e => {
+      _scanData.groups[gIdx].targetId = e.target.value || null;
+      syncDest();
+    });
+    syncDest();
+    card.appendChild(dest);
+
     // — items —
     const itemsWrap = document.createElement('div');
     itemsWrap.id = `scan-items-${gIdx}`;
@@ -2010,25 +2068,38 @@ function applyScanResults() {
   if (!_scanData?.groups) return;
   const COLORS = CAT_COLORS;
   let colorIdx = S.cats_order.length % COLORS.length;
+  let added = 0, merged = 0;
 
   _scanData.groups.forEach(g => {
-    const id = 'g' + Date.now() + Math.random().toString(36).slice(2,5);
-    S.cats[id] = (g.items||[]).map(it => ({
+    const rows = (g.items||[]).map(it => ({
       id: 'r' + Date.now() + Math.random().toString(36).slice(2,5),
       name: it.name || 'بند',
       amount: parseFloat(toWestern(String(it.amount))) || 0,
       paid: false
     }));
+
+    if (g.targetId && S.cats[g.targetId]) {
+      S.cats[g.targetId] = (S.cats[g.targetId] || []).concat(rows);
+      merged++;
+      return;
+    }
+
+    const id = 'g' + Date.now() + Math.random().toString(36).slice(2,5);
+    S.cats[id] = rows;
     S.cats_order.push({ id, name: g.name, colorIdx: colorIdx % COLORS.length });
     S.labels = S.labels || {};
     S.labels[id] = g.name;
     colorIdx++;
+    added++;
   });
 
   DB.save(S);
   render();
   closeScanSheet();
-  toast(`✓ تمت إضافة ${_scanData.groups.length} مجموعة`, 'var(--c-paid)');
+  const parts = [];
+  if (added) parts.push(`${added} مجموعة جديدة`);
+  if (merged) parts.push(`${merged} مجموعة موجودة`);
+  toast(`✓ تمت الإضافة إلى ${parts.join(' و ')}`, 'var(--c-paid)');
 }
 
 function exportCSV() {

@@ -1143,6 +1143,21 @@
   }
   .scan-textarea:focus { outline: none; border-color: var(--c-ess); }
   .scan-textarea::placeholder { color: var(--t-low); font-size: 12px; }
+  .scan-transcript-wrap { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .scan-transcript-label { font-size: 11px; color: var(--t-low); }
+  .scan-transcript-area { min-height: 96px; border-style: solid; }
+  .scan-group-dest {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px 10px; direction: rtl;
+  }
+  .scan-group-dest-label { font-size: 11px; color: var(--t-low); }
+  .scan-group-dest-select {
+    flex: 1; min-width: 0; padding: 7px 10px;
+    background: var(--bg-row); color: var(--t-hi);
+    border: 1px solid var(--border-hi); border-radius: var(--r-lg);
+    font-family: 'Cairo', sans-serif; font-size: 12px; direction: rtl;
+  }
+  .scan-group-dest-select:focus { outline: none; border-color: var(--c-ess); }
   .scan-analyze-btn {
     width: 100%; padding: 13px; border: none; border-radius: var(--r-lg);
     background: var(--c-ess); color: #fff;
