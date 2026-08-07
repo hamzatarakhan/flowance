@@ -57,7 +57,7 @@
   *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; }
   body {
-    font-family: 'Cairo', sans-serif;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
     background: var(--bg);
     color: var(--t-hi);
     min-height: 100vh;
@@ -176,7 +176,7 @@
     flex: 1; padding: 15px;
     background: linear-gradient(135deg, var(--c-ess), var(--c-per));
     border: none; border-radius: var(--r-lg);
-    color: white; font-family: 'Cairo', sans-serif;
+    color: white; font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 15px; font-weight: 700;
     cursor: pointer; transition: all var(--dur) var(--ease);
     box-shadow: 0 8px 24px rgba(79,142,247,0.3);
@@ -185,7 +185,7 @@
   .ob-skip {
     padding: 15px 20px; border: 1px solid var(--border-md);
     border-radius: var(--r-lg); background: transparent;
-    color: var(--t-low); font-family: 'Cairo', sans-serif;
+    color: var(--t-low); font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 14px; font-weight: 600; cursor: pointer;
     transition: all var(--dur) var(--ease);
   }
@@ -314,9 +314,10 @@
   .scroll-body {
     flex: 1;
     overflow-y: auto;
-    padding: 6px 14px 0;
-    display: flex; flex-direction: column; gap: 10px;
-    padding-bottom: calc(178px + env(safe-area-inset-bottom));
+    padding: 10px 16px 0;
+    display: flex; flex-direction: column; gap: 14px;
+    padding-bottom: calc(200px + env(safe-area-inset-bottom));
+    scroll-behavior: smooth;
   }
   .scroll-body > * { flex-shrink: 0; }
 
@@ -371,10 +372,10 @@
     width: fit-content;
   }
   .salary-val:active { background: var(--bg-hover); }
-  .salary-cur { font-size: 10px; color: var(--t-low); font-family: 'Cairo', sans-serif; }
+  .salary-cur { font-size: 10px; color: var(--t-low); font-family: 'IBM Plex Sans Arabic', sans-serif; }
   .edit-hint {
     font-size: 9px; color: var(--t-low);
-    font-family: 'Cairo', sans-serif; font-weight: 600;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-weight: 600;
     background: var(--bg-hover); padding: 2px 7px;
     border-radius: 99px; border: 1px solid var(--border);
     letter-spacing: 0;
@@ -540,7 +541,7 @@
   }
   .tab {
     border: none; background: none;
-    font-family: 'Cairo', sans-serif;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 12px; font-weight: 700; color: var(--t-low);
     cursor: pointer; padding: 6px 18px; border-radius: 99px;
     transition: all var(--dur) var(--ease);
@@ -687,7 +688,7 @@
   .lv-i-input {
     background: transparent; border: none;
     border-bottom: 1.5px solid var(--accent);
-    color: var(--t-hi); font-family: 'Cairo', sans-serif;
+    color: var(--t-hi); font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 13px; outline: none; padding: 2px 0;
     min-width: 0; flex: 1;
   }
@@ -746,7 +747,7 @@
     display: flex; align-items: center; gap: 8px;
     width: 100%; padding: 14px 16px;
     border: none; background: transparent;
-    color: var(--t-low); font-family: 'Cairo', sans-serif;
+    color: var(--t-low); font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 13px; font-weight: 600;
     cursor: pointer; border-top: 1px solid var(--border);
     transition: background var(--dur), color var(--dur);
@@ -764,7 +765,7 @@
     width: 100%; padding: 10px 12px;
     border: 1.5px solid var(--border-md); border-radius: 10px;
     background: var(--bg); color: var(--t-hi);
-    font-family: 'Cairo', sans-serif; font-size: 14px;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px;
     outline: none; box-sizing: border-box;
     transition: border-color 0.15s;
   }
@@ -773,7 +774,7 @@
     width: 100%; padding: 12px;
     background: var(--accent); color: #fff;
     border: none; border-radius: 10px;
-    font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px; font-weight: 700;
     cursor: pointer; transition: opacity 0.15s;
   }
   .item-edit-save:hover { opacity: 0.88; }
@@ -782,7 +783,7 @@
     border: 1.5px solid var(--border-md);
     border-radius: 99px;
     padding: 5px 14px;
-    font-family: 'Cairo', sans-serif;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 11px; font-weight: 700;
     background: var(--bg-card); color: var(--t-low);
     cursor: pointer; white-space: nowrap;
@@ -828,7 +829,7 @@
     display: flex; align-items: center; gap: 5px; flex-shrink: 0;
     padding: 0 10px; height: 30px; border-radius: 20px;
     border: 1px solid rgba(224,82,82,0.4); background: rgba(224,82,82,0.1);
-    color: #e05252; font-size: 11px; font-family: 'Cairo', sans-serif;
+    color: #e05252; font-size: 11px; font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-weight: 600; cursor: pointer; white-space: nowrap;
     transition: background .15s;
   }
@@ -1007,7 +1008,7 @@
     display: flex; align-items: center; justify-content: center; gap: 7px;
     width: 100%; padding: 13px 16px; border: none;
     background: transparent; color: var(--t-low);
-    font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 600;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; font-weight: 600;
     cursor: pointer; border-top: 1px dashed var(--border-md);
     transition: all var(--dur) var(--ease);
     touch-action: manipulation;
@@ -1021,7 +1022,7 @@
     width: 100%; padding: 15px 16px;
     border: 1.5px dashed var(--border-md); border-radius: var(--r-xl);
     background: transparent; color: var(--t-low);
-    font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 600;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px; font-weight: 600;
     cursor: pointer; margin-top: 4px;
     transition: all var(--dur) var(--ease);
     touch-action: manipulation;
@@ -1120,7 +1121,7 @@
   .scan-voice-action-btn {
     display: flex; align-items: center; gap: 6px; padding: 8px 14px;
     border-radius: var(--r-lg); border: 1px solid var(--border);
-    background: var(--bg-card); color: var(--t-mid); font-family: 'Cairo', sans-serif;
+    background: var(--bg-card); color: var(--t-mid); font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 12px; font-weight: 600; cursor: pointer;
   }
   .scan-voice-action-btn svg { width: 14px; height: 14px; }
@@ -1132,7 +1133,7 @@
   .scan-tab {
     flex: 1; padding: 8px 0; border: none; border-radius: var(--r-sm);
     background: transparent; color: var(--t-low);
-    font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 600;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 12px; font-weight: 600;
     cursor: pointer; transition: all var(--dur);
   }
   .scan-tab.active { background: var(--bg-card); color: var(--t-hi); box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
@@ -1140,7 +1141,7 @@
     width: 100%; min-height: 130px; padding: 12px 14px;
     background: var(--bg-row); border: 1.5px dashed var(--border-hi);
     border-radius: var(--r-xl); color: var(--t-hi);
-    font-family: 'Cairo', sans-serif; font-size: 13px; line-height: 1.7;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; line-height: 1.7;
     resize: none; direction: rtl;
   }
   .scan-textarea:focus { outline: none; border-color: var(--c-ess); }
@@ -1157,13 +1158,13 @@
     flex: 1; min-width: 0; padding: 7px 10px;
     background: var(--bg-row); color: var(--t-hi);
     border: 1px solid var(--border-hi); border-radius: var(--r-lg);
-    font-family: 'Cairo', sans-serif; font-size: 12px; direction: rtl;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 12px; direction: rtl;
   }
   .scan-group-dest-select:focus { outline: none; border-color: var(--c-ess); }
   .scan-analyze-btn {
     width: 100%; padding: 13px; border: none; border-radius: var(--r-lg);
     background: var(--c-ess); color: #fff;
-    font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px; font-weight: 700;
     cursor: pointer; transition: all var(--dur) var(--ease);
     touch-action: manipulation;
   }
@@ -1254,7 +1255,7 @@
   .scan-group-drag { color: var(--t-low); cursor: grab; flex-shrink: 0; display: grid; place-items: center; }
   .scan-group-drag svg { width: 14px; height: 14px; }
   .scan-group-title-input {
-    flex: 1; font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+    flex: 1; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; font-weight: 700;
     color: var(--c-ess); background: transparent; border: none; outline: none;
     min-width: 0;
   }
@@ -1280,7 +1281,7 @@
   .scan-item-drag { color: var(--t-low); cursor: grab; flex-shrink: 0; display: grid; place-items: center; }
   .scan-item-drag svg { width: 12px; height: 12px; }
   .scan-item-name-input {
-    flex: 1; font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 500;
+    flex: 1; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; font-weight: 500;
     color: var(--t-hi); background: transparent; border: none; outline: none;
     min-width: 0;
   }
@@ -1304,7 +1305,7 @@
   .scan-add-item-btn {
     width: 100%; padding: 9px 14px; background: transparent; border: none;
     border-top: 1px dashed var(--border); border-radius: 0 0 var(--r-xl) var(--r-xl);
-    color: var(--t-low); font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 600;
+    color: var(--t-low); font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 12px; font-weight: 600;
     cursor: pointer; touch-action: manipulation; text-align: center;
     transition: all var(--dur);
   }
@@ -1313,7 +1314,7 @@
   .scan-apply-btn {
     width: 100%; padding: 13px; border: none; border-radius: var(--r-lg);
     background: var(--c-paid); color: #fff;
-    font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px; font-weight: 700;
     cursor: pointer; transition: all var(--dur) var(--ease);
     touch-action: manipulation; position: sticky; bottom: 0;
   }
@@ -1343,14 +1344,14 @@
   .confirm-yes {
     flex: 1; padding: 13px; border: none; border-radius: var(--r-lg);
     background: rgba(255,82,82,0.15); color: var(--c-danger);
-    font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px; font-weight: 700;
     cursor: pointer; transition: all var(--dur) var(--ease);
   }
   .confirm-yes:active { background: rgba(255,82,82,0.28); }
   .confirm-no {
     flex: 1; padding: 13px; border: 1px solid var(--border-md); border-radius: var(--r-lg);
     background: var(--bg-hover); color: var(--t-mid);
-    font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 14px; font-weight: 700;
     cursor: pointer; transition: all var(--dur) var(--ease);
   }
   .confirm-no:active { background: var(--bg-row); }
@@ -1471,7 +1472,7 @@
     background: var(--bg-input);
     border: 1px solid var(--c-ess);
     border-radius: var(--r-sm); color: var(--t-hi);
-    font-family: 'Cairo', sans-serif; font-size: 16px;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 16px;
     padding: 10px 12px; outline: none;
     box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
     touch-action: manipulation;
@@ -1535,7 +1536,7 @@
     padding: 13px 16px; min-height: 48px; width: 100%;
     border: none; background: none; cursor: pointer;
     color: var(--t-low);
-    font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 600;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; font-weight: 600;
     text-align: right;
     transition: all var(--dur) var(--ease);
     border-top: 1px solid var(--border);
@@ -1567,7 +1568,7 @@
      CATEGORY TITLE INPUT
   ══════════════════════════════════════ */
   .cat-title-input {
-    font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 700;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 16px; font-weight: 700;
     letter-spacing: 0.04em;
     background: var(--bg-input);
     border: 1px solid var(--c-ess); border-radius: 5px;
@@ -1626,7 +1627,7 @@
   .toast-msg { color: var(--t-mid); flex: 1; }
   .toast-msg strong { color: var(--t-hi); }
   .undo-btn {
-    font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; font-weight: 700;
     color: var(--c-ess); background: none; border: none;
     cursor: pointer; padding: 4px 8px; border-radius: 5px;
     transition: background var(--dur); flex-shrink: 0;
@@ -1683,7 +1684,7 @@
     display: flex; align-items: center; gap: 6px;
     padding: 8px 14px; border: none; border-radius: var(--r-lg);
     background: linear-gradient(135deg, var(--c-ess), var(--c-per));
-    color: #fff; font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 700;
+    color: #fff; font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 12px; font-weight: 700;
     cursor: pointer; transition: all var(--dur) var(--ease);
     box-shadow: 0 4px 12px rgba(79,142,247,0.3);
   }
@@ -1837,7 +1838,7 @@
   .search-input-wrap svg { width: 15px; height: 15px; color: var(--t-low); flex-shrink: 0; }
   .search-input {
     flex: 1; background: transparent; border: none; outline: none;
-    font-family: 'Cairo', sans-serif; font-size: 15px;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 15px;
     color: var(--t-hi); padding: 10px 0; text-align: right;
   }
   .search-input::placeholder { color: var(--t-low); }
@@ -1946,7 +1947,7 @@
     display: flex; align-items: center; gap: 8px;
     padding: 9px 10px; border-radius: var(--r-sm);
     background: transparent; border: none;
-    font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 600;
+    font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 13px; font-weight: 600;
     color: var(--t-mid); cursor: pointer; text-align: right; width: 100%;
     transition: all var(--dur);
   }
@@ -1954,48 +1955,92 @@
   .export-menu-item svg { width: 14px; height: 14px; flex-shrink: 0; color: var(--t-low); }
 
 /* ══════════════════════════════════════
-   QUICK ADD BAR
+   QUICK ADD  ·  FAB + expanding bar
 ══════════════════════════════════════ */
 .quickadd {
-  position: fixed; bottom: calc(90px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+  position: fixed; bottom: calc(86px + env(safe-area-inset-bottom));
+  left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 430px;
-  padding: 0 16px 10px;
-  display: flex; align-items: center; gap: 10px;
-  z-index: 101;
+  padding: 0 16px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+  z-index: 101; pointer-events: none;
 }
+.quickadd > * { pointer-events: auto; }
+
+.quickadd-row {
+  width: 100%;
+  display: flex; align-items: center; gap: 8px;
+  opacity: 0; transform: translateY(14px) scale(.97);
+  transition: opacity .22s var(--ease), transform .28s var(--spring);
+  pointer-events: none;
+}
+.quickadd.open .quickadd-row { opacity: 1; transform: none; pointer-events: auto; }
+
 .quickadd-input {
   flex: 1; min-width: 0;
-  height: 46px; border-radius: 14px;
-  background: rgba(255,255,255,0.06);
+  height: 50px; border-radius: 16px;
+  background: rgba(255,255,255,0.07);
   border: 1px solid var(--border-md);
   color: var(--t-hi);
-  font-family: inherit; font-size: 14px; font-weight: 600;
-  padding: 0 14px; outline: none;
+  font-family: inherit; font-size: 15px; font-weight: 600;
+  padding: 0 16px; outline: none;
   backdrop-filter: blur(22px) saturate(180%);
-  transition: border-color .18s ease, box-shadow .18s ease;
+  box-shadow: 0 12px 30px -14px rgba(0,0,0,.7);
+  transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
 }
-[data-theme="light"] .quickadd-input { background: rgba(255,255,255,0.9); }
+[data-theme="light"] .quickadd-input { background: rgba(255,255,255,0.94); }
 .quickadd-input::placeholder { color: var(--t-low); font-weight: 500; }
-.quickadd-input:focus { border-color: #4F8EF7; box-shadow: 0 0 0 3px rgba(79,142,247,0.18); }
-.quickadd-go, .quickadd-mic {
-  flex: 0 0 auto; width: 46px; height: 46px; border-radius: 14px;
+.quickadd-input:focus { border-color: #7C5CFF; box-shadow: 0 0 0 3px rgba(124,92,255,0.22); }
+
+.quickadd-fabs { display: flex; align-items: center; gap: 10px; }
+
+.quickadd-go, .quickadd-mic, .quickadd-fab {
+  flex: 0 0 auto;
   display: flex; align-items: center; justify-content: center;
   border: 1px solid var(--border-md); cursor: pointer;
-  transition: transform .15s ease, background .18s ease;
+  transition: transform .16s var(--spring), background .18s var(--ease), box-shadow .18s var(--ease);
 }
-.quickadd-go:active, .quickadd-mic:active { transform: scale(0.94); }
-.quickadd-go { background: #4F8EF7; border-color: #4F8EF7; color: #fff; }
+.quickadd-go:active, .quickadd-mic:active, .quickadd-fab:active { transform: scale(0.92); }
+
+.quickadd-go {
+  width: 50px; height: 50px; border-radius: 16px;
+  background: #7C5CFF; border-color: #7C5CFF; color: #fff;
+  box-shadow: 0 10px 26px -10px rgba(124,92,255,.75);
+}
+.quickadd-mic, .quickadd-fab {
+  width: 54px; height: 54px; border-radius: 18px;
+}
 .quickadd-mic {
-  background: rgba(255,255,255,0.06); color: var(--t-mid);
+  background: rgba(255,255,255,0.07); color: var(--t-hi);
   backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: 0 12px 28px -14px rgba(0,0,0,.75);
 }
-[data-theme="light"] .quickadd-mic { background: rgba(255,255,255,0.9); }
-.quickadd-mic svg, .quickadd-go svg { width: 20px; height: 20px; }
+[data-theme="light"] .quickadd-mic { background: rgba(255,255,255,0.94); }
+.quickadd-fab {
+  background: linear-gradient(140deg, #7C5CFF, #B9A7FF);
+  border-color: transparent; color: #fff;
+  box-shadow: 0 14px 30px -10px rgba(124,92,255,.8);
+}
+.quickadd.open .quickadd-fab { transform: rotate(45deg); }
+.quickadd.open .quickadd-fab:active { transform: rotate(45deg) scale(.92); }
+.quickadd-mic svg, .quickadd-go svg { width: 21px; height: 21px; }
+.quickadd-fab svg { width: 24px; height: 24px; }
 .quickadd-mic.recording {
   background: var(--c-danger, #FF5A6E); border-color: var(--c-danger, #FF5A6E); color: #fff;
   animation: qaPulse 1.1s ease-in-out infinite;
 }
-@keyframes qaPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,90,110,.45); } 50% { box-shadow: 0 0 0 9px rgba(255,90,110,0); } }
+@keyframes qaPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,90,110,.45); } 50% { box-shadow: 0 0 0 12px rgba(255,90,110,0); } }
+
+/* ══════════════════════════════════════
+   MOTION  ·  entrance + tap feedback
+══════════════════════════════════════ */
+@keyframes fzRowIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.row, .lv-row, .daily-item, .gtab-wrap { animation: fzRowIn .26s var(--ease) both; }
+.gtab, .mode-tab, .view-btn, .gtab-manage-btn { transition: transform .14s var(--spring), background .18s var(--ease), color .18s var(--ease); }
+.gtab:active, .mode-tab:active, .view-btn:active, .gtab-manage-btn:active { transform: scale(.95); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
 
 /* ── Mode tabs (monthly / daily) ───────────────────────── */
 .tools-row {
