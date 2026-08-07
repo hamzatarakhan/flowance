@@ -76,12 +76,14 @@ function FlowancePage() {
           <StatsGrid />
           <BudgetCard />
           <InsightsCard />
-          <ModeTabs />
-          <div className="tools-row">
-            <div className="group-tabs-actions" id="groupTabsActions"></div>
-            <ViewToggle />
+          <div className="control-stack">
+            <ModeTabs />
+            <div className="tools-row">
+              <div className="group-tabs-actions" id="groupTabsActions"></div>
+              <ViewToggle />
+            </div>
+            <GroupTabsBar />
           </div>
-          <GroupTabsBar />
           <ListViewArea />
           <Panels />
           <TodayCard />
