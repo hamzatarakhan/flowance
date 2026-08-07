@@ -25,7 +25,7 @@ export const Route = createFileRoute("/api/transcribe")({
             );
           }
 
-          const mime = (file.type || "").split(";")[0];
+          const mime = (file.type || "").split(";")[0] ?? "";
           const ext =
             ({
               "audio/webm": "webm",
