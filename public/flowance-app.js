@@ -1710,6 +1710,7 @@ async function stopVoiceRecording() {
 function clearVoiceRecording(reRecord) {
   const audio = document.getElementById('scanVoiceAudio');
   if (audio && audio.src) { URL.revokeObjectURL(audio.src); audio.src = ''; }
+  hideVoiceTranscript();
   _voiceBlob = null;
   _voiceStream?.getTracks().forEach(t => t.stop());
   _voiceProcessor?.disconnect();
