@@ -1587,7 +1587,8 @@ function updateScanBtn() {
 }
 
 /* ── Voice recording ── */
-let _voiceBlob = null, _voiceRecorder = null, _voiceChunks = [], _voiceStream = null, _voiceTimerInt = null, _voiceStartTs = 0;
+let _voiceBlob = null, _voiceRecorder = null, _voiceStream = null, _voiceTimerInt = null, _voiceStartTs = 0;
+let _voiceAudioCtx = null, _voiceSource = null, _voiceProcessor = null, _voicePcm = [];
 
 function _voiceFmtTime(ms) {
   const s = Math.floor(ms / 1000);
@@ -1595,7 +1596,7 @@ function _voiceFmtTime(ms) {
 }
 
 async function toggleVoiceRecording() {
-  if (_voiceRecorder && _voiceRecorder.state === 'recording') { _voiceRecorder.stop(); return; }
+  if (_voiceRecorder && _voiceRecorder.state === 'recording') { await stopVoiceRecording(); return; }
   let stream;
   try {
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1604,21 +1605,15 @@ async function toggleVoiceRecording() {
     return;
   }
   _voiceStream = stream;
-  _voiceChunks = [];
-  const mime = ['audio/webm', 'audio/mp4', 'audio/ogg'].find(t => window.MediaRecorder?.isTypeSupported?.(t));
-  _voiceRecorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
-  _voiceRecorder.ondataavailable = e => { if (e.data.size > 0) _voiceChunks.push(e.data); };
-  _voiceRecorder.onstop = () => {
-    _voiceStream.getTracks().forEach(t => t.stop());
-    clearInterval(_voiceTimerInt);
-    _voiceBlob = new Blob(_voiceChunks, { type: _voiceRecorder.mimeType || 'audio/webm' });
-    const audio = document.getElementById('scanVoiceAudio');
-    audio.src = URL.createObjectURL(_voiceBlob);
-    document.getElementById('scanVoiceIdle').style.display = 'none';
-    document.getElementById('scanVoicePreview').style.display = 'flex';
-    updateScanBtn();
-  };
-  _voiceRecorder.start();
+  _voicePcm = [];
+  _voiceAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  await _voiceAudioCtx.resume();
+  _voiceSource = _voiceAudioCtx.createMediaStreamSource(stream);
+  _voiceProcessor = _voiceAudioCtx.createScriptProcessor(4096, 1, 1);
+  _voiceProcessor.onaudioprocess = e => _voicePcm.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+  _voiceSource.connect(_voiceProcessor);
+  _voiceProcessor.connect(_voiceAudioCtx.destination);
+  _voiceRecorder = { state: 'recording', stop: stopVoiceRecording };
   _voiceStartTs = Date.now();
   document.getElementById('scanVoiceBtn').classList.add('recording');
   document.getElementById('scanVoiceTimer').textContent = '00:00 — اضغط للإيقاف';
@@ -1627,10 +1622,69 @@ async function toggleVoiceRecording() {
   }, 300);
 }
 
+function _encodeVoiceWav(chunks, inputRate) {
+  const inputLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+  const input = new Float32Array(inputLength);
+  let offset = 0;
+  chunks.forEach(chunk => { input.set(chunk, offset); offset += chunk.length; });
+  const outputRate = 16000;
+  const ratio = inputRate / outputRate;
+  const outputLength = Math.max(0, Math.floor(input.length / ratio));
+  const buffer = new ArrayBuffer(44 + outputLength * 2);
+  const view = new DataView(buffer);
+  const text = (at, value) => { for (let i = 0; i < value.length; i++) view.setUint8(at + i, value.charCodeAt(i)); };
+  text(0, 'RIFF'); view.setUint32(4, 36 + outputLength * 2, true); text(8, 'WAVE');
+  text(12, 'fmt '); view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true); view.setUint32(24, outputRate, true);
+  view.setUint32(28, outputRate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+  text(36, 'data'); view.setUint32(40, outputLength * 2, true);
+  for (let i = 0; i < outputLength; i++) {
+    const start = Math.floor(i * ratio);
+    const end = Math.max(start + 1, Math.floor((i + 1) * ratio));
+    let sample = 0;
+    for (let j = start; j < end && j < input.length; j++) sample += input[j];
+    sample = Math.max(-1, Math.min(1, sample / (end - start)));
+    view.setInt16(44 + i * 2, sample < 0 ? sample * 32768 : sample * 32767, true);
+  }
+  return new Blob([buffer], { type: 'audio/wav' });
+}
+
+async function stopVoiceRecording() {
+  if (!_voiceRecorder || _voiceRecorder.state !== 'recording') return;
+  _voiceRecorder.state = 'inactive';
+  clearInterval(_voiceTimerInt);
+  _voiceStream?.getTracks().forEach(t => t.stop());
+  _voiceProcessor?.disconnect();
+  _voiceSource?.disconnect();
+  const sampleRate = _voiceAudioCtx?.sampleRate || 48000;
+  _voiceBlob = _encodeVoiceWav(_voicePcm, sampleRate);
+  await _voiceAudioCtx?.close();
+  _voiceAudioCtx = _voiceSource = _voiceProcessor = null;
+  _voicePcm = [];
+  document.getElementById('scanVoiceBtn')?.classList.remove('recording');
+  if (_voiceBlob.size < 2048) {
+    _voiceBlob = null;
+    toast('التسجيل فارغ أو قصير جداً، حاول مرة أخرى', 'var(--c-danger)');
+    updateScanBtn();
+    return;
+  }
+  const audio = document.getElementById('scanVoiceAudio');
+  audio.src = URL.createObjectURL(_voiceBlob);
+  document.getElementById('scanVoiceIdle').style.display = 'none';
+  document.getElementById('scanVoicePreview').style.display = 'flex';
+  updateScanBtn();
+}
+
 function clearVoiceRecording(reRecord) {
   const audio = document.getElementById('scanVoiceAudio');
   if (audio && audio.src) { URL.revokeObjectURL(audio.src); audio.src = ''; }
   _voiceBlob = null;
+  _voiceStream?.getTracks().forEach(t => t.stop());
+  _voiceProcessor?.disconnect();
+  _voiceSource?.disconnect();
+  if (_voiceAudioCtx && _voiceAudioCtx.state !== 'closed') _voiceAudioCtx.close();
+  _voiceAudioCtx = _voiceSource = _voiceProcessor = null;
+  _voicePcm = [];
   document.getElementById('scanVoicePreview').style.display = 'none';
   document.getElementById('scanVoiceIdle').style.display = '';
   document.getElementById('scanVoiceBtn')?.classList.remove('recording');
