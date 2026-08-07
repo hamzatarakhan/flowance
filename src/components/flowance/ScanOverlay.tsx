@@ -77,7 +77,17 @@ export function ScanOverlay() {
               </button>
             </div>
           </div>
+          <div className="scan-transcript-wrap" id="scanVoiceTranscriptWrap" style={{ display: 'none' }}>
+            <div className="scan-transcript-label">النص المسموع — عدّله إذا في خطأ ثم اضغط تحليل</div>
+            <textarea
+              className="scan-textarea scan-transcript-area"
+              id="scanVoiceTranscript"
+              placeholder="النص المستخرج من التسجيل..."
+              onInput={h(`onVoiceTranscriptInput()`)}
+            ></textarea>
+          </div>
         </div>
+
 
         <button
           className="scan-analyze-btn"
