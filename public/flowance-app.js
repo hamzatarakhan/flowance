@@ -1613,7 +1613,7 @@ function setScanMode(mode) {
 function updateScanBtn() {
   const hasImg = document.getElementById('scanPreviewWrap').style.display === 'block';
   const hasTxt = (document.getElementById('scanTextInput')?.value || '').trim().length > 5;
-  const hasVoice = !!_voiceBlob;
+  const hasVoice = !!_voiceBlob || (_voiceTranscriptDirty && (document.getElementById('scanVoiceTranscript')?.value || '').trim().length > 2);
   const hasContent = _scanMode === 'img' ? hasImg : _scanMode === 'txt' ? hasTxt : hasVoice;
   document.getElementById('scanBtn').disabled = !hasContent;
 }
