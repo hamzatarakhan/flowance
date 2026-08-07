@@ -10,9 +10,9 @@ export function YearView() {
         <span className="history-view-title">تحليل السنة</span>
       </div>
       <div className="ya-toolbar">
-        <button className="ya-yr-btn" id="yaPrevBtn" onClick={h(`yaChangeYear(-1)`)} title="السنة السابقة">◀</button>
+        <button className="ya-yr-btn" id="yaPrevBtn" onClick={h(`yaChangeYear(-1)`)} title="السنة السابقة">▶</button>
         <select className="ya-yr-select" id="yaYearSelect" onChange={h(`yaSelectYear(this.value)`)}></select>
-        <button className="ya-yr-btn" id="yaNextBtn" onClick={h(`yaChangeYear(1)`)} title="السنة التالية">▶</button>
+        <button className="ya-yr-btn" id="yaNextBtn" onClick={h(`yaChangeYear(1)`)} title="السنة التالية">◀</button>
       </div>
       <div className="history-view-body" id="yaBody"></div>
     </div>
