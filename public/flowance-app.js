@@ -881,6 +881,32 @@ function recalc() {
     rl.className = 'budget-remain' + (remain < 0 ? ' over' : '');
   }
 
+  // Hero: big remaining number + daily allowance
+  const bhL = document.getElementById('budgetHeroLbl');
+  const bhN = document.getElementById('budgetHeroNum');
+  const bhD = document.getElementById('budgetDaily');
+  if (bhN) {
+    if (bgt2 <= 0) {
+      if (bhL) bhL.textContent = 'المصروف هذا الشهر';
+      bhN.textContent = f(grand, 3);
+      bhN.className = 'budget-hero-num';
+      if (bhD) bhD.textContent = 'اضغط على القلم لتحديد ميزانية شهرية';
+    } else {
+      if (bhL) bhL.textContent = remain >= 0 ? 'المتبقي من الميزانية' : 'تجاوزت الميزانية';
+      bhN.textContent = f(Math.abs(remain), 3);
+      bhN.className = 'budget-hero-num' + (remain < 0 ? ' over' : '');
+      if (bhD) {
+        const now = new Date();
+        const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        const daysLeft = Math.max(1, lastDay - now.getDate() + 1);
+        bhD.textContent = remain >= 0
+          ? `تقدر تصرف ${f(remain / daysLeft, 3)} JOD باليوم لآخر الشهر (${daysLeft} يوم)`
+          : `تجاوزت بمقدار ${fJOD(Math.abs(remain))}`;
+      }
+    }
+  }
+
+
   const salary = S.salary || 0;
   const remaining = salary - grand;
   const salNum = document.getElementById('salaryNum');
@@ -3213,21 +3239,26 @@ function setMode(mode) {
   const sticky  = document.getElementById('stickyBar');
   const qaInput = document.getElementById('quickAddInput');
 
+  const todayC = document.getElementById('todayCard');
+
   if (_mode === 'daily') {
     if (gtBar)  gtBar.style.display  = 'none';
     if (panels) panels.style.display = 'none';
     if (listA)  listA.style.display  = 'none';
     if (dailyA) dailyA.style.display = 'block';
+    if (todayC) todayC.style.display = 'flex';
     if (sticky) sticky.style.display = 'none';
     if (qaInput) qaInput.placeholder = 'مصروف اليوم: 3.5 قهوة';
     renderDaily();
   } else {
     if (gtBar)  gtBar.style.display  = '';
     if (dailyA) dailyA.style.display = 'none';
+    if (todayC) todayC.style.display = 'none';
     if (sticky) sticky.style.display = 'flex';
     if (qaInput) qaInput.placeholder = 'اكتب بسرعة: 25 بنزين';
     switchView(_viewMode);
   }
+
   try { localStorage.setItem('flowance_mode', _mode); } catch (e) {}
 }
 
@@ -3274,6 +3305,21 @@ function renderDaily() {
     total: byDate[date].reduce((a, r) => a + (+r.amount || 0), 0)
   }));
   window.FlowanceUI.dailyView(el, days, dailyMonthTotal(), items.length);
+
+  // Today summary card
+  const todayItems = byDate[tk] || [];
+  const todayTotal = todayItems.reduce((a, r) => a + (+r.amount || 0), 0);
+  const tdDate  = document.getElementById('todayDate');
+  const tdNum   = document.getElementById('todayNum');
+  const tdCount = document.getElementById('todayCount');
+  const tdMonth = document.getElementById('todayMonth');
+  if (tdDate)  tdDate.textContent  = dayLabel(tk);
+  if (tdNum)   tdNum.textContent   = f(todayTotal, 3);
+  if (tdCount) tdCount.textContent = todayItems.length
+    ? `${todayItems.length} عملية اليوم`
+    : 'ما في مصاريف اليوم';
+  if (tdMonth) tdMonth.textContent = `الشهر: ${f(dailyMonthTotal(), 3)} JOD`;
+
 }
 
 function dailyAdd(name, amount, date) {

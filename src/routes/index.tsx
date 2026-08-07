@@ -14,6 +14,8 @@ import { BudgetCard } from "@/components/flowance/BudgetCard";
 import { InsightsCard } from "@/components/flowance/InsightsCard";
 import { ModeTabs } from "@/components/flowance/ModeTabs";
 import { DailyArea } from "@/components/flowance/DailyArea";
+import { TodayCard } from "@/components/flowance/TodayCard";
+
 import { GroupTabsBar, ViewToggle } from "@/components/flowance/GroupTabsBar";
 import { ListViewArea } from "@/components/flowance/ListViewArea";
 import { Panels } from "@/components/flowance/Panels";
@@ -82,7 +84,9 @@ function FlowancePage() {
           <GroupTabsBar />
           <ListViewArea />
           <Panels />
+          <TodayCard />
           <DailyArea />
+
           <PageCredit />
         </div>
       </div>
