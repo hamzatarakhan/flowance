@@ -69,9 +69,8 @@ export const Route = createFileRoute("/api/transcribe")({
             const upstream = new FormData();
             upstream.append("model", provider.model);
             upstream.append("file", file, `recording.${ext}`);
-            if (typeof lang === "string" && /^[a-z]{2}$/.test(lang)) {
-              upstream.append("language", lang);
-            }
+            upstream.append("language", typeof lang === "string" && /^[a-z]{2}$/.test(lang) ? lang : "ar");
+            upstream.append("prompt", prompt);
             const res = await fetch(provider.url, {
               method: "POST",
               headers: provider.headers,
