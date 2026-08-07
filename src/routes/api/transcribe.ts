@@ -5,7 +5,8 @@ export const Route = createFileRoute("/api/transcribe")({
     handlers: {
       POST: async ({ request }) => {
         try {
-          const apiKey = process.env["LOVABLE_API_KEY"];
+          const openaiKey = process.env["OPENAI_API_KEY"];
+          const apiKey = openaiKey || process.env["LOVABLE_API_KEY"];
           if (!apiKey) {
             return Response.json(
               { error: "AI key not configured" },
