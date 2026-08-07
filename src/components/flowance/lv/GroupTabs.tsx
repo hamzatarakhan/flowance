@@ -6,6 +6,7 @@ export interface GroupTabData {
   label: string;
   color: string;
   active: boolean;
+  noDelete?: boolean;
 }
 
 export function GroupTabs({
@@ -65,9 +66,11 @@ export function GroupTabs({
           >
             {tab.label}
           </button>
-          <span className="gtab-x" onClick={(e) => { e.stopPropagation(); w.deleteCategory(tab.id); }}>
-            ×
-          </span>
+          {!tab.noDelete && (
+            <span className="gtab-x" onClick={(e) => { e.stopPropagation(); w.deleteCategory(tab.id); }}>
+              ×
+            </span>
+          )}
         </div>
       ))}
     </>

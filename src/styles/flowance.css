@@ -1994,3 +1994,93 @@
   animation: qaPulse 1.1s ease-in-out infinite;
 }
 @keyframes qaPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,90,110,.45); } 50% { box-shadow: 0 0 0 9px rgba(255,90,110,0); } }
+
+/* ── Mode tabs (monthly / daily) ───────────────────────── */
+.mode-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 12px;
+  padding: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+}
+.mode-tab {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 11px 8px;
+  border: none; border-radius: 13px;
+  background: transparent;
+  color: var(--t-dim, #8A8AA8);
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.mode-tab svg { width: 16px; height: 16px; }
+.mode-tab.on {
+  background: rgba(79,142,247,0.16);
+  color: #4F8EF7;
+}
+
+/* ── Daily expenses view ───────────────────────────────── */
+.daily-area { display: block; }
+.daily-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  margin-bottom: 12px;
+}
+.daily-top-info { display: flex; flex-direction: column; gap: 3px; }
+.daily-top-label { font-size: 11.5px; color: var(--t-dim, #8A8AA8); }
+.daily-top-amt { font-size: 20px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+.daily-top-count { font-size: 11px; color: var(--t-dim, #8A8AA8); }
+.daily-add-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 14px; border: none; border-radius: 13px;
+  background: #4F8EF7; color: #fff;
+  font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+.daily-add-btn svg { width: 14px; height: 14px; }
+.daily-empty {
+  padding: 26px 16px; text-align: center;
+  font-size: 12.5px; color: var(--t-dim, #8A8AA8);
+  border: 1px dashed rgba(255,255,255,0.10); border-radius: 16px;
+}
+.daily-day { margin-bottom: 14px; }
+.daily-day-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 4px 8px;
+}
+.daily-day-label { font-size: 12.5px; font-weight: 700; color: var(--t-dim, #8A8AA8); }
+.daily-day-label.today { color: #2DC9A2; }
+.daily-day-total { font-size: 12.5px; font-family: 'IBM Plex Mono', monospace; color: var(--t-dim, #8A8AA8); }
+.daily-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; margin-bottom: 7px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+}
+.daily-item input {
+  background: transparent; border: none; outline: none;
+  color: inherit; font-family: inherit; font-size: 13px;
+}
+.daily-item-name { flex: 1; min-width: 0; }
+.daily-item-amt {
+  width: 84px; text-align: left; direction: ltr;
+  font-family: 'IBM Plex Mono', monospace; font-weight: 600;
+}
+.daily-item-date {
+  width: 34px; color: var(--t-dim, #8A8AA8);
+  font-size: 11px; opacity: .75;
+}
+.daily-item-date::-webkit-calendar-picker-indicator { filter: invert(.7); cursor: pointer; }
+.daily-item-del {
+  display: grid; place-items: center;
+  width: 26px; height: 26px; flex: none;
+  border: none; border-radius: 9px;
+  background: rgba(255,90,110,0.10); color: #FF5A6E; cursor: pointer;
+}
+.daily-item-del svg { width: 13px; height: 13px; }
