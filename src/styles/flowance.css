@@ -649,7 +649,6 @@
   .group-tabs.hidden { display: none; }
   .view-toggle {
     display: flex; gap: 2px; flex-shrink: 0;
-    align-self: flex-start;
     background: var(--bg-hover);
     border-radius: 8px; padding: 3px;
   }
