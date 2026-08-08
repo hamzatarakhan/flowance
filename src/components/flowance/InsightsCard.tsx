@@ -1,8 +1,4 @@
-import { useState } from "react";
-
 export function InsightsCard() {
-  const [showAll, setShowAll] = useState(false);
-
   return (
     <div className="insights-card" id="insightsCard" style={{ display: 'none' }}>
       <div className="ins-top">
@@ -30,7 +26,7 @@ export function InsightsCard() {
         </div>
       </div>
 
-      <div className={"ins-details" + (showAll ? "" : " collapsed")}>
+      <div className="ins-details">
         <div className="ins-paid-row">
           <div className="ins-paid-meta">
             <span className="ins-paid-yes" id="insPaidLbl">٠ مدفوع</span>
@@ -40,19 +36,6 @@ export function InsightsCard() {
         </div>
         <div className="ins-legend" id="insLegend"></div>
       </div>
-
-      <button
-        className="ins-toggle"
-        type="button"
-        aria-expanded={showAll}
-        onClick={() => setShowAll((v) => !v)}
-      >
-        {showAll ? "إخفاء التفاصيل" : "عرض كل الفئات"}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
-          style={{ transform: showAll ? "rotate(180deg)" : "none" }}>
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
     </div>
   );
 }
