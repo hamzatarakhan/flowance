@@ -161,21 +161,31 @@ export function DailyView({ days, total, count, range = 'month', rangeLabel = '�
         </div>
       )}
 
-      {days.map((day) => (
-        <div className="daily-day" key={day.date}>
-          <div className="daily-day-head">
-            <span className={'daily-day-label' + (day.isToday ? ' today' : '')}>
-              {day.isToday ? 'اليوم · ' : ''}
-              {day.label}
-            </span>
-            <span className="daily-day-total">{fmt(day.total)} JOD</span>
-          </div>
-
-          {day.items.map((item) => (
-            <DailyRow key={item.id} item={item} />
-          ))}
-        </div>
+      {days.map((day, i) => (
+        <DayGroup key={day.date} day={day} fmt={fmt} defaultOpen={days.length <= 3 || i === 0} />
       ))}
     </>
+  );
+}
+
+function DayGroup({ day, fmt, defaultOpen }: { day: DailyDay; fmt: (n: number) => any; defaultOpen: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <div className={'daily-day' + (open ? '' : ' collapsed')}>
+      <div className="daily-day-head" onClick={() => setOpen((v) => !v)}>
+        <span className={'daily-day-label' + (day.isToday ? ' today' : '')}>
+          <svg className="daily-day-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="4 6 8 10 12 6" />
+          </svg>
+          {day.isToday ? 'اليوم · ' : ''}
+          {day.label}
+          <span className="daily-day-count">{day.items.length}</span>
+        </span>
+        <span className="daily-day-total">{fmt(day.total)} JOD</span>
+      </div>
+
+      {open && day.items.map((item) => <DailyRow key={item.id} item={item} />)}
+    </div>
   );
 }
