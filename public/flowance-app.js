@@ -2850,17 +2850,6 @@ function nextMonthKey(curKey) {
   return `${ny}-${String(nm).padStart(2,'0')}`;
 }
 
-async function checkMonthRollover() {
-  if (activeEdit) return; // don't yank the state out from under an in-progress edit
-  const nowKey = currentMonthKey();
-  if (S.month_key && S.month_key !== nowKey) {
-    const endedLabel = monthKeyToLabel(S.month_key);
-    await rolloverMonth(S.month_key, nowKey);
-    updateMonthLabel();
-    render();
-    toast(`✓ تم حفظ ${endedLabel} وبدء ${monthKeyToLabel(nowKey)}`, 'var(--c-day-bd)');
-  }
-}
 
 // one-time cleanup: wipe the old demo/test data if it was ever seeded
 async function _purgeDevSeed() {
@@ -3118,7 +3107,7 @@ async function boot() {
     await DB.save(S);
   }
 
-  await checkMonthRollover();
+  
   await _purgeDevSeed();
 
   document.getElementById('budgetLbl').textContent = fJOD(S.budget ?? 0);
@@ -3126,7 +3115,7 @@ async function boot() {
   render();
   try { if (localStorage.getItem('flowance_mode') === 'daily') setMode('daily'); } catch (e) {}
 
-  setInterval(checkMonthRollover, 5 * 60 * 1000); // catches rollover if tab stays open across midnight
+  
 
   const ls = document.getElementById('loadScreen');
   ls.classList.add('hide');
@@ -3236,7 +3225,7 @@ function dailyItems() {
 }
 
 function dailyMonthItems() {
-  const mk = currentMonthKey();
+  const mk = S.month_key || currentMonthKey();
   return dailyItems().filter(it => String(it.date || '').startsWith(mk));
 }
 
