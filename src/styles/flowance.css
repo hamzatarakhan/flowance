@@ -892,6 +892,17 @@
   }
   .gtab-x:active { transform: scale(0.85); }
   .manage-mode .gtab-x { display: flex; }
+  .gtab-add-btn {
+    display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+    padding: 0 8px; height: 28px; border-radius: 20px;
+    border: 1.5px solid var(--primary); background: rgba(79,142,247,0.1);
+    color: var(--primary); font-size: 11px; font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-weight: 700; cursor: pointer; white-space: nowrap;
+    transition: background .15s, transform .14s var(--spring);
+  }
+  .gtab-add-btn:hover { background: rgba(79,142,247,0.2); }
+  .gtab-add-btn:active { transform: scale(.95); }
+  .gtab-add-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
   .gtab-manage-btn {
     flex-shrink: 0; width: 28px; height: 28px;
     display: grid; place-items: center;
@@ -2138,8 +2149,8 @@
 ══════════════════════════════════════ */
 @keyframes fzRowIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .row, .lv-row, .daily-item, .gtab-wrap { animation: fzRowIn .26s var(--ease) both; }
-.gtab, .mode-tab, .view-btn, .gtab-manage-btn { transition: transform .14s var(--spring), background .18s var(--ease), color .18s var(--ease); }
-.gtab:active, .mode-tab:active, .view-btn:active, .gtab-manage-btn:active { transform: scale(.95); }
+.gtab, .mode-tab, .view-btn, .gtab-manage-btn, .gtab-add-btn { transition: transform .14s var(--spring), background .18s var(--ease), color .18s var(--ease); }
+.gtab:active, .mode-tab:active, .view-btn:active, .gtab-manage-btn:active, .gtab-add-btn:active { transform: scale(.95); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }

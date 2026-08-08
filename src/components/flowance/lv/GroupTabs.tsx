@@ -27,6 +27,17 @@ export function GroupTabs({
     return (
       <>
       <button
+        className="gtab-add-btn"
+        title="إضافة مجموعة"
+        onClick={() => w.addCategory()}
+      >
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8 3v10M3 8h10" />
+        </svg>
+        مجموعة
+      </button>
+
+      <button
         className={'gtab-manage-btn' + (manageMode ? ' active' : '')}
         title={manageMode ? 'تم' : 'إدارة المجموعات'}
         onClick={() => w.toggleManageMode()}
