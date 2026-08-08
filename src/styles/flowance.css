@@ -545,6 +545,9 @@
   /* ── Insights collapse ── */
   .ins-details { display: flex; flex-direction: column; gap: 14px; }
   .ins-details.collapsed .ins-legend-item:nth-child(n+4) { display: none; }
+  .insights-card.few-cats .ins-toggle { display: none; }
+  .insights-card.few-cats .ins-details.collapsed .ins-legend-item { display: flex; }
+
   .ins-toggle {
     display: flex; align-items: center; justify-content: center; gap: 6px;
     width: 100%; min-height: 36px; border-radius: 10px;
