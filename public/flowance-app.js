@@ -3199,6 +3199,7 @@ function setMode(mode) {
   if (_mode === 'daily') {
     if (gtBar)  gtBar.style.display  = 'none';
     if (toolsR) toolsR.style.display = 'none';
+    if (toolsR) toolsR.style.display = 'none';
     if (panels) panels.style.display = 'none';
     if (listA)  listA.style.display  = 'none';
     if (dailyA) dailyA.style.display = 'block';
@@ -3208,6 +3209,7 @@ function setMode(mode) {
     renderDaily();
   } else {
     if (gtBar)  gtBar.style.display  = '';
+    if (toolsR) toolsR.style.display = '';
     if (toolsR) toolsR.style.display = '';
     if (dailyA) dailyA.style.display = 'none';
     if (todayC) todayC.style.display = 'none';
