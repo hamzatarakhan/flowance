@@ -2243,3 +2243,7 @@
   background: rgba(255,90,110,0.10); color: #FF5A6E; cursor: pointer;
 }
 .daily-item-del svg { width: 13px; height: 13px; }
+
+/* إخفاء المتفرقات */
+.panel-misc { display: none !important; }
+.stat-card.variable { display: none !important; }
