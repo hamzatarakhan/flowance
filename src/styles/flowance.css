@@ -2059,7 +2059,7 @@
    QUICK ADD  ·  FAB + expanding bar
 ══════════════════════════════════════ */
   .quickadd {
-    position: fixed; bottom: calc(45px + env(safe-area-inset-bottom));
+    position: fixed; bottom: calc(51px + env(safe-area-inset-bottom));
   left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 430px;
   padding: 0 16px;
