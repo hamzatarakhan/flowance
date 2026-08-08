@@ -50,8 +50,9 @@ export function registerFlowanceUI() {
         <GroupTabs tabs={tabs} manageMode={manageMode} allActive={allActive} showDeleteAll={showDeleteAll} variant={variant} />,
       );
     },
-    dailyView(el: Element, days: DailyDay[], total: number, count: number) {
-      renderSync(el, <DailyView days={days} total={total} count={count} />);
+    dailyView(el: Element, days: DailyDay[], total: number, count: number, range = 'month', rangeLabel = 'هذا الشهر') {
+      renderSync(el, <DailyView days={days} total={total} count={count} range={range} rangeLabel={rangeLabel} />);
     },
+
   };
 }
