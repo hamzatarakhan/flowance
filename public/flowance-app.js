@@ -3331,7 +3331,69 @@ function _qaGuessCat(name) {
       if (w.length > 2 && label.includes(w)) return c.id;
     }
   }
-  return 'misc';
+  return null;
+}
+
+/* Ask the user which group the new item belongs to (existing or brand new) */
+function _qaPickGroup(itemName, suggestedId, onPick) {
+  const cats = (S.cats_order || []).map(c => ({
+    id: c.id, name: S.labels?.[c.id] || c.name, colorIdx: c.colorIdx
+  }));
+  if (suggestedId) {
+    const i = cats.findIndex(c => c.id === suggestedId);
+    if (i > 0) cats.unshift(cats.splice(i, 1)[0]);
+  }
+
+  const overlay = document.createElement('div');
+  overlay.className = 'confirm-overlay';
+  overlay.innerHTML = `
+    <div class="confirm-sheet" style="padding-bottom:env(safe-area-inset-bottom,12px)">
+      <p class="confirm-msg" style="margin-bottom:4px">إضافة "${esc(itemName)}" إلى مجموعة</p>
+      <div class="move-cats-list"></div>
+      <div class="qa-newgroup" style="display:flex;gap:6px;margin-top:8px">
+        <input class="qa-newgroup-inp" placeholder="اسم مجموعة جديدة" style="flex:1;min-width:0;padding:10px;border-radius:10px;border:1px solid var(--c-border,#2b2b45);background:transparent;color:inherit;font:inherit">
+        <button class="confirm-yes qa-newgroup-go" style="white-space:nowrap">＋ إنشاء</button>
+      </div>
+      <button class="confirm-no" style="margin-top:8px;width:100%">إلغاء</button>
+    </div>`;
+
+  const list = overlay.querySelector('.move-cats-list');
+  if (!cats.length) {
+    const p = document.createElement('div');
+    p.style.cssText = 'opacity:.7;font-size:13px;padding:6px 2px';
+    p.textContent = 'لا توجد مجموعات بعد — أنشئ واحدة بالأسفل';
+    list.appendChild(p);
+  }
+  cats.forEach((cat, idx) => {
+    const pal = CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0];
+    const btn = document.createElement('button');
+    btn.className = 'move-cat-option';
+    btn.innerHTML = `<span class="move-cat-dot" style="background:${pal.color}"></span>${esc(cat.name)}`
+      + (idx === 0 && suggestedId === cat.id ? '<span style="margin-inline-start:auto;font-size:11px;opacity:.7">مقترحة</span>' : '');
+    btn.onclick = () => { overlay.remove(); onPick(cat.id); };
+    list.appendChild(btn);
+  });
+
+  const inp = overlay.querySelector('.qa-newgroup-inp');
+  const createNew = () => {
+    const nm = (inp.value || '').trim() || 'مجموعة جديدة';
+    const id = _id();
+    const colorIdx = (S.cats_order || []).length % CAT_COLORS.length;
+    if (!S.cats_order) S.cats_order = [];
+    S.cats_order.push({ id, name: nm, dec: 3, colorIdx });
+    S.cats[id] = [];
+    if (!S.labels) S.labels = {};
+    S.labels[id] = nm;
+    overlay.remove();
+    onPick(id);
+  };
+  overlay.querySelector('.qa-newgroup-go').onclick = createNew;
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') createNew(); });
+
+  overlay.querySelector('.confirm-no').onclick = () => overlay.remove();
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+  document.body.appendChild(overlay);
+  setTimeout(() => { if (!cats.length) inp.focus(); }, 60);
 }
 
 function quickAddSubmit() {
@@ -3348,18 +3410,28 @@ function quickAddSubmit() {
     return;
   }
 
-  const catId = _qaGuessCat(parsed.name);
-  if (!S.cats[catId]) S.cats[catId] = [];
-  S.cats[catId].push({ id: _id(), name: parsed.name, amount: parsed.amount, paid: false });
-  DB.save(S);
+  const commit = (catId) => {
+    if (!S.cats[catId]) S.cats[catId] = [];
+    S.cats[catId].push({ id: _id(), name: parsed.name, amount: parsed.amount, paid: false });
+    DB.save(S);
+    inp.value = '';
+    render();
+    renderGroupTabs();
+    recalc();
+    const label = (S.labels && S.labels[catId]) || (S.cats_order || []).find(c => c.id === catId)?.name || 'المجموعة';
+    toast(`تمت إضافة "${parsed.name}" إلى ${label}`, '#2DC9A2');
+    if (navigator.vibrate) navigator.vibrate(12);
+  };
 
-  inp.value = '';
-  render();
-  recalc();
-  const label = (S.labels && S.labels[catId]) || (S.cats_order || []).find(c => c.id === catId)?.name || 'متفرقات';
-  toast(`تمت إضافة "${parsed.name}" إلى ${label}`, '#2DC9A2');
-  if (navigator.vibrate) navigator.vibrate(12);
+  // If a specific group tab is active, add straight into it
+  if (_activeGroup && _activeGroup !== 'all' && _activeGroup !== 'misc' && S.cats[_activeGroup]) {
+    commit(_activeGroup);
+    return;
+  }
+
+  _qaPickGroup(parsed.name, _qaGuessCat(parsed.name), commit);
 }
+
 
 /* One-tap voice: start recording immediately, analyze automatically on stop */
 let _voiceAutoRun = false;
