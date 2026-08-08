@@ -1129,7 +1129,7 @@ function renderGroupTabs() {
       tabs,
       _manageMode,
       _activeGroup === 'all',
-      _manageMode && (S.cats_order || []).length > 0,
+      false,
       'center'
     );
   }
@@ -1210,6 +1210,8 @@ function switchView(mode) {
 function renderListView() {
   const wrap = document.getElementById('listViewArea');
   if (!wrap || !window.FlowanceUI) return;
+  // Don't tear down the DOM while a name is being edited inline
+  if (activeEdit || wrap.querySelector('.lv-cat-name input, .lv-item-name input, .lv-item-amt input')) return;
 
   const catsToShow = _activeGroup === 'all' ? (S.cats_order || [])
     : (S.cats_order || []).filter(c => c.id === _activeGroup);
