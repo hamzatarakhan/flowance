@@ -218,6 +218,9 @@ function updateInsights() {
       </div>
     </div>`
   ).join('');
+  // Hide the "show all" toggle when everything already fits (≤3 categories)
+  const insCard = document.getElementById('insightsCard');
+  if (insCard) insCard.classList.toggle('few-cats', segments.length <= 3);
 
 }
 
