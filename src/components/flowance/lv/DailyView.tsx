@@ -117,19 +117,41 @@ function DailyRow({ item }: { item: DailyItem }) {
   );
 }
 
-export function DailyView({ days, total, count }: { days: DailyDay[]; total: number; count: number }) {
+const RANGES: { k: string; label: string }[] = [
+  { k: 'today', label: 'اليوم' },
+  { k: 'week', label: 'هذا الأسبوع' },
+  { k: 'month', label: 'هذا الشهر' },
+  { k: 'last30', label: 'آخر ٣٠ يوم' },
+  { k: 'year', label: 'هذه السنة' },
+  { k: 'all', label: 'الكل' },
+];
+
+export function DailyView({ days, total, count, range = 'month', rangeLabel = 'هذا الشهر' }: { days: DailyDay[]; total: number; count: number; range?: string; rangeLabel?: string }) {
   const w = g();
   const fmt = (n: number) => (w.f ? w.f(n, 3) : n);
 
   return (
     <>
+      <div className="daily-ranges">
+        {RANGES.map((r) => (
+          <button
+            key={r.k}
+            className={'daily-range' + (r.k === range ? ' on' : '')}
+            onClick={() => w.setDailyRange(r.k)}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
+
       <div className="daily-top">
         <div className="daily-top-info">
-          <span className="daily-top-label">مصاريف هذا الشهر</span>
+          <span className="daily-top-label">مصاريف {rangeLabel}</span>
           <span className="daily-top-amt">{fmt(total)} JOD</span>
         </div>
         <span className="daily-top-count">{count} عملية</span>
       </div>
+
 
       <Composer />
 
