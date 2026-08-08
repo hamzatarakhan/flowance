@@ -3225,7 +3225,7 @@ function dailyItems() {
 }
 
 function dailyMonthItems() {
-  const mk = currentMonthKey();
+  const mk = S.month_key || currentMonthKey();
   return dailyItems().filter(it => String(it.date || '').startsWith(mk));
 }
 
