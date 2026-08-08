@@ -145,11 +145,11 @@ function miscTotal()   { return sub('misc'); }
 
 function updateInsights() {
   const card = document.getElementById('insightsCard');
-  const total = grandTotal() + miscTotal();
+  const total = grandTotal();
   if (total <= 0) { card.style.display = 'none'; return; }
   card.style.display = '';
 
-  // Build category segments (cats + misc)
+  // Build category segments
   const segments = [];
   (S.cats_order || []).forEach(cat => {
     const amt = sub(cat.id);
@@ -159,9 +159,8 @@ function updateInsights() {
       color: CAT_COLORS[cat.colorIdx % CAT_COLORS.length]?.color || '#888'
     });
   });
-  const mAmt = miscTotal();
-  if (mAmt > 0) segments.push({ name: 'متفرقات', amount: mAmt, color: '#F2B040' });
   segments.sort((a, b) => b.amount - a.amount);
+
 
   // Donut SVG
   const R = 36, CX = 50, CY = 50, C = 2 * Math.PI * R;
@@ -190,7 +189,7 @@ function updateInsights() {
 
   // Biggest single item
   let biggest = null;
-  [...(S.cats_order || []).map(c => c.id), 'misc'].forEach(id => {
+  [...(S.cats_order || []).map(c => c.id)].forEach(id => {
     (S.cats[id] || []).forEach(item => {
       if (!biggest || (+item.amount || 0) > biggest.amount)
         biggest = { name: item.name, amount: +item.amount || 0 };
@@ -202,7 +201,7 @@ function updateInsights() {
   }
 
   // Paid ratio bar
-  const pc = paidCount(), tc = totalCount() + (S.cats.misc||[]).length;
+  const pc = paidCount(), tc = totalCount();
   const upc = tc - pc;
   document.getElementById('insPaidFill').style.width = (tc > 0 ? (pc / tc) * 100 : 0) + '%';
   document.getElementById('insPaidLbl').textContent = pc + ' بند مدفوع';
