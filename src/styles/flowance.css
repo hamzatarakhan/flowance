@@ -893,7 +893,7 @@
   .manage-mode .gtab-x { display: flex; }
   .gtab-add-btn {
     display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0;
-    padding: 0 10px; height: 30px; border-radius: 20px;
+    padding: 0 10px; height: 30px; border-radius: 10px;
     border: 1.5px solid rgba(79,142,247,0.45);
     background: linear-gradient(135deg, rgba(79,142,247,0.18), rgba(79,142,247,0.08));
     color: var(--t-hi); font-size: 12px; font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -915,7 +915,7 @@
   .gtab-manage-btn svg { width: 13px; height: 13px; }
   .gtab-del-all-btn {
     display: flex; align-items: center; gap: 5px; flex-shrink: 0;
-    padding: 0 10px; height: 30px; border-radius: 20px;
+    padding: 0 10px; height: 30px; border-radius: 10px;
     border: 1px solid rgba(224,82,82,0.4); background: rgba(224,82,82,0.1);
     color: #e05252; font-size: 11px; font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-weight: 600; cursor: pointer; white-space: nowrap;
