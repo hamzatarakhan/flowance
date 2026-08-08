@@ -2183,7 +2183,7 @@
     justify-content: center;
     gap: 6px;
   }
-  .group-tabs-actions .gtab-add-btn { flex: 1; max-width: 220px; }
+  .group-tabs-actions .gtab-add-btn { width: 100%; max-width: none; }
   .view-toggle {
     grid-column: 3;
     justify-self: start;
