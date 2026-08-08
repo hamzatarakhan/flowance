@@ -189,7 +189,7 @@ function updateInsights() {
 
   // Biggest single item
   let biggest = null;
-  [...(S.cats_order || []).map(c => c.id), 'misc'].forEach(id => {
+  [...(S.cats_order || []).map(c => c.id)].forEach(id => {
     (S.cats[id] || []).forEach(item => {
       if (!biggest || (+item.amount || 0) > biggest.amount)
         biggest = { name: item.name, amount: +item.amount || 0 };
