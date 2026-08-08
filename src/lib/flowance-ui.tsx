@@ -43,7 +43,7 @@ export function registerFlowanceUI() {
       manageMode: boolean,
       allActive: boolean,
       showDeleteAll: boolean,
-      variant: 'chips' | 'actions' = 'chips',
+      variant: 'chips' | 'actions' | 'right' | 'center' = 'chips',
     ) {
       renderSync(
         el,

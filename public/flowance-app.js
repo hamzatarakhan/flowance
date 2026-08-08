@@ -1122,6 +1122,7 @@ function renderGroupTabs() {
     'chips'
   );
   const actions = document.getElementById('groupTabsActions');
+  const right = document.getElementById('toolsRight');
   if (actions) {
     window.FlowanceUI.groupTabs(
       actions,
@@ -1129,7 +1130,17 @@ function renderGroupTabs() {
       _manageMode,
       _activeGroup === 'all',
       _manageMode && (S.cats_order || []).length > 0,
-      'actions'
+      'center'
+    );
+  }
+  if (right) {
+    window.FlowanceUI.groupTabs(
+      right,
+      tabs,
+      _manageMode,
+      _activeGroup === 'all',
+      _manageMode && (S.cats_order || []).length > 0,
+      'right'
     );
   }
 }

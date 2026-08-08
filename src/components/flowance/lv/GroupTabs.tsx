@@ -20,9 +20,57 @@ export function GroupTabs({
   manageMode: boolean;
   allActive: boolean;
   showDeleteAll: boolean;
-  variant?: 'chips' | 'actions';
+  variant?: 'chips' | 'actions' | 'right' | 'center';
 }) {
   const w = g();
+  if (variant === 'right') {
+    return (
+      <button
+        className={'gtab-manage-btn' + (manageMode ? ' active' : '')}
+        title={manageMode ? 'تم' : 'إدارة المجموعات'}
+        onClick={() => w.toggleManageMode()}
+      >
+        {manageMode ? (
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="2 8 6 12 14 4" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="8" cy="8" r="1.2" /><circle cx="8" cy="3" r="1.2" /><circle cx="8" cy="13" r="1.2" />
+          </svg>
+        )}
+      </button>
+    );
+  }
+
+  if (variant === 'center') {
+    return (
+      <>
+      <button
+        className="gtab-add-btn"
+        title="إضافة مجموعة"
+        onClick={() => w.addCategory()}
+      >
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8 3v10M3 8h10" />
+        </svg>
+        مجموعة
+      </button>
+
+      {showDeleteAll && (
+        <button className="gtab-del-all-btn" title="حذف كل المجموعات" onClick={() => w.deleteAllCategories()}>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <polyline points="2 4 14 4" />
+            <path d="M12 4l-.8 9H4.8L4 4" />
+            <path d="M6.5 4V3h3v1" />
+          </svg>{' '}
+          حذف الكل
+        </button>
+      )}
+      </>
+    );
+  }
+
   if (variant === 'actions') {
     return (
       <>
