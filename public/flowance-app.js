@@ -702,8 +702,7 @@ function addRow(catId) {
 
 function showMoveSheet(itemId, fromCatId) {
   const allCats = [
-    ...(S.cats_order || []).map(c => ({ id: c.id, name: S.labels?.[c.id] || c.name, colorIdx: c.colorIdx })),
-    { id: 'misc', name: S.labels?.misc || 'متفرقات', colorIdx: -1 }
+    ...(S.cats_order || []).map(c => ({ id: c.id, name: S.labels?.[c.id] || c.name, colorIdx: c.colorIdx }))
   ].filter(c => c.id !== fromCatId);
 
   if (!allCats.length) { toast('لا توجد مجموعات أخرى للنقل إليها', 'var(--c-var)'); return; }
@@ -1099,13 +1098,6 @@ function renderGroupTabs() {
     color: (CAT_COLORS[cat.colorIdx % CAT_COLORS.length] || CAT_COLORS[0]).color,
     active: _activeGroup === cat.id
   }));
-  tabs.push({
-    id: 'misc',
-    label: S.labels?.misc || 'متفرقات',
-    color: '#F2B040',
-    active: _activeGroup === 'misc',
-    noDelete: true
-  });
   window.FlowanceUI.groupTabs(
     container,
     tabs,
@@ -1193,8 +1185,7 @@ function renderListView() {
   const wrap = document.getElementById('listViewArea');
   if (!wrap || !window.FlowanceUI) return;
 
-  const catsToShow = _activeGroup === 'misc' ? []
-    : _activeGroup === 'all' ? (S.cats_order || [])
+  const catsToShow = _activeGroup === 'all' ? (S.cats_order || [])
     : (S.cats_order || []).filter(c => c.id === _activeGroup);
 
   const cats = catsToShow.map(cat => ({
@@ -1206,18 +1197,6 @@ function renderListView() {
     dec: cat.dec || 3,
     isMisc: false
   }));
-
-  if (_activeGroup === 'all' || _activeGroup === 'misc') {
-    cats.push({
-      id: 'misc',
-      color: '#F2B040',
-      label: 'متفرقات الشهر',
-      items: S.cats.misc || [],
-      total: miscTotal(),
-      dec: 2,
-      isMisc: true
-    });
-  }
 
   window.FlowanceUI.listView(wrap, cats, _activeGroup === 'all');
 }
