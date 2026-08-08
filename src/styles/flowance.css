@@ -2181,7 +2181,26 @@
 
 /* ── Daily expenses view ───────────────────────────────── */
 .daily-area { display: block; }
+.daily-ranges {
+  display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 8px;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.daily-ranges::-webkit-scrollbar { display: none; }
+.daily-range {
+  flex: 0 0 auto; padding: 6px 12px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+  background: var(--surf-1, rgba(255,255,255,0.05));
+  border: 1px solid var(--border-md); color: var(--t-mid);
+  cursor: pointer; transition: all .16s ease;
+}
+.daily-range:hover { color: var(--t-hi); }
+.daily-range.on {
+  background: color-mix(in oklab, var(--c-per) 22%, transparent);
+  border-color: color-mix(in oklab, var(--c-per) 45%, transparent);
+  color: var(--t-hi);
+}
 .daily-top {
+
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 12px 16px;
   background: rgba(255,255,255,0.035);
