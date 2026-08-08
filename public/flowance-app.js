@@ -3288,10 +3288,11 @@ function renderDaily() {
     items: byDate[date],
     total: byDate[date].reduce((a, r) => a + (+r.amount || 0), 0)
   }));
-  window.FlowanceUI.dailyView(el, days, dailyMonthTotal(), items.length);
+  window.FlowanceUI.dailyView(el, days, rangeTotal, items.length, _dailyRange, _DAILY_RANGE_LABELS[_dailyRange] || 'هذا الشهر');
 
-  // Today summary card
-  const todayItems = byDate[tk] || [];
+  // Today summary card (always today, regardless of filter)
+  const todayItems = dailyItems().filter(it => it.date === tk);
+
   const todayTotal = todayItems.reduce((a, r) => a + (+r.amount || 0), 0);
   const tdDate  = document.getElementById('todayDate');
   const tdNum   = document.getElementById('todayNum');
