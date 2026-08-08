@@ -78,7 +78,7 @@ function FlowancePage() {
           <InsightsCard />
           <div className="control-stack">
             <ModeTabs />
-            <div className="tools-row">
+            <div className="tools-row" id="toolsRow">
               <div className="group-tabs-actions" id="groupTabsActions"></div>
               <ViewToggle />
             </div>

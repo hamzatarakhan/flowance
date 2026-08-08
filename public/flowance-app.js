@@ -3187,6 +3187,7 @@ function setMode(mode) {
   document.getElementById('modeTabDaily')?.classList.toggle('on', _mode === 'daily');
 
   const gtBar   = document.querySelector('.group-tabs-bar');
+  const toolsR  = document.getElementById('toolsRow');
   const panels  = document.getElementById('panelsArea');
   const listA   = document.getElementById('listViewArea');
   const dailyA  = document.getElementById('dailyArea');
@@ -3197,6 +3198,7 @@ function setMode(mode) {
 
   if (_mode === 'daily') {
     if (gtBar)  gtBar.style.display  = 'none';
+    if (toolsR) toolsR.style.display = 'none';
     if (panels) panels.style.display = 'none';
     if (listA)  listA.style.display  = 'none';
     if (dailyA) dailyA.style.display = 'block';
@@ -3206,6 +3208,7 @@ function setMode(mode) {
     renderDaily();
   } else {
     if (gtBar)  gtBar.style.display  = '';
+    if (toolsR) toolsR.style.display = '';
     if (dailyA) dailyA.style.display = 'none';
     if (todayC) todayC.style.display = 'none';
     if (sticky) sticky.style.display = 'flex';
