@@ -113,7 +113,7 @@ function DailyRow({ item }: { item: DailyItem }) {
           onChange={(e) => { w.dailyUpdate(item.id, 'date', e.currentTarget.value); setOpenDate(false); }}
         />
       )}
-      <span className="daily-item-fmt">{fmt(item.amount || 0)}</span>
+      
     </div>
   );
 }
