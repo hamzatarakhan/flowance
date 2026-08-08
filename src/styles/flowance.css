@@ -544,19 +544,6 @@
 
   /* ── Insights collapse ── */
   .ins-details { display: flex; flex-direction: column; gap: 14px; }
-  .ins-details.collapsed .ins-legend-item:nth-child(n+4) { display: none; }
-  .insights-card.few-cats .ins-toggle { display: none; }
-  .insights-card.few-cats .ins-details.collapsed .ins-legend-item { display: flex; }
-
-  .ins-toggle {
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    width: 100%; min-height: 36px; border-radius: 10px;
-    background: var(--bg-hover); border: 1px solid var(--border);
-    color: var(--t-mid); font-size: 11.5px; font-weight: 600;
-    transition: all var(--dur) var(--ease);
-  }
-  .ins-toggle:active { transform: scale(0.98); color: var(--t-hi); }
-  .ins-toggle svg { width: 14px; height: 14px; transition: transform var(--dur) var(--ease); }
 
   /* ── Today card (daily mode) ── */
   .today-card {
