@@ -201,7 +201,7 @@ function updateInsights() {
   }
 
   // Paid ratio bar
-  const pc = paidCount(), tc = totalCount() + (S.cats.misc||[]).length;
+  const pc = paidCount(), tc = totalCount();
   const upc = tc - pc;
   document.getElementById('insPaidFill').style.width = (tc > 0 ? (pc / tc) * 100 : 0) + '%';
   document.getElementById('insPaidLbl').textContent = pc + ' بند مدفوع';
