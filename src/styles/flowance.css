@@ -895,13 +895,13 @@
   .gtab-add-btn {
     display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0;
     padding: 0 10px; height: 30px; border-radius: 20px;
-    border: 1.5px solid var(--c-ess);
+    border: 1.5px solid rgba(79,142,247,0.45);
     background: linear-gradient(135deg, rgba(79,142,247,0.18), rgba(79,142,247,0.08));
     color: var(--t-hi); font-size: 12px; font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-weight: 800; letter-spacing: 0.01em; cursor: pointer; white-space: nowrap;
     transition: background .15s, transform .14s var(--spring), border-color .15s;
   }
-  .gtab-add-btn:hover { background: rgba(79,142,247,0.26); border-color: var(--c-ess); }
+  .gtab-add-btn:hover { background: rgba(79,142,247,0.26); border-color: rgba(79,142,247,0.7); }
   .gtab-add-btn:active { transform: scale(.95); }
   .gtab-add-btn svg { width: 13px; height: 13px; flex-shrink: 0; color: var(--c-ess); }
   .gtab-manage-btn {
