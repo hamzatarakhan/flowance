@@ -62,7 +62,6 @@ function Composer() {
 function DailyRow({ item }: { item: DailyItem }) {
   const w = g();
   const [openDate, setOpenDate] = useState(false);
-  const fmt = (n: number) => (w.f ? w.f(n, 3) : n);
 
   return (
     <div className="daily-item">
