@@ -115,6 +115,15 @@ export function GroupTabs({
     );
   }
 
+  if (!tabs.length) {
+    return (
+      <div className="gtab-empty">
+        <span className="gtab-empty-txt">ما في مجموعات بعد</span>
+        <button className="gtab-empty-btn" onClick={() => w.addCategory()}>+ أضف مجموعة</button>
+      </div>
+    );
+  }
+
   return (
     <>
       <button
