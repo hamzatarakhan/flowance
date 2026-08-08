@@ -2868,58 +2868,17 @@ async function checkMonthRollover() {
   }
 }
 
-// ponytail: one-time dev fixture, not a real feature — delete this + its boot() call once test data isn't needed
-async function _devSeedYearsIfEmpty() {
-  if (localStorage.getItem('flowance_dev_seeded')) return; // ran once already, skip
-
-  const item = (name, min, max, paidChance, recurring) => ({
-    id: _id(), name,
-    amount: +(min + Math.random() * (max - min)).toFixed(3),
-    paid: Math.random() < paidChance,
-    ...(recurring ? { recurring: true } : {})
-  });
-  const catsOrder = () => [
-    { id: 'housing',   name: 'سكن',                dec: 3, colorIdx: 0, budget: 400 },
-    { id: 'transport', name: 'مواصلات',            dec: 3, colorIdx: 1, budget: 150 },
-    { id: 'food',      name: 'أكل',                dec: 3, colorIdx: 2, budget: 250 },
-    { id: 'shopping',  name: 'تسوق',               dec: 3, colorIdx: 3, budget: 120 },
-    { id: 'bills',     name: 'فواتير واشتراكات',   dec: 3, colorIdx: 4, budget: 80  },
-  ];
-  const monthData = (paidBias) => ({
-    cats_order: catsOrder(),
-    cats: {
-      housing:   [ item('إيجار الشقة', 280, 320, paidBias, true), item('كهرباء', 25, 45, paidBias), item('ماء', 8, 15, paidBias), item('انترنت', 20, 25, paidBias, true) ],
-      transport: [ item('بنزين', 40, 70, paidBias), item('صيانة سيارة', 0, 60, paidBias*0.5), item('تأمين', 25, 25, paidBias) ],
-      food:      [ item('سوبرماركت', 90, 140, paidBias), item('مطاعم', 30, 90, paidBias), item('توصيل طلبات', 10, 40, paidBias) ],
-      shopping:  [ item('ملابس', 0, 80, paidBias*0.5), item('إلكترونيات', 0, 100, paidBias*0.3) ],
-      bills:     [ item('جوال', 15, 15, paidBias, true), item('نتفلكس', 6, 6, paidBias, true), item('جيم', 25, 25, paidBias) ],
-      misc:      [ item('صيدلية', 0, 30, paidBias*0.7), item('هدايا', 0, 50, paidBias*0.5) ],
-    },
-    labels: {},
-    budget: 900,
-    salary: Math.round(1100 + (Math.random()*100 - 50)),
-    onboarded: true,
-  });
-
-  const curKey = S.month_key || currentMonthKey();
-  const now = new Date();
-  for (let i = 26; i >= 1; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-    if (key === curKey) continue;
-    await HISTORY_DB.saveSnapshot(key, monthData(0.9));
-  }
-
-  const cur = monthData(0.4);
-  S.cats_order = cur.cats_order;
-  S.cats = cur.cats;
-  S.labels = {};
-  S.budget = cur.budget;
-  S.salary = cur.salary;
-  S.onboarded = true;
+// one-time cleanup: wipe the old demo/test data if it was ever seeded
+async function _purgeDevSeed() {
+  if (!localStorage.getItem('flowance_dev_seeded')) return;
+  try {
+    const snaps = await HISTORY_DB.listSnapshots();
+    for (const s of snaps) await HISTORY_DB.deleteSnapshot(s.key || s.month_key || s);
+  } catch (e) {}
+  S = JSON.parse(JSON.stringify(SEED));
+  S.month_key = currentMonthKey();
   await DB.save(S);
-  localStorage.setItem('flowance_dev_seeded', '1');
-  toast('✓ تمت إضافة بيانات تجريبية لأكثر من سنتين', 'var(--c-day-bd)');
+  localStorage.removeItem('flowance_dev_seeded');
 }
 
 async function startNewMonth() {
@@ -3166,7 +3125,7 @@ async function boot() {
   }
 
   await checkMonthRollover();
-  await _devSeedYearsIfEmpty();
+  await _purgeDevSeed();
 
   document.getElementById('budgetLbl').textContent = fJOD(S.budget ?? 0);
   updateMonthLabel();
