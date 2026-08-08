@@ -2185,29 +2185,56 @@
 .daily-area { display: block; }
 .daily-top {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 14px 16px;
+  padding: 12px 16px;
   background: rgba(255,255,255,0.035);
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 18px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
-.daily-top-info { display: flex; flex-direction: column; gap: 3px; }
+.daily-top-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .daily-top-label { font-size: 11.5px; color: var(--t-dim, #8A8AA8); }
 .daily-top-amt { font-size: 20px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
-.daily-top-count { font-size: 11px; color: var(--t-dim, #8A8AA8); }
-.daily-add-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 10px 14px; border: none; border-radius: 13px;
-  background: #4F8EF7; color: #fff;
-  font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+.daily-top-count {
+  flex: none; font-size: 11px; color: var(--t-dim, #8A8AA8);
+  padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,0.06);
 }
-.daily-add-btn svg { width: 14px; height: 14px; }
+
+/* quick composer */
+.daily-composer {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 96px 44px;
+  gap: 8px; align-items: center;
+  padding: 8px; margin-bottom: 14px;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 16px;
+}
+.daily-composer input {
+  height: 40px; padding: 0 12px;
+  background: rgba(0,0,0,0.16);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; outline: none;
+  color: inherit; font-family: inherit; font-size: 14px;
+}
+.daily-composer input:focus { border-color: rgba(79,142,247,0.6); }
+.daily-composer .dc-amt {
+  text-align: left; direction: ltr;
+  font-family: 'IBM Plex Mono', monospace; font-weight: 600;
+}
+.daily-composer .dc-add {
+  display: grid; place-items: center;
+  width: 44px; height: 40px; flex: none;
+  border: none; border-radius: 12px;
+  background: #4F8EF7; color: #fff; cursor: pointer;
+}
+.daily-composer .dc-add svg { width: 18px; height: 18px; }
+
 .daily-empty {
-  padding: 26px 16px; text-align: center;
-  font-size: 12.5px; color: var(--t-dim, #8A8AA8);
+  padding: 24px 16px; text-align: center;
+  font-size: 12.5px; line-height: 1.7; color: var(--t-dim, #8A8AA8);
   border: 1px dashed rgba(255,255,255,0.10); border-radius: 16px;
 }
-.daily-day { margin-bottom: 14px; }
+.daily-day { margin-bottom: 16px; }
 .daily-day-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 6px 4px 8px;
@@ -2215,34 +2242,55 @@
 .daily-day-label { font-size: 12.5px; font-weight: 700; color: var(--t-dim, #8A8AA8); }
 .daily-day-label.today { color: #2DC9A2; }
 .daily-day-total { font-size: 12.5px; font-family: 'IBM Plex Mono', monospace; color: var(--t-dim, #8A8AA8); }
+
 .daily-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 12px; margin-bottom: 7px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 8px 10px; margin-bottom: 8px;
   background: rgba(255,255,255,0.035);
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 14px;
 }
+.daily-item-main {
+  display: flex; align-items: center; gap: 6px;
+  flex: 1 1 180px; min-width: 0;
+}
 .daily-item input {
   background: transparent; border: none; outline: none;
-  color: inherit; font-family: inherit; font-size: 13px;
+  color: inherit; font-family: inherit; font-size: 14px;
+  height: 36px; border-radius: 10px; padding: 0 6px;
 }
-.daily-item-name { flex: 1; min-width: 0; }
+.daily-item input:focus { background: rgba(0,0,0,0.20); }
+.daily-item-name { flex: 1 1 auto; min-width: 0; }
 .daily-item-amt {
-  width: 84px; text-align: left; direction: ltr;
+  width: 92px; flex: none; text-align: left; direction: ltr;
   font-family: 'IBM Plex Mono', monospace; font-weight: 600;
 }
+.daily-item-cur { font-size: 10.5px; color: var(--t-dim, #8A8AA8); flex: none; }
+.daily-item-actions { display: flex; align-items: center; gap: 6px; flex: none; }
+.daily-icon-btn {
+  display: grid; place-items: center;
+  width: 36px; height: 36px; flex: none;
+  border: none; border-radius: 11px;
+  background: rgba(255,255,255,0.06); color: var(--t-dim, #8A8AA8);
+  cursor: pointer; transition: background .18s, color .18s;
+}
+.daily-icon-btn svg { width: 15px; height: 15px; }
+.daily-icon-btn.on { background: rgba(79,142,247,0.16); color: #4F8EF7; }
+.daily-icon-btn.del { background: rgba(255,90,110,0.10); color: #FF5A6E; }
 .daily-item-date {
-  width: 34px; color: var(--t-dim, #8A8AA8);
-  font-size: 11px; opacity: .75;
+  flex: 1 1 100%; width: 100%;
+  height: 38px !important; padding: 0 10px !important;
+  background: rgba(0,0,0,0.20) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  color: inherit; font-size: 13px; direction: ltr;
 }
 .daily-item-date::-webkit-calendar-picker-indicator { filter: invert(.7); cursor: pointer; }
-.daily-item-del {
-  display: grid; place-items: center;
-  width: 26px; height: 26px; flex: none;
-  border: none; border-radius: 9px;
-  background: rgba(255,90,110,0.10); color: #FF5A6E; cursor: pointer;
+
+@media (max-width: 420px) {
+  .daily-composer { grid-template-columns: minmax(0,1fr) 84px 42px; }
+  .daily-item-amt { width: 80px; }
 }
-.daily-item-del svg { width: 13px; height: 13px; }
+
 
 /* إخفاء المتفرقات */
 .panel-misc { display: none !important; }
