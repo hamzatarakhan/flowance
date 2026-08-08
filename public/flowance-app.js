@@ -3107,7 +3107,7 @@ async function boot() {
     await DB.save(S);
   }
 
-  await checkMonthRollover();
+  
   await _purgeDevSeed();
 
   document.getElementById('budgetLbl').textContent = fJOD(S.budget ?? 0);
@@ -3115,7 +3115,7 @@ async function boot() {
   render();
   try { if (localStorage.getItem('flowance_mode') === 'daily') setMode('daily'); } catch (e) {}
 
-  setInterval(checkMonthRollover, 5 * 60 * 1000); // catches rollover if tab stays open across midnight
+  
 
   const ls = document.getElementById('loadScreen');
   ls.classList.add('hide');
