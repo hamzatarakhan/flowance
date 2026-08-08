@@ -2149,8 +2149,8 @@
 ══════════════════════════════════════ */
 @keyframes fzRowIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .row, .lv-row, .daily-item, .gtab-wrap { animation: fzRowIn .26s var(--ease) both; }
-.gtab, .mode-tab, .view-btn, .gtab-manage-btn { transition: transform .14s var(--spring), background .18s var(--ease), color .18s var(--ease); }
-.gtab:active, .mode-tab:active, .view-btn:active, .gtab-manage-btn:active { transform: scale(.95); }
+.gtab, .mode-tab, .view-btn, .gtab-manage-btn, .gtab-add-btn { transition: transform .14s var(--spring), background .18s var(--ease), color .18s var(--ease); }
+.gtab:active, .mode-tab:active, .view-btn:active, .gtab-manage-btn:active, .gtab-add-btn:active { transform: scale(.95); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
