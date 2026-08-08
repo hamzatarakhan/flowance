@@ -857,7 +857,7 @@
   .gtab {
     flex-shrink: 0;
     border: 1.5px solid var(--border-md);
-    border-radius: 99px;
+    border-radius: 10px;
     padding: 5px 14px;
     font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 11px; font-weight: 700;
@@ -2356,3 +2356,18 @@
 /* إخفاء المتفرقات */
 .panel-misc { display: none !important; }
 .stat-card.variable { display: none !important; }
+
+.gtab-empty {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; box-sizing: border-box;
+  padding: 8px 12px; border-radius: 10px;
+  border: 1.5px dashed var(--border-md); background: var(--bg-card);
+}
+.gtab-empty-txt { font-size: 11.5px; font-weight: 700; color: var(--t-low); }
+.gtab-empty-btn {
+  border: none; border-radius: 8px; padding: 6px 12px;
+  background: linear-gradient(135deg, #4F8EF7, #3A6FD8); color: #fff;
+  font-family: 'IBM Plex Sans Arabic', sans-serif; font-size: 11.5px; font-weight: 800;
+  cursor: pointer; white-space: nowrap;
+}
+.gtab-empty-btn:active { transform: scale(.95); }
