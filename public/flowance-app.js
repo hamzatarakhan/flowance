@@ -2850,17 +2850,6 @@ function nextMonthKey(curKey) {
   return `${ny}-${String(nm).padStart(2,'0')}`;
 }
 
-async function checkMonthRollover() {
-  if (activeEdit) return; // don't yank the state out from under an in-progress edit
-  const nowKey = currentMonthKey();
-  if (S.month_key && S.month_key !== nowKey) {
-    const endedLabel = monthKeyToLabel(S.month_key);
-    await rolloverMonth(S.month_key, nowKey);
-    updateMonthLabel();
-    render();
-    toast(`✓ تم حفظ ${endedLabel} وبدء ${monthKeyToLabel(nowKey)}`, 'var(--c-day-bd)');
-  }
-}
 
 // one-time cleanup: wipe the old demo/test data if it was ever seeded
 async function _purgeDevSeed() {
