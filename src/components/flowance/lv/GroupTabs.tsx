@@ -61,6 +61,7 @@ export function GroupTabs({
       <button
         className={'gtab' + (allActive ? ' on on-all' : '')}
         onClick={() => { if (!manageMode) w.filterGroup('all'); }}
+        title="كل المجموعات"
       >
         الكل
       </button>
@@ -71,8 +72,10 @@ export function GroupTabs({
             className={'gtab' + (tab.active ? ' on' : '')}
             style={{ ['--gtab-color' as any]: tab.color }}
             onClick={() => { if (!manageMode) w.filterGroup(tab.id); }}
+            title={tab.label}
           >
-            {tab.label}
+            <span className="gtab-dot" style={{ background: tab.color }} />
+            <span className="gtab-label">{tab.label}</span>
           </button>
           {!tab.noDelete && (
             <span className="gtab-x" onClick={(e) => { e.stopPropagation(); w.deleteCategory(tab.id); }}>
