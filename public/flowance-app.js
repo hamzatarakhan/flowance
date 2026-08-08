@@ -3240,10 +3240,44 @@ function dailyMonthTotal() {
   return dailyMonthItems().reduce((a, r) => a + (+r.amount || 0), 0);
 }
 
+let _dailyRange = (() => { try { return localStorage.getItem('flowance_daily_range') || 'month'; } catch(e){ return 'month'; } })();
+
+const _DAILY_RANGE_LABELS = {
+  today: 'اليوم', week: 'هذا الأسبوع', month: 'هذا الشهر',
+  last30: 'آخر ٣٠ يوم', year: 'هذه السنة', all: 'كل الفترات'
+};
+
+function setDailyRange(k) {
+  _dailyRange = k;
+  try { localStorage.setItem('flowance_daily_range', k); } catch(e) {}
+  renderDaily();
+}
+window.setDailyRange = setDailyRange;
+
+function _dailyRangeItems() {
+  const all = dailyItems();
+  const now = new Date();
+  const key = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  if (_dailyRange === 'all') return all.slice();
+  if (_dailyRange === 'today') { const tk = todayKey(); return all.filter(it => it.date === tk); }
+  if (_dailyRange === 'year')  { const y = String(now.getFullYear()); return all.filter(it => String(it.date||'').startsWith(y)); }
+  if (_dailyRange === 'month') return dailyMonthItems();
+  let from;
+  if (_dailyRange === 'week') {
+    from = new Date(now); from.setDate(now.getDate() - ((now.getDay() + 1) % 7)); // week starts Saturday
+  } else { // last30
+    from = new Date(now); from.setDate(now.getDate() - 29);
+  }
+  const fk = key(from);
+  return all.filter(it => String(it.date||'') >= fk && String(it.date||'') <= key(now));
+}
+
 function renderDaily() {
   const el = document.getElementById('dailyArea');
   if (!el || !window.FlowanceUI) return;
-  const items = dailyMonthItems();
+  const items = _dailyRangeItems();
+  const rangeTotal = items.reduce((a, r) => a + (+r.amount || 0), 0);
+
   const byDate = {};
   items.forEach(it => { (byDate[it.date] = byDate[it.date] || []).push(it); });
   const tk = todayKey();
