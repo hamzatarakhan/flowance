@@ -623,17 +623,27 @@
      GROUP FILTER CHIPS + VIEW TOGGLE
   ══════════════════════════════════════ */
   .group-tabs-bar {
-    display: flex; flex-direction: column; align-items: stretch; gap: 6px;
-    padding: 0 0 2px;
+    display: flex; flex-direction: column; align-items: stretch; gap: 4px;
+    padding: 0;
   }
   .group-tabs {
-    display: flex; align-items: center; gap: 6px;
+    display: flex; align-items: center; gap: 5px;
     overflow-x: auto; overflow-y: visible;
-    padding: 2px 2px 4px;
+    padding: 4px 4px 4px 0;
     scrollbar-width: none; width: 100%;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
   }
   .group-tabs::-webkit-scrollbar { display: none; }
   .group-tabs.hidden { display: none; }
+  .group-tabs::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0; left: 0; width: 18px;
+    background: linear-gradient(to right, var(--bg), transparent);
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .group-tabs.can-scroll::after { opacity: 1; }
   .view-toggle {
     display: flex; gap: 2px; flex-shrink: 0;
     align-self: flex-start;
@@ -642,13 +652,14 @@
   }
 
   .view-btn {
-    width: 28px; height: 28px;
+    width: 26px; height: 26px;
     border: none; background: transparent;
     border-radius: 6px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     color: var(--t-low);
     transition: background 0.15s, color 0.15s;
   }
+  .view-btn svg { width: 13px; height: 13px; }
   .view-btn.active {
     background: var(--bg);
     color: var(--t-hi);
