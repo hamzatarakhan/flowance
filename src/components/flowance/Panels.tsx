@@ -23,7 +23,7 @@ export function Panels() {
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 3v10M3 8h10" /></svg>
               إضافة مجموعة
             </button>
-            <div className="g-total">
+            <div className="g-total" style={{ display: 'none' }}>
               <span className="g-label" id="grandTotalLabel">المجموع الكلي</span>
               <span className="g-amount" id="grandTotal">0.000 JOD</span>
             </div>
