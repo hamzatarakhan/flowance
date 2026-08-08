@@ -929,8 +929,20 @@ function recalc() {
     }
   }
 
-  const sa  = document.getElementById('stickyAmt');  if(sa)  sa.textContent  = fJOD(grand);
-  const sp2 = document.getElementById('stickyPaid'); if(sp2) sp2.textContent = pc > 0 ? '✓ '+fJOD(paid)+' مدفوع' : '';
+  // Sticky bar: today / month-to-date / still owed
+  try {
+    const tk = new Date().toISOString().slice(0,10);
+    const dItems = (typeof dailyItems === 'function') ? dailyItems() : [];
+    const dToday = dItems.filter(it => String(it.date||'').startsWith(tk))
+                         .reduce((a,r)=>a+(+r.amount||0),0);
+    const dMonth = (typeof dailyMonthTotal === 'function') ? dailyMonthTotal() : 0;
+    const spentMonth = paid + dMonth;
+    const owed = Math.max(0, grand - paid);
+    const st = document.getElementById('stickyToday');  if(st) st.textContent = f(dToday,3);
+    const sm = document.getElementById('stickyMonth');  if(sm) sm.textContent = f(spentMonth,3);
+    const sr = document.getElementById('stickyRemain'); if(sr) sr.textContent = f(owed,3);
+  } catch(e) {}
+
 }
 
 /* ════════════════════════════════════════

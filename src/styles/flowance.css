@@ -1667,28 +1667,26 @@
     gap: 12px;
   }
   [data-theme="light"] .sticky-bar { background: rgba(240,240,248,0.92); }
-  .sticky-left {
-    display: flex; flex-direction: row; align-items: baseline;
-    gap: 8px; min-width: 0;
+  .sticky-stat {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 2px; min-width: 0; flex: 1;
+  }
+  .sticky-sep {
+    width: 1px; align-self: stretch; margin: 2px 0;
+    background: var(--border-md);
   }
   .sticky-label {
-    font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.02em;
     color: var(--t-low); white-space: nowrap;
   }
   .sticky-amount {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px; font-weight: 600; line-height: 1.1;
+    font-size: 13px; font-weight: 600; line-height: 1.1;
     color: var(--t-hi); letter-spacing: -0.2px;
     white-space: nowrap;
   }
+  .sticky-amount.neg { color: var(--c-ess); }
 
-  .sticky-paid {
-    font-size: 10px; line-height: 1; color: var(--c-paid); white-space: nowrap;
-    padding: 4px 9px; border-radius: 999px;
-    background: color-mix(in oklab, var(--c-paid) 14%, transparent);
-    border: 1px solid color-mix(in oklab, var(--c-paid) 26%, transparent);
-  }
-  .sticky-paid:empty { display: none; }
 
 
 
