@@ -19,7 +19,7 @@ export function Panels() {
               <span className="ch ch-del"></span>
             </div>
             <div id="mainBody"></div>
-            <button className="add-cat-btn" onClick={h(`addCategory()`)}>
+            <button className="add-cat-btn" onClick={h(`addCategory()`)} style={{ display: 'none' }}>
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 3v10M3 8h10" /></svg>
               إضافة مجموعة
             </button>
