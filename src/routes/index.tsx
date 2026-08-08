@@ -79,6 +79,7 @@ function FlowancePage() {
           <div className="control-stack">
             <ModeTabs />
             <div className="tools-row" id="toolsRow">
+              <div className="tools-right" id="toolsRight"></div>
               <div className="group-tabs-actions" id="groupTabsActions"></div>
               <ViewToggle />
             </div>
