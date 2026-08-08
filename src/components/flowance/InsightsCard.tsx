@@ -1,8 +1,4 @@
-import { useState } from "react";
-
 export function InsightsCard() {
-  const [showAll, setShowAll] = useState(false);
-
   return (
     <div className="insights-card" id="insightsCard" style={{ display: 'none' }}>
       <div className="ins-top">
