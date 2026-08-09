@@ -580,7 +580,7 @@ function lvStartEdit(el, itemId, catId, field) {
       if (field === 'name') {
         const row = document.getElementById('lv-item-' + itemId);
         const amtEl = row && row.querySelector('.lv-item-amt');
-        if (amtEl) amtEl.click();
+        if (amtEl) lvStartEdit(amtEl, itemId, catId, 'amount');
       }
     }
     if (e.key === 'Escape') { e.preventDefault(); cancelEdit(); }
@@ -669,23 +669,18 @@ function addRow(catId) {
   const dec = catId === 'misc' ? 2 : ((S.cats_order||[]).find(c=>c.id===catId)?.dec || 3);
 
   if (_viewMode === 'list') {
-    const lvSec = document.querySelector(`#listViewArea .lv-cat[data-catid="${catId}"]`);
-    if (lvSec) {
-      const em = lvSec.querySelector('.lv-empty');
-      if (em) em.remove();
-      const wrap = lvSec.querySelector('.lv-items-wrap');
-      const newRow = _lvBuildItem(item, catId, dec);
-      if (wrap) wrap.appendChild(newRow);
-      else lvSec.appendChild(newRow);
-      const sortInst = _lvSortables.find(s => s.el === wrap);
-      if (!sortInst && wrap) _lvInitItemSortable(wrap, catId);
-      const nameSpan = newRow.querySelector('.lv-item-name');
-      if (nameSpan) lvStartEdit(nameSpan, item.id, catId, 'name');
-    }
-    // Also add to hidden card view
+    // Sync hidden card view
     const cardContainer = document.getElementById('rows-' + catId);
     if (cardContainer) cardContainer.appendChild(makeRow(item, catId, dec));
     recalc();
+    // Re-render list view synchronously (flushSync), then focus the new item's name
+    renderListView();
+    const newRow = document.getElementById('lv-item-' + item.id);
+    const nameSpan = newRow && newRow.querySelector('.lv-item-name');
+    if (nameSpan) {
+      nameSpan.scrollIntoView({ block: 'nearest' });
+      lvStartEdit(nameSpan, item.id, catId, 'name');
+    }
     return;
   }
 
@@ -1034,7 +1029,7 @@ function addCategory() {
   _activeGroup = 'all';
   render();
   renderGroupTabs();
-  setTimeout(() => editCatTitle(id), 40);
+  editCatTitle(id);
 }
 
 function deleteCategory(catId) {
