@@ -1,0 +1,30 @@
+{
+  "/home/runner/work/flowance/flowance/src/styles.css": {
+    "file": "assets/styles-BcLwT9Qw.css",
+    "src": "/home/runner/work/flowance/flowance/src/styles.css"
+  },
+  "node_modules/@tanstack/react-start/dist/plugin/default-entry/client.tsx": {
+    "file": "assets/index-BY-iGpB6.js",
+    "name": "index",
+    "src": "node_modules/@tanstack/react-start/dist/plugin/default-entry/client.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/routes/index.tsx?tsr-split=component"
+    ],
+    "css": [
+      "assets/index-B6ZmQ-7B.css"
+    ],
+    "assets": [
+      "assets/styles-BcLwT9Qw.css"
+    ]
+  },
+  "src/routes/index.tsx?tsr-split=component": {
+    "file": "assets/routes-xtU1d4OT.js",
+    "name": "routes",
+    "src": "src/routes/index.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "node_modules/@tanstack/react-start/dist/plugin/default-entry/client.tsx"
+    ]
+  }
+}
