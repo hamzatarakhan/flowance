@@ -335,13 +335,13 @@ function render() {
   if (_viewMode === 'list') {
     document.getElementById('panelsArea').style.display = 'none';
     document.getElementById('listViewArea').style.display = 'block';
-    initLvSortables();
+    requestAnimationFrame(initLvSortables);
   } else {
     document.getElementById('panelsArea').style.display = 'block';
     document.getElementById('listViewArea').style.display = 'none';
     filterGroup(_activeGroup);
     initSortables();
-    initLvSortables();
+    requestAnimationFrame(initLvSortables);
   }
 }
 
@@ -673,14 +673,16 @@ function addRow(catId) {
     const cardContainer = document.getElementById('rows-' + catId);
     if (cardContainer) cardContainer.appendChild(makeRow(item, catId, dec));
     recalc();
-    // Re-render list view synchronously (flushSync), then focus the new item's name
     renderListView();
-    const newRow = document.getElementById('lv-item-' + item.id);
-    const nameSpan = newRow && newRow.querySelector('.lv-item-name');
-    if (nameSpan) {
-      nameSpan.scrollIntoView({ block: 'nearest' });
-      lvStartEdit(nameSpan, item.id, catId, 'name');
-    }
+    const _itemId = item.id;
+    requestAnimationFrame(() => {
+      const newRow = document.getElementById('lv-item-' + _itemId);
+      const nameSpan = newRow && newRow.querySelector('.lv-item-name');
+      if (nameSpan) {
+        nameSpan.scrollIntoView({ block: 'nearest' });
+        lvStartEdit(nameSpan, _itemId, catId, 'name');
+      }
+    });
     return;
   }
 
