@@ -12,24 +12,24 @@ const BASE = '/flowance/';
 
 mkdirSync(ASSETS, { recursive: true });
 
-// --- find entry from Vite manifest ---
+// --- find entry from Vite manifest (at outDir/.vite/manifest.json) ---
 let entryJs = null;
 let entryCss = [];
 
-const manifestPath = join(ASSETS, '.vite', 'manifest.json');
+const manifestPath = join(OUT, '.vite', 'manifest.json');
 if (existsSync(manifestPath)) {
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
   for (const chunk of Object.values(manifest)) {
     if (chunk.isEntry) {
-      entryJs = chunk.file;
-      if (chunk.css) entryCss = chunk.css;
+      entryJs = chunk.file;           // e.g. "assets/index-HASH.js"
+      if (chunk.css) entryCss = chunk.css; // e.g. ["assets/style-HASH.css"]
       break;
     }
   }
   console.log('Read manifest:', { entryJs, entryCss });
 }
 
-// fallback: largest .js that isn't a vendor/chunk filename
+// fallback: glob assets/ dir (add "assets/" prefix for correct hrefs)
 if (!entryJs) {
   const files = readdirSync(ASSETS);
   const jsFiles = files
@@ -37,8 +37,8 @@ if (!entryJs) {
     .map(f => ({ f, size: statSync(join(ASSETS, f)).size }))
     .sort((a, b) => b.size - a.size);
   const cssFiles = files.filter(f => f.endsWith('.css'));
-  entryJs = jsFiles[0]?.f;
-  entryCss = cssFiles;
+  entryJs = jsFiles[0] ? `assets/${jsFiles[0].f}` : null;
+  entryCss = cssFiles.map(f => `assets/${f}`);
   console.log('Manifest not found — using glob fallback:', { entryJs, entryCss });
 }
 
@@ -82,7 +82,7 @@ ${cssLinks}
 </html>`;
 
 writeFileSync(join(OUT, 'index.html'), html);
-writeFileSync(join(OUT, '404.html'), html);  // SPA fallback
+writeFileSync(join(OUT, '404.html'), html);
 
 console.log('index.html + 404.html written.');
 console.log('Deploy dir:', readdirSync(OUT));
