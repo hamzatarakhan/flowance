@@ -68,7 +68,7 @@ const cssLinks = entryCss.map(f => `    <link rel="stylesheet" href="${BASE}${f}
 // Without SSR, we must provide a minimal stub so the client entry doesn't crash.
 const tsrStub = `<script>
     window.$_TSR = {
-      router: { manifest: {}, matches: [] },
+      router: { manifest: { routes: {}, assets: {} }, matches: [] },
       buffer: [],
       initialized: false,
       h: function() {},
