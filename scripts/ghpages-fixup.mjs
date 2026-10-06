@@ -64,6 +64,18 @@ if (existsSync('public')) {
 // --- generate index.html ---
 const cssLinks = entryCss.map(f => `    <link rel="stylesheet" href="${BASE}${f}" />`).join('\n');
 
+// TanStack Start expects window.$_TSR to be initialized by the SSR inline script.
+// Without SSR, we must provide a minimal stub so the client entry doesn't crash.
+const tsrStub = `<script>
+    window.$_TSR = {
+      router: { manifest: {}, matches: [] },
+      buffer: [],
+      initialized: false,
+      h: function() {},
+      t: new Map()
+    };
+  </script>`;
+
 const html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
   <head>
@@ -75,9 +87,10 @@ const html = `<!DOCTYPE html>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 ${cssLinks}
-    <script type="module" src="${BASE}${entryJs}"></script>
   </head>
   <body>
+    ${tsrStub}
+    <script type="module" src="${BASE}${entryJs}"></script>
   </body>
 </html>`;
 
