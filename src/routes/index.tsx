@@ -73,7 +73,7 @@ function FlowancePage() {
         <div className="scroll-body">
           <HeroCard />
           <MonthBar />
-          <StatsGrid />
+          {/* <StatsGrid /> hidden for now */}
           <BudgetCard />
           <InsightsCard />
           <div className="control-stack">
