@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createRoot, type Root } from 'react-dom/client';
-import { flushSync } from 'react-dom';
 import { ListView } from '@/components/flowance/lv/ListView';
 import type { LvCatData } from '@/components/flowance/lv/LvCategory';
 import { GroupTabs, type GroupTabData } from '@/components/flowance/lv/GroupTabs';
@@ -19,12 +18,7 @@ function rootFor(el: Element): Root {
 }
 
 function renderSync(el: Element, node: React.ReactNode) {
-  const root = rootFor(el);
-  try {
-    flushSync(() => root.render(node));
-  } catch {
-    root.render(node);
-  }
+  rootFor(el).render(node);
 }
 
 /**
