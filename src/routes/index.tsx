@@ -58,6 +58,11 @@ export const Route = createFileRoute("/")({
 });
 
 function FlowancePage() {
+  // Inject Gemini key for client-side AI calls (used on GitHub Pages static build)
+  if (typeof window !== 'undefined') {
+    (window as any).__GEMINI_KEY__ = import.meta.env['VITE_GOOGLE_API_KEY'] || '';
+  }
+
   useEffect(() => {
     registerFlowanceUI();
     void bootFlowance();

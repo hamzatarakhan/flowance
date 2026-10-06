@@ -1567,15 +1567,27 @@ function editCatTitle(catId) {
 let _scanData = null;
 
 async function transcribeVoice(blob) {
-  const ext = blob.type.includes('mp4') ? 'm4a' : blob.type.includes('ogg') ? 'ogg' : blob.type.includes('wav') ? 'wav' : 'webm';
-  const form = new FormData();
-  form.append('file', blob, `voice.${ext}`);
-  form.append('language', 'ar');
-  form.append('prompt', 'تسجيل صوتي بالعربية عن المصاريف والفواتير والمبالغ. اكتب النص بالعربية فقط.');
-  const r = await fetch('/api/transcribe', { method: 'POST', body: form });
+  const key = window.__GEMINI_KEY__;
+  const mime = (blob.type || 'audio/webm').split(';')[0];
+  const base64 = await new Promise((res) => {
+    const reader = new FileReader();
+    reader.onload = () => res(reader.result.split(',')[1]);
+    reader.readAsDataURL(blob);
+  });
+  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [
+        { inlineData: { mimeType: mime, data: base64 } },
+        { text: 'استمع إلى هذا التسجيل الصوتي وحوّله إلى نص بالعربية فقط. اكتب كل ما تسمعه بدقة دون أي تعليق إضافي.' }
+      ]}],
+      generationConfig: { temperature: 0 }
+    })
+  });
   const d = await r.json();
-  if (!r.ok) throw new Error(d?.error || `خطأ ${r.status}`);
-  return d.text || '';
+  if (!r.ok) throw new Error(d?.error?.message || `خطأ ${r.status}`);
+  return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
 let _voiceTranscriptDirty = false;
@@ -1850,17 +1862,18 @@ async function runScan() {
   setStep(1);
 
   const aiCall = async (prompt, imgData) => {
-    const content = imgData
-      ? [{ type: 'image_url', image_url: { url: `data:${imgData.mime};base64,${imgData.base64}`, detail: 'high' } }, { type: 'text', text: prompt }]
-      : prompt;
-    const r = await fetch('/api/chat', {
+    const key = window.__GEMINI_KEY__;
+    const parts = [];
+    if (imgData) parts.push({ inlineData: { mimeType: imgData.mime, data: imgData.base64 } });
+    parts.push({ text: prompt });
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: [{ role: 'user', content }] })
+      body: JSON.stringify({ contents: [{ role: 'user', parts }], generationConfig: { temperature: 0.1, maxOutputTokens: 2048 } })
     });
     const d = await r.json();
-    if (!r.ok) throw new Error(d?.error || `خطأ ${r.status}`);
-    return d.text || '';
+    if (!r.ok) throw new Error(d?.error?.message || `خطأ ${r.status}`);
+    return d.candidates?.[0]?.content?.parts?.[0]?.text || '';
   };
 
   try {
