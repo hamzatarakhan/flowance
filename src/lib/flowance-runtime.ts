@@ -55,5 +55,5 @@ export async function bootFlowance() {
   await loadScript(
     "https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js",
   );
-  await loadScript("/flowance-app.js");
+  await loadScript(`${import.meta.env.BASE_URL}flowance-app.js`);
 }

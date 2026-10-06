@@ -98,4 +98,23 @@ writeFileSync(join(OUT, 'index.html'), html);
 writeFileSync(join(OUT, '404.html'), html);
 
 console.log('index.html + 404.html written.');
+
+// --- Patch hydrateRoot -> createRoot for pure CSR mode ---
+// TanStack Start always calls hydrateRoot(document, ...) which requires SSR HTML.
+// We replace it with createRoot(document.body).render(...) so React mounts fresh.
+const bundlePath = join(OUT, entryJs);
+const bundleSource = readFileSync(bundlePath, 'utf-8');
+const HYDRATE_RE = /\(0,(\w+)\.hydrateRoot\)\(document,/;
+if (HYDRATE_RE.test(bundleSource)) {
+  const patched = bundleSource.replace(
+    HYDRATE_RE,
+    '((a,b)=>{$1.createRoot(a).render(b)})(document.body,'
+  );
+  writeFileSync(bundlePath, patched);
+  console.log('Patched hydrateRoot -> createRoot(document.body) in bundle.');
+} else {
+  console.error('ERROR: hydrateRoot pattern not found in bundle — app will not render!');
+  process.exit(1);
+}
+
 console.log('Deploy dir:', readdirSync(OUT));
