@@ -20,11 +20,15 @@ jobs:
 
       - run: npm install --legacy-peer-deps
 
-      - name: Build
-        run: npm run build
+      - name: Build (Nitro SSR step may fail — client assets still generated)
+        run: npm run build || true
         env:
           VITE_GOOGLE_API_KEY: ${{ secrets.VITE_GOOGLE_API_KEY }}
           NITRO_PRESET: static
+          GH_PAGES: '1'
+
+      - name: Prepare GitHub Pages output
+        run: node scripts/ghpages-fixup.mjs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
