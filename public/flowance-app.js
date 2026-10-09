@@ -247,7 +247,7 @@ function animTo(id, toVal, dec, prefix='', suffix='') {
   };
   requestAnimationFrame(tick);
 
-  el.classList.remove('popping'); void el.offsetWidth; el.classList.add('popping');
+  el.classList.remove('popping'); requestAnimationFrame(() => el.classList.add('popping'));
 }
 
 /* ════════════════════════════════════════
@@ -770,7 +770,13 @@ function delRow(itemId, catId) {
 /* ════════════════════════════════════════
    Recalc + Animate
    ════════════════════════════════════════ */
+let _recalcPending = false;
 function recalc() {
+  if (_recalcPending) return;
+  _recalcPending = true;
+  requestAnimationFrame(() => { _recalcPending = false; _recalcNow(); });
+}
+function _recalcNow() {
   (S.cats_order||[]).forEach(cat => {
     const s   = sub(cat.id);
     const sp  = subPaid(cat.id);
