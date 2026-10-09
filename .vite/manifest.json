@@ -4,7 +4,7 @@
     "src": "/home/runner/work/flowance/flowance/src/styles.css"
   },
   "node_modules/@tanstack/react-start/dist/plugin/default-entry/client.tsx": {
-    "file": "assets/index-BNnKHfV_.js",
+    "file": "assets/index-CE9PFU_3.js",
     "name": "index",
     "src": "node_modules/@tanstack/react-start/dist/plugin/default-entry/client.tsx",
     "isEntry": true,
@@ -19,7 +19,7 @@
     ]
   },
   "src/routes/index.tsx?tsr-split=component": {
-    "file": "assets/routes-B254hQRq.js",
+    "file": "assets/routes-CJLIejS2.js",
     "name": "routes",
     "src": "src/routes/index.tsx?tsr-split=component",
     "isDynamicEntry": true,
