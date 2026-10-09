@@ -247,7 +247,7 @@ function animTo(id, toVal, dec, prefix='', suffix='') {
   };
   requestAnimationFrame(tick);
 
-  el.classList.remove('popping'); void el.offsetWidth; el.classList.add('popping');
+  el.classList.remove('popping'); requestAnimationFrame(() => el.classList.add('popping'));
 }
 
 /* ════════════════════════════════════════
@@ -770,7 +770,13 @@ function delRow(itemId, catId) {
 /* ════════════════════════════════════════
    Recalc + Animate
    ════════════════════════════════════════ */
+let _recalcPending = false;
 function recalc() {
+  if (_recalcPending) return;
+  _recalcPending = true;
+  requestAnimationFrame(() => { _recalcPending = false; _recalcNow(); });
+}
+function _recalcNow() {
   (S.cats_order||[]).forEach(cat => {
     const s   = sub(cat.id);
     const sp  = subPaid(cat.id);
@@ -1578,8 +1584,8 @@ async function transcribeVoice(blob) {
   });
   const isOAuth = key && key.startsWith('AQ.');
   const voiceUrl = isOAuth
-    ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
-    : `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+    ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent'
+    : `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`;
   const voiceHeaders = { 'Content-Type': 'application/json' };
   if (isOAuth) voiceHeaders['Authorization'] = `Bearer ${key}`;
   const r = await fetch(voiceUrl, {
@@ -1876,8 +1882,8 @@ async function runScan() {
     parts.push({ text: prompt });
     const isOAuth = key && key.startsWith('AQ.');
     const url = isOAuth
-      ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
-      : `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+      ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent'
+      : `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`;
     const headers = { 'Content-Type': 'application/json' };
     if (isOAuth) headers['Authorization'] = `Bearer ${key}`;
     const r = await fetch(url, {
