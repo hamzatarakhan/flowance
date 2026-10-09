@@ -1578,8 +1578,8 @@ async function transcribeVoice(blob) {
   });
   const isOAuth = key && key.startsWith('AQ.');
   const voiceUrl = isOAuth
-    ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
-    : `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+    ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent'
+    : `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`;
   const voiceHeaders = { 'Content-Type': 'application/json' };
   if (isOAuth) voiceHeaders['Authorization'] = `Bearer ${key}`;
   const r = await fetch(voiceUrl, {
@@ -1876,8 +1876,8 @@ async function runScan() {
     parts.push({ text: prompt });
     const isOAuth = key && key.startsWith('AQ.');
     const url = isOAuth
-      ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
-      : `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+      ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent'
+      : `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`;
     const headers = { 'Content-Type': 'application/json' };
     if (isOAuth) headers['Authorization'] = `Bearer ${key}`;
     const r = await fetch(url, {
