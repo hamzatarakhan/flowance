@@ -1576,7 +1576,7 @@ async function transcribeVoice(blob) {
     reader.onload = () => res(reader.result.split(',')[1]);
     reader.readAsDataURL(blob);
   });
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
+  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -1868,7 +1868,7 @@ async function runScan() {
     const parts = [];
     if (imgData) parts.push({ inlineData: { mimeType: imgData.mime, data: imgData.base64 } });
     parts.push({ text: prompt });
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ contents: [{ role: 'user', parts }], generationConfig: { temperature: 0.1, maxOutputTokens: 2048 } })
