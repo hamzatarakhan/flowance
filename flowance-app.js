@@ -1576,9 +1576,15 @@ async function transcribeVoice(blob) {
     reader.onload = () => res(reader.result.split(',')[1]);
     reader.readAsDataURL(blob);
   });
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+  const isOAuth = key && key.startsWith('AQ.');
+  const voiceUrl = isOAuth
+    ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+    : `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+  const voiceHeaders = { 'Content-Type': 'application/json' };
+  if (isOAuth) voiceHeaders['Authorization'] = `Bearer ${key}`;
+  const r = await fetch(voiceUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: voiceHeaders,
     body: JSON.stringify({
       contents: [{ role: 'user', parts: [
         { inlineData: { mimeType: mime, data: base64 } },
@@ -1868,9 +1874,15 @@ async function runScan() {
     const parts = [];
     if (imgData) parts.push({ inlineData: { mimeType: imgData.mime, data: imgData.base64 } });
     parts.push({ text: prompt });
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+    const isOAuth = key && key.startsWith('AQ.');
+    const url = isOAuth
+      ? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+      : `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+    const headers = { 'Content-Type': 'application/json' };
+    if (isOAuth) headers['Authorization'] = `Bearer ${key}`;
+    const r = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({ contents: [{ role: 'user', parts }], generationConfig: { temperature: 0.1, maxOutputTokens: 2048 } })
     });
     const d = await r.json();
